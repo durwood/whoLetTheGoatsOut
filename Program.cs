@@ -8,6 +8,7 @@ namespace bombsweeper
 		{
 			var game = new Game(2);
 			game.Run();
+		    Console.ReadKey();
 		}
 	}
 

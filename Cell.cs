@@ -9,12 +9,13 @@ namespace bombsweeper
 
 		public Cell()
 		{
-			Value = '▉';
-		}
+		    Value = '\u25A0';
+
+        }
 
 		public void Print()
 		{
-			Console.Write(Value);
+			Console.Write($"{Value} ");
 		}
 	}
 }
