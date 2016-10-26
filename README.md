@@ -9,6 +9,7 @@ Stories:
 3. Add bomb to cell, clicking on it loses game.
 4. clicking on non-bomb clears area up to hidden bombs
 5. clicking on non-bomb displays adjacency numbers
+6. Clicking on all non-bomb slots wins game
 
 
 
