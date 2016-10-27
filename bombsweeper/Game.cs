@@ -2,20 +2,19 @@ using System;
 
 namespace bombsweeper
 {
-
     public class Game
-	{
-	    private readonly Board _board;
-        private InputGetter _inputGetter;
+    {
+        private readonly Board _board;
+        private readonly InputGetter _inputGetter;
 
-		public Game(InputGetter inputGetter, Board board)
-		{
+        public Game(InputGetter inputGetter, Board board)
+        {
             _inputGetter = inputGetter;
             _board = board;
-		}
+        }
 
-		public void Run()
-		{
+        public void Run()
+        {
             do
             {
                 ShowBoard();
@@ -23,7 +22,7 @@ namespace bombsweeper
                 _board.Reveal(click.X, click.Y);
             } while (_board.GameInProgress());
             ShowResult();
-		}
+        }
 
         private void ShowResult()
         {
@@ -43,8 +42,6 @@ namespace bombsweeper
 
         private void GetClick()
         {
-
         }
-	}
-	
+    }
 }

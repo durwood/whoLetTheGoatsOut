@@ -1,13 +1,12 @@
-﻿using System;
-using bombsweeper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using bombsweeper;
+using NUnit.Framework;
 
 namespace bombsweeperTests
 {
-    [TestClass]
+    [TestFixture]
     public class CellTests
     {
-        [TestMethod]
+        [Test]
         public void NewCellDisplaysProperly()
         {
             var testObj = new Cell();
