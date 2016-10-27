@@ -15,7 +15,22 @@ namespace bombsweeperXamarinTests
 			string row2 = $"2 {c} {c} ";
 			string expected = string.Join("\n", row1, row2, footer) + "\n";
             var result = testObj.Display();
-            Assert.AreEqual(result, expected);
+            Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ClickingOnCellRemovesBlock()
+        {
+            var c = Cell.Block;
+            var s = Cell.Space;
+            var testObj = new Board(2);
+            testObj.Click(0, 0);
+            string row1 = $"1 {s} {c} ";
+            string row2 = $"2 {c} {c} ";
+            string footer = "  1 2 ";
+            string expected = string.Join("\n", row1, row2, footer) + "\n";
+            var result = testObj.Display();
+            Assert.AreEqual(expected, result);
         }
     }
 }

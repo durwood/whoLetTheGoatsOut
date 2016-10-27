@@ -27,6 +27,11 @@ namespace bombsweeper
             return sb.ToString();
         }
 
+        public void Click(int v1, int v2)
+        {
+            _cells[v1, v2].Reveal();
+        }
+
         void DisplayFooter(StringBuilder sb)
         {
             sb.Append($"  ");

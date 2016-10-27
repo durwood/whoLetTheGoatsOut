@@ -3,20 +3,27 @@ using System;
 namespace bombsweeper
 {
 
-	public class Game
+    public class Game
 	{
-	    readonly Board _board;
+	    private readonly Board _board;
+        private InputGetter _inputGetter;
 
-		public Game(int boardSize)
+		public Game(InputGetter inputGetter, int boardSize)
 		{
+            _inputGetter = inputGetter;
 			_board = new Board(boardSize);
 		}
 
 		public void Run()
 		{
-			Console.WriteLine("Hello World!");
 			Console.Write(_board.Display());
+            _inputGetter.GetClick();
 		}
+
+        private void GetClick()
+        {
+
+        }
 	}
 	
 }

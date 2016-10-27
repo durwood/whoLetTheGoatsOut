@@ -1,7 +1,6 @@
 ﻿using System;
 using bombsweeper;
 using NUnit.Framework;
-using System;
 namespace bombsweeperXamarinTests
 {
     [TestFixture]

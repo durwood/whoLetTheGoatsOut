@@ -31,9 +31,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Test.cs" />
     <Compile Include="CellTests.cs" />
     <Compile Include="BoardTests.cs" />
+    <Compile Include="FakeInputGetter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
