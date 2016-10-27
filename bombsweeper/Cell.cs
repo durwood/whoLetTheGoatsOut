@@ -9,12 +9,17 @@ namespace bombsweeper
         public const char Bomb = '*';
         public const char Space = ' ';
         public char Content;
-        private bool IsRevealed;
+        public bool IsRevealed;
 
 		public Cell()
 		{
             IsRevealed = false;
             Content = Space;
+        }
+
+        public bool HasBomb()
+        {
+            return Content == Bomb;
         }
 
         public string Display()

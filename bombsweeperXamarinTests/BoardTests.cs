@@ -5,9 +5,9 @@ namespace bombsweeperXamarinTests
     [TestFixture]
     public class BoardTests
     {
-        char _c = Cell.Block;
-        char _s = Cell.Space;
-        char _b = Cell.Bomb;
+        char _hidden = Cell.Block;
+        char _space = Cell.Space;
+        char _bomb = Cell.Bomb;
         Board _testObj;
 
 
@@ -20,7 +20,7 @@ namespace bombsweeperXamarinTests
         [Test]
         public void BoardDisplaysProperly()
         {
-            string expected = GetExpectedString(_c, _c, _c, _c);
+            string expected = GetExpectedString(_hidden, _hidden, _hidden, _hidden);
             var result = _testObj.Display();
             Assert.AreEqual(expected, result);
         }
@@ -29,7 +29,7 @@ namespace bombsweeperXamarinTests
         public void ClickingOnCellRemovesBlock()
         {
             _testObj.Reveal(0, 0);
-            string expected = GetExpectedString(_s, _c, _c, _c);
+            string expected = GetExpectedString(_space, _hidden, _hidden, _hidden);
             var result = _testObj.Display();
             Assert.AreEqual(expected, result);
         }
@@ -48,10 +48,20 @@ namespace bombsweeperXamarinTests
         {
             _testObj.AddBomb(0, 1);
             _testObj.Reveal(0, 1);
-            string expected = GetExpectedString(_c, _b, _c, _c);
+            string expected = GetExpectedString(_hidden, _bomb, _hidden, _hidden);
             var result = _testObj.Display();
             Assert.AreEqual(expected, result);
             Assert.IsTrue(_testObj.GameLost());
+        }
+
+        [Test]
+        public void ClickingOnNonBombRevealsAdjacentCells()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.Reveal(1, 1);
+            string expected = GetExpectedString(_hidden, _space, _space, _space);
+            var result = _testObj.Display();
+            Assert.AreEqual(expected, result);
         }
     }
 }

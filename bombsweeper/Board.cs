@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Collections.Generic;
 
 namespace bombsweeper
 {
@@ -18,7 +19,7 @@ namespace bombsweeper
             _cells = new Cell[_size, _size];
             for (var row = 0; row < _size; ++row)
                 for (var col = 0; col < _size; ++col)
-                    _cells[row, col] = new Cell();
+                    _cells[col, row] = new Cell();
             _gameState = GameState.InProgress;
         }
 
@@ -58,6 +59,33 @@ namespace bombsweeper
             {
                 _gameState = GameState.Lost;
             }
+            else
+            {
+                Expose(x, y);
+            }
+        }
+
+        private void Expose(int x0, int y0)
+        {
+            for (int x = x0 - 1; x <= x0 + 1; ++x)
+            {
+                for (int y = y0 - 1; y <= y0 + 1; ++y)
+                {
+                    if (x < 0 || x > _size - 1)
+                        continue;
+                    if (y < 0 || y > _size - 1)
+                        continue;
+                    if (x == x0 && y == y0)
+                        continue;
+                    if (_cells[x, y].HasBomb())
+                        continue;
+                    if (!_cells[x, y].IsRevealed)
+                    {
+                        _cells[x, y].Reveal();
+                        Expose(x, y);
+                    }
+                }
+            }
         }
 
         void DisplayFooter(StringBuilder sb)
@@ -72,7 +100,7 @@ namespace bombsweeper
         {
             sb.Append($"{row + 1} ");
             for (var col = 0; col < _size; ++col)
-                sb.Append($"{_cells[row, col].Display()} ");
+                sb.Append($"{_cells[col, row].Display()} ");
             sb.AppendLine();
         }
 
