@@ -1,0 +1,74 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bombsweeperTests", "bombsweeperTests\bombsweeperTests.csproj", "{56E1EB52-8996-4B05-B0A6-2633E02A7493}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bombsweeper", "bombsweeper\bombsweeper.csproj", "{0A883C66-BCB9-41D5-A731-5A9A1D91B406}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bombsweeperXamarinTests", "bombsweeperXamarinTests\bombsweeperXamarinTests.csproj", "{72F64F23-D861-4CAA-A42E-A24E7CD41C66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56E1EB52-8996-4B05-B0A6-2633E02A7493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56E1EB52-8996-4B05-B0A6-2633E02A7493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56E1EB52-8996-4B05-B0A6-2633E02A7493}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{56E1EB52-8996-4B05-B0A6-2633E02A7493}.Debug|x86.Build.0 = Debug|Any CPU
+		{56E1EB52-8996-4B05-B0A6-2633E02A7493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56E1EB52-8996-4B05-B0A6-2633E02A7493}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56E1EB52-8996-4B05-B0A6-2633E02A7493}.Release|x86.ActiveCfg = Release|Any CPU
+		{56E1EB52-8996-4B05-B0A6-2633E02A7493}.Release|x86.Build.0 = Release|Any CPU
+		{0A883C66-BCB9-41D5-A731-5A9A1D91B406}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0A883C66-BCB9-41D5-A731-5A9A1D91B406}.Debug|x86.ActiveCfg = Debug|x86
+		{0A883C66-BCB9-41D5-A731-5A9A1D91B406}.Debug|x86.Build.0 = Debug|x86
+		{0A883C66-BCB9-41D5-A731-5A9A1D91B406}.Release|Any CPU.ActiveCfg = Release|x86
+		{0A883C66-BCB9-41D5-A731-5A9A1D91B406}.Release|x86.ActiveCfg = Release|x86
+		{0A883C66-BCB9-41D5-A731-5A9A1D91B406}.Release|x86.Build.0 = Release|x86
+		{72F64F23-D861-4CAA-A42E-A24E7CD41C66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72F64F23-D861-4CAA-A42E-A24E7CD41C66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72F64F23-D861-4CAA-A42E-A24E7CD41C66}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{72F64F23-D861-4CAA-A42E-A24E7CD41C66}.Debug|x86.Build.0 = Debug|Any CPU
+		{72F64F23-D861-4CAA-A42E-A24E7CD41C66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72F64F23-D861-4CAA-A42E-A24E7CD41C66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72F64F23-D861-4CAA-A42E-A24E7CD41C66}.Release|x86.ActiveCfg = Release|Any CPU
+		{72F64F23-D861-4CAA-A42E-A24E7CD41C66}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.TextStylePolicy = $1
+		$1.inheritsSet = VisualStudio
+		$1.scope = text/plain
+		$1.FileWidth = 120
+		$1.inheritsScope = text/plain
+		$0.CSharpFormattingPolicy = $2
+		$2.IndentSwitchSection = True
+		$2.NewLinesForBracesInProperties = True
+		$2.NewLinesForBracesInAccessors = True
+		$2.NewLinesForBracesInAnonymousMethods = True
+		$2.NewLinesForBracesInControlBlocks = True
+		$2.NewLinesForBracesInAnonymousTypes = True
+		$2.NewLinesForBracesInObjectCollectionArrayInitializers = True
+		$2.NewLinesForBracesInLambdaExpressionBody = True
+		$2.NewLineForElse = True
+		$2.NewLineForCatch = True
+		$2.NewLineForFinally = True
+		$2.NewLineForMembersInObjectInit = True
+		$2.NewLineForMembersInAnonymousTypes = True
+		$2.NewLineForClausesInQuery = True
+		$2.SpacingAfterMethodDeclarationName = False
+		$2.SpaceAfterMethodCallName = False
+		$2.SpaceBeforeOpenSquareBracket = False
+		$2.inheritsSet = Mono
+		$2.inheritsScope = text/x-csharp
+		$2.scope = text/x-csharp
+	EndGlobalSection
+EndGlobal
