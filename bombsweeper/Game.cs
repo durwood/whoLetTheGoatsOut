@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 
 namespace bombsweeper
 {
@@ -37,7 +38,7 @@ namespace bombsweeper
         private void ShowBoard()
         {
             Console.Clear();
-            Console.Write(_board.Display());
+            Console.Write(value: _board.Display(showLabels: true));
         }
 
         private void GetClick()

@@ -65,7 +65,24 @@ namespace bombsweeper
             return count;
         }
 
-        public string Display()
+        public string Display(bool showLabels=false)
+        {
+            return showLabels ? DisplayWithLabels() : DisplayNoLabels();
+        }
+
+        private string DisplayWithLabels()
+        {
+            var sb = new StringBuilder();
+            for (var row = 0; row < _size; ++row)
+                sb.AppendLine($"{row + 1} {DisplayRow(row)}");
+            sb.Append($"  ");
+            for (var col = 0; col < _size; ++col)
+                sb.Append($"{col + 1} ");
+            sb.AppendLine();
+            return sb.ToString();
+        }
+
+        private string DisplayNoLabels()
         {
             var sb = new StringBuilder();
             for (var row = 0; row < _size; ++row)
