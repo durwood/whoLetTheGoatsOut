@@ -22,6 +22,7 @@ namespace bombsweeper
                 var click = _inputGetter.GetClick();
                 _board.Reveal(click.X, click.Y);
             } while (_board.GameInProgress());
+            ShowBoard();
             ShowResult();
         }
 

@@ -29,7 +29,7 @@ namespace bombsweeper
         public void AddBomb(int x, int y)
         {
             _cells[x, y].AddBomb();
-            //PopulateAdjacencyCounts();
+            PopulateAdjacencyCounts();
         }
 
         private void PopulateAdjacencyCounts()
@@ -122,7 +122,11 @@ namespace bombsweeper
         private void RevealBoard()
         {
             foreach (var cell in _cells)
+            {
                 cell.Reveal();
+                if (!cell.HasBomb())
+                    cell.Content = Cell.Empty;
+            }
         }
 
         private void Expose(int x0, int y0)
@@ -140,8 +144,9 @@ namespace bombsweeper
                         continue;
                     if (!_cells[x, y].IsRevealed)
                     {
-                        _cells[x, y].Reveal();
-                        Expose(x, y);
+                        var content =_cells[x, y].Reveal();
+                        if (content == Cell.Empty)
+                            Expose(x, y);
                     }
                 }
         }

@@ -44,13 +44,12 @@ namespace bombsweeperTests
         }
 
         [Test]
-        [Ignore("WIP")]
         public void BoardIsInitializedWithAdjacencyCounts()
         {
             var testObj = new Board(3);
             testObj.AddBomb(0, 0);
             testObj.AddBomb(1, 0);
-            var expected = GetExpectedString(_hidden, _hidden, '1', '2', '2', '1', _empty, _empty, _empty);
+            var expected = GetExpectedString(_hidden, _hidden, _hidden, '2', '2', '1', _empty, _empty, _empty);
             testObj.Reveal(0,2);
             var result = testObj.Display();
             Assert.AreEqual(expected, result);
@@ -63,7 +62,7 @@ namespace bombsweeperTests
             _testObj.Reveal(0, 1);
             var expected = GetExpectedString(_empty, _empty, _bomb, _empty);
             var result = _testObj.Display();
-            Assert.AreEqual(result, expected);
+            Assert.AreEqual(expected, result);
             Assert.IsTrue(_testObj.GameLost());
         }
 
@@ -80,7 +79,7 @@ namespace bombsweeperTests
         {
             _testObj.AddBomb(0, 0);
             _testObj.Reveal(1, 1);
-            var expected = GetExpectedString(_hidden, _empty, _empty, _empty);
+            var expected = GetExpectedString(_hidden, '1', '1', '1');
             var result = _testObj.Display();
             Assert.AreEqual(expected, result);
         }
@@ -90,7 +89,7 @@ namespace bombsweeperTests
         {
             var result = _testObj.DisplayRow(0);
             var expected = $"{_hidden} {_hidden} ";
-            Assert.AreEqual(result, expected);
+            Assert.AreEqual(expected, result);
         }
     }
 }
