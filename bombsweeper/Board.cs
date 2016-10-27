@@ -58,11 +58,18 @@ namespace bombsweeper
             if (content == Cell.Bomb)
             {
                 _gameState = GameState.Lost;
+                RevealBoard();
             }
             else
             {
                 Expose(x, y);
             }
+        }
+
+        void RevealBoard()
+        {
+            foreach (var cell in _cells)
+                cell.Reveal();
         }
 
         private void Expose(int x0, int y0)

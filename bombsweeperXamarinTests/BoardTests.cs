@@ -6,7 +6,7 @@ namespace bombsweeperXamarinTests
     public class BoardTests
     {
         char _hidden = Cell.Block;
-        char _space = Cell.Space;
+        char _space = Cell.Empty;
         char _bomb = Cell.Bomb;
         Board _testObj;
 
@@ -29,9 +29,8 @@ namespace bombsweeperXamarinTests
         public void ClickingOnCellRemovesBlock()
         {
             _testObj.Reveal(0, 0);
-            string expected = GetExpectedString(_space, _hidden, _hidden, _hidden);
             var result = _testObj.Display();
-            Assert.AreEqual(expected, result);
+            StringAssert.Contains(_space.ToString(), result);
         }
 
         private string GetExpectedString(params char[] cells)
@@ -44,11 +43,11 @@ namespace bombsweeperXamarinTests
         }
 
         [Test]
-        public void ClickingOnBombLosesGame()
+        public void ClickingOnBombLosesGameAndRevealsBoard()
         {
             _testObj.AddBomb(0, 1);
             _testObj.Reveal(0, 1);
-            string expected = GetExpectedString(_hidden, _bomb, _hidden, _hidden);
+            string expected = GetExpectedString(_space, _space, _bomb, _space);
             var result = _testObj.Display();
             Assert.AreEqual(expected, result);
             Assert.IsTrue(_testObj.GameLost());
