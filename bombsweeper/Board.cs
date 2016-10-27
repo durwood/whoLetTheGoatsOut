@@ -26,6 +26,42 @@ namespace bombsweeper
         public void AddBomb(int x, int y)
         {
             _cells[x, y].AddBomb();
+            //PopulateAdjacencyCounts();
+        }
+
+        private void PopulateAdjacencyCounts()
+        {
+            for (int row = 0; row < _size; ++row)
+                for (int col = 0; col < _size; ++col)
+                {
+                    if (_cells[col, row].HasBomb())
+                        continue;
+                var adjacentBombs = CountAdjacentBombs(col, row);
+                    if (adjacentBombs == 0)
+                        _cells[col, row].SetContent(Cell.Empty);
+                    else
+                        _cells[col, row].SetContent(adjacentBombs.ToString()[0]);
+                }
+        }
+
+        private int CountAdjacentBombs(int x0, int y0)
+        {
+            int count = 0;
+            for (int x = x0 - 1; x <= x0 + 1; ++x)
+            {
+                for (int y = y0 - 1; y <= y0 + 1; ++y)
+                {
+                    if (x < 0 || x > _size - 1)
+                        continue;
+                    if (y < 0 || y > _size - 1)
+                        continue;
+                    if (x == x0 && y == y0)
+                        continue;
+                    if (_cells[x, y].HasBomb())
+                        count++;
+                }
+            }
+            return count;
         }
 
         public string Display()

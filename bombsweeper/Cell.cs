@@ -33,9 +33,15 @@ namespace bombsweeper
             return Content;
         }
 
+        internal void SetContent(char content)
+        {
+            Content = content;
+        }
+
         public void AddBomb()
         {
             Content = Bomb;
         }
-	}
+
+   }
 }
