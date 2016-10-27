@@ -50,7 +50,7 @@ namespace bombsweeperTests
             testObj.AddBomb(0, 0);
             testObj.AddBomb(1, 0);
             var expected = GetExpectedString(_hidden, _hidden, _hidden, '2', '2', '1', _empty, _empty, _empty);
-            testObj.Reveal(0,2);
+            testObj.Reveal(0, 2);
             var result = testObj.Display();
             Assert.AreEqual(expected, result);
         }

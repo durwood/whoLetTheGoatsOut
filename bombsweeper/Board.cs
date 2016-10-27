@@ -65,7 +65,7 @@ namespace bombsweeper
             return count;
         }
 
-        public string Display(bool showLabels=false)
+        public string Display(bool showLabels = false)
         {
             return showLabels ? DisplayWithLabels() : DisplayNoLabels();
         }
@@ -144,7 +144,7 @@ namespace bombsweeper
                         continue;
                     if (!_cells[x, y].IsRevealed)
                     {
-                        var content =_cells[x, y].Reveal();
+                        var content = _cells[x, y].Reveal();
                         if (content == Cell.Empty)
                             Expose(x, y);
                     }
