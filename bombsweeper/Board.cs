@@ -3,9 +3,12 @@ using System.Text;
 
 namespace bombsweeper
 {
+    enum GameState { InProgress, Won, Lost };
+
 
     public class Board
     {
+        private GameState _gameState;
         readonly int _size;
         readonly Cell[,] _cells;
 
@@ -16,6 +19,12 @@ namespace bombsweeper
             for (var row = 0; row < _size; ++row)
                 for (var col = 0; col < _size; ++col)
                     _cells[row, col] = new Cell();
+            _gameState = GameState.InProgress;
+        }
+
+        public void AddBomb(int x, int y)
+        {
+            _cells[x, y].AddBomb();
         }
 
         public string Display()
@@ -27,9 +36,28 @@ namespace bombsweeper
             return sb.ToString();
         }
 
-        public void Click(int v1, int v2)
+        public bool GameWon()
         {
-            _cells[v1, v2].Reveal();
+            return _gameState == GameState.Won;
+        }
+
+        public bool GameLost()
+        {
+            return _gameState == GameState.Lost;
+        }
+
+        public bool GameInProgress()
+        {
+            return _gameState == GameState.InProgress;
+        }
+
+        public void Reveal(int x, int y)
+        {
+            var content = _cells[x, y].Reveal();
+            if (content == Cell.Bomb)
+            {
+                _gameState = GameState.Lost;
+            }
         }
 
         void DisplayFooter(StringBuilder sb)
@@ -47,6 +75,7 @@ namespace bombsweeper
                 sb.Append($"{_cells[row, col].Display()} ");
             sb.AppendLine();
         }
-    }
+
+   }
 
 }

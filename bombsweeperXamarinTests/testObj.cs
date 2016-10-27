@@ -1,0 +1,6 @@
+﻿namespace bombsweeperXamarinTests
+{
+	class testObj
+	{
+	}
+}

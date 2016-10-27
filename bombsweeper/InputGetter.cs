@@ -13,7 +13,7 @@ namespace bombsweeper
         {
             string line = Console.ReadLine();
             var items = line.Split(new char[] { ',' });
-            return new BoardClick { X = int.Parse(items[0]), Y = int.Parse(items[1]) };
+            return new BoardClick { X = int.Parse(items[0])-1, Y = int.Parse(items[1])-1 };
         }
 	}
 }

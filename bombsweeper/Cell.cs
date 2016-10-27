@@ -6,24 +6,31 @@ namespace bombsweeper
 	public class Cell
 	{
         public const char Block = '\u25A0';
+        public const char Bomb = '*';
         public const char Space = ' ';
-        private char Value;
+        public char Content;
+        private bool IsRevealed;
 
 		public Cell()
 		{
-		    Value = Block;
+            IsRevealed = false;
+            Content = Space;
         }
 
         public string Display()
 	    {
-	        return Value.ToString();
+            return (IsRevealed ? Content : Block).ToString();
 	    }
 
         public char Reveal()
         {
-            var contents = Value;
-            Value = Space;
-            return contents;
+            IsRevealed = true;
+            return Content;
+        }
+
+        public void AddBomb()
+        {
+            Content = Bomb;
         }
 	}
 }
