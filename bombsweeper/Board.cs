@@ -9,7 +9,6 @@ namespace bombsweeper
         Lost
     }
 
-
     public class Board
     {
         private readonly Cell[,] _cells;
@@ -41,9 +40,9 @@ namespace bombsweeper
                         continue;
                     var adjacentBombs = CountAdjacentBombs(col, row);
                     if (adjacentBombs == 0)
-                        _cells[col, row].SetContent(Cell.Empty);
+                        _cells[col, row].ClearContents();
                     else
-                        _cells[col, row].SetContent(adjacentBombs.ToString()[0]);
+                        _cells[col, row].AddAdjacencyNumber(adjacentBombs);
                 }
         }
 
@@ -53,9 +52,7 @@ namespace bombsweeper
             for (var x = x0 - 1; x <= x0 + 1; ++x)
                 for (var y = y0 - 1; y <= y0 + 1; ++y)
                 {
-                    if ((x < 0) || (x > _size - 1))
-                        continue;
-                    if ((y < 0) || (y > _size - 1))
+                    if (IsValidCell(x, y))
                         continue;
                     if ((x == x0) && (y == y0))
                         continue;
@@ -65,9 +62,14 @@ namespace bombsweeper
             return count;
         }
 
+        private bool IsValidCell(int x, int y)
+        {
+            return (x < 0) || (x > _size - 1) || (y < 0) || (y > _size - 1);
+        }
+
         public string Display(bool showLabels = false)
         {
-            return showLabels ? DisplayWithLabels() : DisplayNoLabels();
+            return showLabels ? DisplayWithLabels() : DisplayWithoutLabels();
         }
 
         private string DisplayWithLabels()
@@ -75,14 +77,11 @@ namespace bombsweeper
             var sb = new StringBuilder();
             for (var row = 0; row < _size; ++row)
                 sb.AppendLine($"{row + 1} {DisplayRow(row)}");
-            sb.Append($"  ");
-            for (var col = 0; col < _size; ++col)
-                sb.Append($"{col + 1} ");
-            sb.AppendLine();
+            sb.AppendLine(DisplayFooter());
             return sb.ToString();
         }
 
-        private string DisplayNoLabels()
+        private string DisplayWithoutLabels()
         {
             var sb = new StringBuilder();
             for (var row = 0; row < _size; ++row)
@@ -151,20 +150,14 @@ namespace bombsweeper
                 }
         }
 
-        private void DisplayFooter(StringBuilder sb)
+        private string DisplayFooter()
         {
+            var sb = new StringBuilder();
             sb.Append($"  ");
             for (var col = 0; col < _size; ++col)
                 sb.Append($"{col + 1} ");
             sb.AppendLine();
-        }
-
-        private void DisplayFullRow(StringBuilder sb, int row)
-        {
-            sb.Append($"{row + 1} ");
-            for (var col = 0; col < _size; ++col)
-                sb.Append($"{_cells[col, row].Display()} ");
-            sb.AppendLine();
+            return sb.ToString();
         }
 
         public string DisplayRow(int row)

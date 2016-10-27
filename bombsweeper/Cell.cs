@@ -30,14 +30,19 @@ namespace bombsweeper
             return Content;
         }
 
-        internal void SetContent(char content)
+        internal void AddAdjacencyNumber(int number)
         {
-            Content = content;
+            Content = number.ToString()[0];
         }
 
         public void AddBomb()
         {
             Content = Bomb;
+        }
+
+        public void ClearContents()
+        {
+            Content = Empty;
         }
     }
 }
