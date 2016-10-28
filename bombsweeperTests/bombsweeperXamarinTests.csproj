@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{72F64F23-D861-4CAA-A42E-A24E7CD41C66}</ProjectGuid>
+    <ProjectGuid>{BA229707-763F-4F15-A013-5FD4B5C2E38F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>bombsweeperXamarinTests</RootNamespace>
     <AssemblyName>bombsweeperXamarinTests</AssemblyName>
@@ -27,23 +27,23 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CellTests.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="BoardTests.cs" />
+    <Compile Include="CellTests.cs" />
     <Compile Include="FakeInputGetter.cs" />
-    <Compile Include="testObj.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bombsweeper\bombsweeper.csproj">
       <Project>{0A883C66-BCB9-41D5-A731-5A9A1D91B406}</Project>
       <Name>bombsweeper</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
