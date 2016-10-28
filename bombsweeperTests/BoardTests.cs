@@ -71,7 +71,7 @@ namespace bombsweeperTests
         {
             _testObj.AddBomb(0, 0);
             _testObj.Reveal(1, 1);
-            var expected = GetExpectedString(_empty, _empty, _bomb, _empty);
+            var expected = GetExpectedString(_hidden, '1', '1', '1');
             var result = _testObj.Display();
             Assert.AreEqual(expected, result);
             Assert.IsTrue(_testObj.GameWon());

@@ -6,7 +6,8 @@ namespace bombsweeper
     {
         InProgress,
         Won,
-        Lost
+        Lost,
+        Quitted
     }
 
     public class Board
@@ -102,6 +103,11 @@ namespace bombsweeper
         public bool GameInProgress()
         {
             return _gameState == GameState.InProgress;
+        }
+
+        public void QuitGame()
+        {
+            _gameState = GameState.Quitted;
         }
 
         public void Reveal(int x, int y)

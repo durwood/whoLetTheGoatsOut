@@ -6,7 +6,7 @@ namespace bombsweeperTests
     {
         private BoardClick _click;
 
-        public override BoardClick GetClick()
+        public override BoardClick GetCell()
         {
             return _click;
         }

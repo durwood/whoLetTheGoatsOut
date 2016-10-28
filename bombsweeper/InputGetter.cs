@@ -23,10 +23,9 @@ namespace bombsweeper
             return _click;
         }
 
-        virtual public UserCommand GetCommand()
+        virtual public UserCommand GetCommand(string input)
         {
-            var line = Console.ReadLine();
-            var items = line.Split(',', ' ');
+            var items = input.Split(',', ' ');
             if (items.Length == 3)
                 _click = new BoardClick { X = int.Parse(items[1]) - 1, Y = int.Parse(items[2]) - 1 };
             switch (items[0])

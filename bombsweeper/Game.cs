@@ -18,17 +18,29 @@ namespace bombsweeper
             do
             {
                 ShowBoard();
-                var command = _inputGetter.GetCommand();
-                if (command == UserCommand.QuitGame)
-                    break;
-                var cell = _inputGetter.GetCell();
-                if (command == UserCommand.RevealCell)
-                    _board.Reveal(cell.X, cell.Y);
-                //else if (command == UserCommand.MarkCell)
-                //    _board.Mark(cell.X, cell.Y);
+                var input = Console.ReadLine();
+                ExecuteBoardCommand(input);
             } while (_board.GameInProgress());
             ShowBoard();
             ShowResult();
+        }
+
+        private void ExecuteBoardCommand(string input)
+        {
+            var command = _inputGetter.GetCommand(input);
+            if (command != UserCommand.UnknownCommand)
+            {
+                if (command == UserCommand.QuitGame)
+                    _board.QuitGame();
+                else
+                {
+                    var cell = _inputGetter.GetCell();
+                    if (command == UserCommand.RevealCell)
+                        _board.Reveal(cell.X, cell.Y);
+                    //else if (command == UserCommand.MarkCell)
+                    //    _board.Mark(cell.X, cell.Y);
+                }
+            }
         }
 
         private void ShowResult()
