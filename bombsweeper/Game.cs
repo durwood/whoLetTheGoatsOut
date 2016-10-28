@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace bombsweeper
 {
@@ -18,18 +19,28 @@ namespace bombsweeper
             do
             {
                 ShowBoard();
-                var input = Console.ReadLine();
-                ExecuteBoardCommand(input);
+                var inputString = GetInput();
+                ExecuteBoardCommand(inputString);
             } while (_board.GameInProgress());
             ShowBoard();
             ShowResult();
         }
 
+        private async Task<string> GetInputAsync()
+        {
+            return await Task.Run(() => GetInput());
+        }
+
+        private string GetInput()
+        {
+            return Console.ReadLine();
+        }
+
+
         private void ExecuteBoardCommand(string input)
         {
             var command = _inputGetter.GetCommand(input);
             if (command != BoardCommand.UnknownCommand)
-            {
                 if (command == BoardCommand.QuitGame)
                     _board.QuitGame();
                 else
@@ -40,7 +51,6 @@ namespace bombsweeper
                     //else if (command == BoardCommand.MarkCell)
                     //    _board.Mark(cell.X, cell.Y);
                 }
-            }
         }
 
         private void ShowResult()

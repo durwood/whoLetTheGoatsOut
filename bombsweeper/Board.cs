@@ -131,10 +131,8 @@ namespace bombsweeper
         private void RevealAllBombs()
         {
             foreach (var cell in _cells)
-            {
                 if (cell.HasBomb())
                     cell.Reveal();
-            }
         }
 
         private void Expose(int x0, int y0)

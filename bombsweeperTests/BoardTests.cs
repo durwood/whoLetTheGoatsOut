@@ -67,18 +67,6 @@ namespace bombsweeperTests
         }
 
         [Test]
-        public void RevealingLastCellWinsGame()
-        {
-            _testObj.AddBomb(0, 0);
-            _testObj.Reveal(1, 1);
-            var expected = GetExpectedString(_hidden, '1', '1', '1');
-            var result = _testObj.Display();
-            Assert.AreEqual(expected, result);
-            Assert.IsTrue(_testObj.GameWon());
-            
-        }
-
-        [Test]
         public void ClickingOnCellRemovesBlock()
         {
             _testObj.Reveal(0, 0);
@@ -94,6 +82,17 @@ namespace bombsweeperTests
             var expected = GetExpectedString(_hidden, '1', '1', '1');
             var result = _testObj.Display();
             Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void RevealingLastCellWinsGame()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.Reveal(1, 1);
+            var expected = GetExpectedString(_hidden, '1', '1', '1');
+            var result = _testObj.Display();
+            Assert.AreEqual(expected, result);
+            Assert.IsTrue(_testObj.GameWon());
         }
 
         [Test]

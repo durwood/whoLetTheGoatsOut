@@ -6,12 +6,19 @@ namespace bombsweeperTests
     [TestFixture]
     public class InputGetterTests
     {
-        private InputGetter _testObj;
-
         [SetUp]
         public void SetUp()
         {
             _testObj = new InputGetter();
+        }
+
+        private InputGetter _testObj;
+
+        private void ValidateCell(int x, int y)
+        {
+            var boardcell = _testObj.GetCell();
+            Assert.AreEqual(x, boardcell.X);
+            Assert.AreEqual(y, boardcell.Y);
         }
 
         [Test]
@@ -22,11 +29,12 @@ namespace bombsweeperTests
             ValidateCell(0, 1);
         }
 
-        private void ValidateCell(int x, int y)
+        [Test]
+        public void CanProcessMarkCommand()
         {
-            var boardcell = _testObj.GetCell();
-            Assert.AreEqual(x, boardcell.X);
-            Assert.AreEqual(y, boardcell.Y);
+            var command = _testObj.GetCommand("m 1,2");
+            Assert.AreEqual(BoardCommand.MarkCell, command);
+            ValidateCell(0, 1);
         }
 
         [Test]
@@ -34,14 +42,6 @@ namespace bombsweeperTests
         {
             var command = _testObj.GetCommand("q");
             Assert.AreEqual(BoardCommand.QuitGame, command);
-        }
-
-        [Test]
-        public void CanProcessMarkCommand()
-        {
-            var command = _testObj.GetCommand("m 1,2");
-            Assert.AreEqual(BoardCommand.MarkCell, command);
-            ValidateCell(0, 1);
         }
     }
 }
