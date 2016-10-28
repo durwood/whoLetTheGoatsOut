@@ -110,21 +110,24 @@ namespace bombsweeper
             if (content == Cell.Bomb)
             {
                 _gameState = GameState.Lost;
-                RevealBoard();
+                RevealAllBombs();
             }
             else
             {
                 Expose(x, y);
+                foreach (var cell in _cells)
+                    if (!cell.IsRevealed && !cell.HasBomb())
+                        return;
+                _gameState = GameState.Won;
             }
         }
 
-        private void RevealBoard()
+        private void RevealAllBombs()
         {
             foreach (var cell in _cells)
             {
-                cell.Reveal();
-                if (!cell.HasBomb())
-                    cell.Content = Cell.Empty;
+                if (cell.HasBomb())
+                    cell.Reveal();
             }
         }
 
