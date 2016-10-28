@@ -28,16 +28,16 @@ namespace bombsweeper
         private void ExecuteBoardCommand(string input)
         {
             var command = _inputGetter.GetCommand(input);
-            if (command != UserCommand.UnknownCommand)
+            if (command != BoardCommand.UnknownCommand)
             {
-                if (command == UserCommand.QuitGame)
+                if (command == BoardCommand.QuitGame)
                     _board.QuitGame();
                 else
                 {
                     var cell = _inputGetter.GetCell();
-                    if (command == UserCommand.RevealCell)
+                    if (command == BoardCommand.RevealCell)
                         _board.Reveal(cell.X, cell.Y);
-                    //else if (command == UserCommand.MarkCell)
+                    //else if (command == BoardCommand.MarkCell)
                     //    _board.Mark(cell.X, cell.Y);
                 }
             }
