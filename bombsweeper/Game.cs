@@ -18,8 +18,14 @@ namespace bombsweeper
             do
             {
                 ShowBoard();
-                var click = _inputGetter.GetClick();
-                _board.Reveal(click.X, click.Y);
+                var command = _inputGetter.GetCommand();
+                if (command == UserCommand.QuitGame)
+                    break;
+                var cell = _inputGetter.GetCell();
+                if (command == UserCommand.RevealCell)
+                    _board.Reveal(cell.X, cell.Y);
+                //else if (command == UserCommand.MarkCell)
+                //    _board.Mark(cell.X, cell.Y);
             } while (_board.GameInProgress());
             ShowBoard();
             ShowResult();
