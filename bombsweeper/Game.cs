@@ -26,13 +26,16 @@ namespace bombsweeper
 
         public void Run()
         {
+            DisplayBoard();
             do
             {
                 DisplayElapsedTime();
-                DisplayBoard();
                 DisplayCommandPrompt();
                 if (ProcessCommand())
+                {
                     ExecuteBoardCommand();
+                    DisplayBoard();
+                }
             } while (_board.GameInProgress());
             DisplayBoard();
             ShowResult();
@@ -48,7 +51,6 @@ namespace bombsweeper
             }
         }
 
-        // TODO: Only Display Board when new Board Command has been executed?
         private bool ProcessCommand()
         {
             if (!Console.KeyAvailable)
