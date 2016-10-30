@@ -31,7 +31,8 @@ namespace bombsweeper
                 DisplayElapsedTime();
                 DisplayBoard();
                 DisplayCommandPrompt();
-                ProcessCommand();
+                if (ProcessCommand())
+                    ExecuteBoardCommand();
             } while (_board.GameInProgress());
             DisplayBoard();
             ShowResult();
@@ -49,15 +50,15 @@ namespace bombsweeper
 
         // TODO: Only Display Board when new Board Command has been executed?
         // TODO: Change to return true and move ExecuteBoardCommand up?
-        private void ProcessCommand()
+        private bool ProcessCommand()
         {
             if (!Console.KeyAvailable)
-                return;
+                return false;
             var newKey = Console.ReadKey().KeyChar;
             if ((newKey == '\r') || (newKey == '\n'))
             {
-                ExecuteBoardCommand();
                 ClearCommand();
+                return true;
             }
             else if (newKey == '\b')
             {
@@ -66,6 +67,7 @@ namespace bombsweeper
             }
             else
                 _commandString = _commandString + newKey;
+            return false;
         }
 
         private string RemoveLastCharacter(string str)
