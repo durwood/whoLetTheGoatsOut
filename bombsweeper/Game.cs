@@ -49,7 +49,6 @@ namespace bombsweeper
         }
 
         // TODO: Only Display Board when new Board Command has been executed?
-        // TODO: Change to return true and move ExecuteBoardCommand up?
         private bool ProcessCommand()
         {
             if (!Console.KeyAvailable)
@@ -60,7 +59,7 @@ namespace bombsweeper
                 ClearCommand();
                 return true;
             }
-            else if (newKey == '\b')
+            if (newKey == '\b')
             {
                 _commandString = RemoveLastCharacter(_commandString);
                 ClearCommand();
@@ -95,6 +94,7 @@ namespace bombsweeper
                     //else if (command == BoardCommand.MarkCell)
                     //    _board.Mark(cell.X, cell.Y);
                 }
+            _commandString = "";
         }
 
         private void ShowResult()
