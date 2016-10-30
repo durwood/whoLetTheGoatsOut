@@ -1,19 +1,19 @@
 using System;
-using System.Threading.Tasks;
 
 namespace bombsweeper
 {
     public class Game
     {
         private readonly Board _board;
+        private readonly int _boardLine;
+        private readonly int _cursorLine;
         private readonly InputGetter _inputGetter;
-        private int _statusLine = 0;
-        private int _boardLine = 2;
-        private int _cursorLine;
+        private readonly int _statusLine;
 
 
         public Game(InputGetter inputGetter, Board board)
         {
+            Console.CursorVisible = false;
             _inputGetter = inputGetter;
             _board = board;
             _statusLine = 0;
@@ -23,44 +23,53 @@ namespace bombsweeper
 
         public void Run()
         {
-            int seconds = 0;
+            double elapsedSec = 0;
+            var startTime = DateTime.Now;
+            var commandString = "";
             do
             {
-                DisplayElapsedTime(seconds++);
-                System.Threading.Thread.Sleep(1000);
-                TickBoardAsync();
-            }
-            while (_board.GameInProgress());
+                var elapsedTicks = DateTime.Now.Ticks - startTime.Ticks;
+                var newElapsedSec = new TimeSpan(elapsedTicks).TotalSeconds;
+                if ((int) newElapsedSec != (int) elapsedSec)
+                {
+                    elapsedSec = newElapsedSec;
+                    DisplayElapsedTime((int) elapsedSec);
+                }
+                ShowBoard();
+                commandString = UpdateCommand(commandString);
+            } while (_board.GameInProgress());
             ShowBoard();
             ShowResult();
         }
 
         private void DisplayElapsedTime(int elapsedTime)
         {
-            var left = Console.CursorLeft;
-            var top = Console.CursorTop;
-            Console.SetCursorPosition(0,_statusLine);
+            Console.SetCursorPosition(0, _statusLine);
             Console.WriteLine(elapsedTime);
-            Console.SetCursorPosition(left, top);
         }
-        private void TickBoard()
+
+        private string UpdateCommand(string commandString)
         {
-            ShowBoard();
+            ShowCommand(commandString);
+
+            if (Console.KeyAvailable)
+            {
+                var newKey = Console.ReadKey().KeyChar;
+                if ((newKey == '\r') || (newKey == '\n'))
+                {
+                    ExecuteBoardCommand(commandString);
+                    ClearCommand();
+                    return "";
+                }
+                return commandString + newKey;
+            }
+            return commandString;
+        }
+
+        private void ShowCommand(string curString)
+        {
             Console.SetCursorPosition(0, _cursorLine);
-            var inputString = GetInput();
-            ExecuteBoardCommand(inputString);
-        }
-
-        private async void TickBoardAsync()
-        {
-            ShowBoard();
-            var inputString = await Task.Run(() => GetInput());
-            ExecuteBoardCommand(inputString);
-        }
-
-        private string GetInput()
-        {
-            return Console.ReadLine();
+            Console.Write("> " + curString);
         }
 
 
@@ -92,7 +101,7 @@ namespace bombsweeper
 
         private void ShowBoard()
         {
-            Console.SetCursorPosition(0,_boardLine);
+            Console.SetCursorPosition(0, _boardLine);
             Console.Write(_board.Display(true));
         }
 
