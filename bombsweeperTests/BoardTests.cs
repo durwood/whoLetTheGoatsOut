@@ -45,10 +45,10 @@ namespace bombsweeperTests
         [Test]
         public void BoardIsInitializedWithAdjacencyCounts()
         {
-            var testObj = new Board(3);
-            testObj.AddBomb(0, 0);
-            testObj.AddBomb(1, 0);
-            testObj.Reveal(0, 2);
+            _testObj = new Board(3);
+            _testObj.AddBomb(0, 0);
+            _testObj.AddBomb(1, 0);
+            _testObj.Reveal(0, 2);
             ValidateCells(_hidden, _hidden, _hidden, '2', '2', '1', _empty, _empty, _empty);
         }
 
