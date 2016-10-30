@@ -7,6 +7,7 @@ namespace bombsweeper
         public const char Bomb = '*';
         public const char Empty = ' ';
         public char Content;
+        public bool IsMarked;
         public bool IsRevealed;
 
         public Cell()
@@ -22,18 +23,21 @@ namespace bombsweeper
 
         public string Display()
         {
-            return (IsRevealed ? Content : Block).ToString();
+            return (IsRevealed ? Content : IsMarked ? Check : Block).ToString();
         }
 
         public char Reveal()
         {
             IsRevealed = true;
+            if (IsMarked)
+                IsMarked = false;
             return Content;
         }
 
-        internal void AddAdjacencyNumber(int number)
+        public void AddAdjacencyNumber(int number)
         {
-            Content = number.ToString()[0];
+            if (!HasBomb())
+                Content = number.ToString()[0];
         }
 
         public void AddBomb()
@@ -44,6 +48,12 @@ namespace bombsweeper
         public void ClearContents()
         {
             Content = Empty;
+        }
+
+        public void ToggleMark()
+        {
+            if (!IsRevealed)
+                IsMarked = !IsMarked;
         }
     }
 }

@@ -55,19 +55,23 @@ namespace bombsweeper
         {
             if (!Console.KeyAvailable)
                 return false;
-            var newKey = Console.ReadKey().KeyChar;
-            if ((newKey == '\r') || (newKey == '\n'))
+            var keyInfo = Console.ReadKey();
+            var keyChar = keyInfo.KeyChar;
+            if (keyInfo.Key == ConsoleKey.UpArrow)
+            {
+            }
+            else if ((keyChar == '\r') || (keyChar == '\n'))
             {
                 ClearCommand();
                 return true;
             }
-            if (newKey == '\b')
+            else if (keyChar == '\b')
             {
                 _commandString = RemoveLastCharacter(_commandString);
                 ClearCommand();
             }
             else
-                _commandString = _commandString + newKey;
+                _commandString = _commandString + keyChar;
             return false;
         }
 
@@ -93,8 +97,8 @@ namespace bombsweeper
                     var cell = _inputGetter.GetCell();
                     if (command == BoardCommand.RevealCell)
                         _board.Reveal(cell.X, cell.Y);
-                    //else if (command == BoardCommand.MarkCell)
-                    //    _board.Mark(cell.X, cell.Y);
+                    else if (command == BoardCommand.MarkCell)
+                        _board.Mark(cell.X, cell.Y);
                 }
             _commandString = "";
         }

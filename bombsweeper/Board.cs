@@ -179,5 +179,10 @@ namespace bombsweeper
         {
             return _size;
         }
+
+        public void Mark(int x, int y)
+        {
+            _cells[x, y].ToggleMark();
+        }
     }
 }

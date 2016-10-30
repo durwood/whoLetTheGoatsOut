@@ -35,10 +35,9 @@ namespace bombsweeperTests
             return sb.ToString();
         }
 
-        [Test]
-        public void BoardDisplaysProperly()
+        private void ValidateCells(params char[] cells)
         {
-            var expected = GetExpectedString(_hidden, _hidden, _hidden, _hidden);
+            var expected = GetExpectedString(cells);
             var result = _testObj.Display();
             Assert.AreEqual(expected, result);
         }
@@ -49,10 +48,8 @@ namespace bombsweeperTests
             var testObj = new Board(3);
             testObj.AddBomb(0, 0);
             testObj.AddBomb(1, 0);
-            var expected = GetExpectedString(_hidden, _hidden, _hidden, '2', '2', '1', _empty, _empty, _empty);
             testObj.Reveal(0, 2);
-            var result = testObj.Display();
-            Assert.AreEqual(expected, result);
+            ValidateCells(_hidden, _hidden, _hidden, '2', '2', '1', _empty, _empty, _empty);
         }
 
         [Test]
@@ -60,18 +57,8 @@ namespace bombsweeperTests
         {
             _testObj.AddBomb(0, 1);
             _testObj.Reveal(0, 1);
-            var expected = GetExpectedString(_hidden, _hidden, _bomb, _hidden);
-            var result = _testObj.Display();
-            Assert.AreEqual(expected, result);
+            ValidateCells(_hidden, _hidden, _bomb, _hidden);
             Assert.IsTrue(_testObj.GameLost());
-        }
-
-        [Test]
-        public void ClickingOnCellRemovesBlock()
-        {
-            _testObj.Reveal(0, 0);
-            var result = _testObj.Display();
-            StringAssert.Contains(_empty.ToString(), result);
         }
 
         [Test]
@@ -79,9 +66,13 @@ namespace bombsweeperTests
         {
             _testObj.AddBomb(0, 0);
             _testObj.Reveal(1, 1);
-            var expected = GetExpectedString(_hidden, '1', '1', '1');
-            var result = _testObj.Display();
-            Assert.AreEqual(expected, result);
+            ValidateCells(_hidden, '1', '1', '1');
+        }
+
+        [Test]
+        public void IniltialBoardDisplaysProperly()
+        {
+            ValidateCells(_hidden, _hidden, _hidden, _hidden);
         }
 
         [Test]
@@ -89,9 +80,7 @@ namespace bombsweeperTests
         {
             _testObj.AddBomb(0, 0);
             _testObj.Reveal(1, 1);
-            var expected = GetExpectedString(_hidden, '1', '1', '1');
-            var result = _testObj.Display();
-            Assert.AreEqual(expected, result);
+            ValidateCells(_hidden, '1', '1', '1');
             Assert.IsTrue(_testObj.GameWon());
         }
 
