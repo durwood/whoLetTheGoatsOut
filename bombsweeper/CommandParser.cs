@@ -14,7 +14,7 @@ namespace bombsweeper
         UnknownCommand
     }
 
-    public class CommandInterpreter
+    public class CommandParser
     {
         private BoardClick _click;
 

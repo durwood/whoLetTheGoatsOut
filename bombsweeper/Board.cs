@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Text;
 
 namespace bombsweeper
@@ -15,6 +17,8 @@ namespace bombsweeper
         private readonly Cell[,] _cells;
         private readonly int _size;
         private GameState _gameState;
+        private int _numBombs;
+        private int _numMarked;
 
         public Board(int size)
         {
@@ -29,6 +33,7 @@ namespace bombsweeper
         public void AddBomb(int x, int y)
         {
             _cells[x, y].AddBomb();
+            _numBombs++;
             PopulateAdjacencyCounts();
         }
 
@@ -183,6 +188,12 @@ namespace bombsweeper
         public void Mark(int x, int y)
         {
             _cells[x, y].ToggleMark();
+            _numMarked = (from Cell item in _cells select item.IsMarked).Count();
+        }
+
+        public int GetNumberOfUnmarkedBombs()
+        {
+            return Math.Max(_numBombs - _numMarked, 0);
         }
     }
 }

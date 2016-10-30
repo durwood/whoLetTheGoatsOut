@@ -6,22 +6,23 @@ namespace bombsweeper
     {
         private readonly Board _board;
         private readonly int _boardLine;
-        private readonly int _cursorLine;
+        private readonly CommandInterface _commandInterface;
+        private readonly CommandParser _commandParser;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
-        private readonly CommandInterpreter _commandInterpreter;
         private readonly int _statusLine;
-        private string _commandString;
+        private int _numBombs;
+        private int _elapsedSec;
 
-
-        public Game(CommandInterpreter commandInterpreter, Board board)
+        public Game(CommandParser commandParser, Board board)
         {
             Console.CursorVisible = false;
-            _commandInterpreter = commandInterpreter;
+            _commandParser = commandParser;
             _board = board;
             _statusLine = 0;
             _boardLine = 2;
-            _cursorLine = _boardLine + board.GetSize() + 2;
+            var cursorLine = _boardLine + board.GetSize() + 2;
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
+            _commandInterface = new CommandInterface(cursorLine);
         }
 
         public void Run()
@@ -29,11 +30,12 @@ namespace bombsweeper
             DisplayBoard();
             do
             {
-                DisplayElapsedTime();
-                DisplayCommandPrompt();
-                if (ProcessCommand())
+                UpdateStatusDisplay();
+                _commandInterface.Tick();
+                if (_commandInterface.HasCommandToProcess)
                 {
-                    ExecuteBoardCommand();
+                    ExecuteBoardCommand(_commandInterface.GetCommand());
+                    _commandInterface.Reset();
                     DisplayBoard();
                 }
             } while (_board.GameInProgress());
@@ -41,66 +43,42 @@ namespace bombsweeper
             ShowResult();
         }
 
-        private void DisplayElapsedTime()
+        private void UpdateStatusDisplay()
         {
-            var elapsedSec = _elapsedSecondsCalculator.NewElapsedSec();
-            if (elapsedSec != null)
+            bool needToDisplay = false;
+            var elapsedSec = _elapsedSecondsCalculator.ElapsedSec();
+            if (elapsedSec != _elapsedSec)
+            {
+                needToDisplay = true;
+                _elapsedSec = elapsedSec;
+            }
+            var numBombs = _board.GetNumberOfUnmarkedBombs();
+            if (numBombs != _numBombs)
+            {
+                needToDisplay = true;
+                _numBombs = numBombs;
+            }
+            if (needToDisplay)
             {
                 Console.SetCursorPosition(0, _statusLine);
-                Console.WriteLine(elapsedSec.Value);
+                Console.WriteLine($"Bombs: {_numBombs}  Elapsed Time: {_elapsedSec}");
             }
         }
 
-        private bool ProcessCommand()
+        private void ExecuteBoardCommand(string commandString)
         {
-            if (!Console.KeyAvailable)
-                return false;
-            var keyInfo = Console.ReadKey();
-            var keyChar = keyInfo.KeyChar;
-            if (keyInfo.Key == ConsoleKey.UpArrow)
-            {
-            }
-            else if ((keyChar == '\r') || (keyChar == '\n'))
-            {
-                ClearCommand();
-                return true;
-            }
-            else if (keyChar == '\b')
-            {
-                _commandString = RemoveLastCharacter(_commandString);
-                ClearCommand();
-            }
-            else
-                _commandString = _commandString + keyChar;
-            return false;
-        }
-
-        private string RemoveLastCharacter(string str)
-        {
-            return str.Length > 0 ? str.Substring(0, str.Length - 1) : str;
-        }
-
-        private void DisplayCommandPrompt()
-        {
-            Console.SetCursorPosition(0, _cursorLine);
-            Console.Write("> " + _commandString);
-        }
-
-        private void ExecuteBoardCommand()
-        {
-            var command = _commandInterpreter.GetCommand(_commandString);
+            var command = _commandParser.GetCommand(commandString);
             if (command != BoardCommand.UnknownCommand)
                 if (command == BoardCommand.QuitGame)
                     _board.QuitGame();
                 else
                 {
-                    var cell = _commandInterpreter.GetCell();
+                    var cell = _commandParser.GetCell();
                     if (command == BoardCommand.RevealCell)
                         _board.Reveal(cell.X, cell.Y);
                     else if (command == BoardCommand.MarkCell)
                         _board.Mark(cell.X, cell.Y);
                 }
-            _commandString = "";
         }
 
         private void ShowResult()
@@ -117,12 +95,6 @@ namespace bombsweeper
         {
             Console.SetCursorPosition(0, _boardLine);
             Console.Write(_board.Display(true));
-        }
-
-        private void ClearCommand()
-        {
-            Console.SetCursorPosition(0, _cursorLine);
-            Console.Write(new string(' ', Console.WindowWidth));
         }
     }
 }

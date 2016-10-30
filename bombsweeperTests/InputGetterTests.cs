@@ -9,10 +9,10 @@ namespace bombsweeperTests
         [SetUp]
         public void SetUp()
         {
-            _testObj = new CommandInterpreter();
+            _testObj = new CommandParser();
         }
 
-        private CommandInterpreter _testObj;
+        private CommandParser _testObj;
 
         private void ValidateCell(int x, int y)
         {
