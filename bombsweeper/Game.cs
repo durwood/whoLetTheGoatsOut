@@ -7,28 +7,55 @@ namespace bombsweeper
     {
         private readonly Board _board;
         private readonly InputGetter _inputGetter;
+        private int _statusLine = 0;
+        private int _boardLine = 2;
+        private int _cursorLine;
+
 
         public Game(InputGetter inputGetter, Board board)
         {
             _inputGetter = inputGetter;
             _board = board;
+            _statusLine = 0;
+            _boardLine = 2;
+            _cursorLine = _boardLine + board.GetSize() + 2;
         }
 
         public void Run()
         {
+            int seconds = 0;
             do
             {
-                ShowBoard();
-                var inputString = GetInput();
-                ExecuteBoardCommand(inputString);
-            } while (_board.GameInProgress());
+                DisplayElapsedTime(seconds++);
+                System.Threading.Thread.Sleep(1000);
+                TickBoardAsync();
+            }
+            while (_board.GameInProgress());
             ShowBoard();
             ShowResult();
         }
 
-        private async Task<string> GetInputAsync()
+        private void DisplayElapsedTime(int elapsedTime)
         {
-            return await Task.Run(() => GetInput());
+            var left = Console.CursorLeft;
+            var top = Console.CursorTop;
+            Console.SetCursorPosition(0,_statusLine);
+            Console.WriteLine(elapsedTime);
+            Console.SetCursorPosition(left, top);
+        }
+        private void TickBoard()
+        {
+            ShowBoard();
+            Console.SetCursorPosition(0, _cursorLine);
+            var inputString = GetInput();
+            ExecuteBoardCommand(inputString);
+        }
+
+        private async void TickBoardAsync()
+        {
+            ShowBoard();
+            var inputString = await Task.Run(() => GetInput());
+            ExecuteBoardCommand(inputString);
         }
 
         private string GetInput()
@@ -65,12 +92,14 @@ namespace bombsweeper
 
         private void ShowBoard()
         {
-            Console.Clear();
+            Console.SetCursorPosition(0,_boardLine);
             Console.Write(_board.Display(true));
         }
 
-        private void GetClick()
+        private void ClearCommand()
         {
+            Console.SetCursorPosition(0, _cursorLine);
+            Console.Write(new string(' ', Console.WindowWidth));
         }
     }
 }

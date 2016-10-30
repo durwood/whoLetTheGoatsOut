@@ -6,7 +6,7 @@ namespace bombsweeper
     {
         public static void Main(string[] args)
         {
-            var board = Build2();
+            var board = Build9();
 
             var game = new Game(new InputGetter(), board);
             game.Run();

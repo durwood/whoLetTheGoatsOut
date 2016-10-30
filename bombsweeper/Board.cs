@@ -174,5 +174,10 @@ namespace bombsweeper
                 sb.Append($"{_cells[col, row].Display()} ");
             return sb.ToString();
         }
+
+        public int GetSize()
+        {
+            return _size;
+        }
     }
 }
