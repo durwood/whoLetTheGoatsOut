@@ -7,8 +7,10 @@ namespace bombsweeper
         private readonly Board _board;
         private readonly int _boardLine;
         private readonly int _cursorLine;
+        private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
         private readonly InputGetter _inputGetter;
         private readonly int _statusLine;
+        private string _commandString;
 
 
         public Game(InputGetter inputGetter, Board board)
@@ -19,63 +21,67 @@ namespace bombsweeper
             _statusLine = 0;
             _boardLine = 2;
             _cursorLine = _boardLine + board.GetSize() + 2;
+            _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
         }
 
         public void Run()
         {
-            double elapsedSec = 0;
-            var startTime = DateTime.Now;
-            var commandString = "";
             do
             {
-                var elapsedTicks = DateTime.Now.Ticks - startTime.Ticks;
-                var newElapsedSec = new TimeSpan(elapsedTicks).TotalSeconds;
-                if ((int) newElapsedSec != (int) elapsedSec)
-                {
-                    elapsedSec = newElapsedSec;
-                    DisplayElapsedTime((int) elapsedSec);
-                }
-                ShowBoard();
-                commandString = UpdateCommand(commandString);
+                DisplayElapsedTime();
+                DisplayBoard();
+                DisplayCommandPrompt();
+                ProcessCommand();
             } while (_board.GameInProgress());
-            ShowBoard();
+            DisplayBoard();
             ShowResult();
         }
 
-        private void DisplayElapsedTime(int elapsedTime)
+        private void DisplayElapsedTime()
         {
-            Console.SetCursorPosition(0, _statusLine);
-            Console.WriteLine(elapsedTime);
-        }
-
-        private string UpdateCommand(string commandString)
-        {
-            ShowCommand(commandString);
-
-            if (Console.KeyAvailable)
+            var elapsedSec = _elapsedSecondsCalculator.NewElapsedSec();
+            if (elapsedSec != null)
             {
-                var newKey = Console.ReadKey().KeyChar;
-                if ((newKey == '\r') || (newKey == '\n'))
-                {
-                    ExecuteBoardCommand(commandString);
-                    ClearCommand();
-                    return "";
-                }
-                return commandString + newKey;
+                Console.SetCursorPosition(0, _statusLine);
+                Console.WriteLine(elapsedSec.Value);
             }
-            return commandString;
         }
 
-        private void ShowCommand(string curString)
+        // TODO: Only Display Board when new Board Command has been executed?
+        // TODO: Change to return true and move ExecuteBoardCommand up?
+        private void ProcessCommand()
+        {
+            if (!Console.KeyAvailable)
+                return;
+            var newKey = Console.ReadKey().KeyChar;
+            if ((newKey == '\r') || (newKey == '\n'))
+            {
+                ExecuteBoardCommand();
+                ClearCommand();
+            }
+            else if (newKey == '\b')
+            {
+                _commandString = RemoveLastCharacter(_commandString);
+                ClearCommand();
+            }
+            else
+                _commandString = _commandString + newKey;
+        }
+
+        private string RemoveLastCharacter(string str)
+        {
+            return str.Length > 0 ? str.Substring(0, str.Length - 1) : str;
+        }
+
+        private void DisplayCommandPrompt()
         {
             Console.SetCursorPosition(0, _cursorLine);
-            Console.Write("> " + curString);
+            Console.Write("> " + _commandString);
         }
 
-
-        private void ExecuteBoardCommand(string input)
+        private void ExecuteBoardCommand()
         {
-            var command = _inputGetter.GetCommand(input);
+            var command = _inputGetter.GetCommand(_commandString);
             if (command != BoardCommand.UnknownCommand)
                 if (command == BoardCommand.QuitGame)
                     _board.QuitGame();
@@ -99,7 +105,7 @@ namespace bombsweeper
                 Console.WriteLine("Quitter.");
         }
 
-        private void ShowBoard()
+        private void DisplayBoard()
         {
             Console.SetCursorPosition(0, _boardLine);
             Console.Write(_board.Display(true));
