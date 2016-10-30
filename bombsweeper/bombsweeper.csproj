@@ -56,7 +56,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Cell.cs" />
-    <Compile Include="InputGetter.cs" />
+    <Compile Include="CommandInterpreter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

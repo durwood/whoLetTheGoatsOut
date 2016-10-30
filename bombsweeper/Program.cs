@@ -8,7 +8,7 @@ namespace bombsweeper
         {
             var board = Build9();
 
-            var game = new Game(new InputGetter(), board);
+            var game = new Game(new CommandInterpreter(), board);
             game.Run();
             Console.ReadKey();
         }

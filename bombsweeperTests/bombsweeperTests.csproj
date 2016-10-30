@@ -54,7 +54,6 @@
     <Compile Include="BoardTests.cs" />
     <Compile Include="InputGetterTests.cs" />
     <Compile Include="CellTests.cs" />
-    <Compile Include="FakeInputGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

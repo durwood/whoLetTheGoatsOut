@@ -8,15 +8,15 @@ namespace bombsweeper
         private readonly int _boardLine;
         private readonly int _cursorLine;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
-        private readonly InputGetter _inputGetter;
+        private readonly CommandInterpreter _commandInterpreter;
         private readonly int _statusLine;
         private string _commandString;
 
 
-        public Game(InputGetter inputGetter, Board board)
+        public Game(CommandInterpreter commandInterpreter, Board board)
         {
             Console.CursorVisible = false;
-            _inputGetter = inputGetter;
+            _commandInterpreter = commandInterpreter;
             _board = board;
             _statusLine = 0;
             _boardLine = 2;
@@ -88,13 +88,13 @@ namespace bombsweeper
 
         private void ExecuteBoardCommand()
         {
-            var command = _inputGetter.GetCommand(_commandString);
+            var command = _commandInterpreter.GetCommand(_commandString);
             if (command != BoardCommand.UnknownCommand)
                 if (command == BoardCommand.QuitGame)
                     _board.QuitGame();
                 else
                 {
-                    var cell = _inputGetter.GetCell();
+                    var cell = _commandInterpreter.GetCell();
                     if (command == BoardCommand.RevealCell)
                         _board.Reveal(cell.X, cell.Y);
                     else if (command == BoardCommand.MarkCell)
