@@ -5,7 +5,7 @@ namespace bombsweeper
     public class CommandInterface
     {
         private readonly int _cursorLine;
-        private string _commandString;
+        protected string _commandString;
         public bool HasCommandToProcess;
 
         public CommandInterface(int cursorLine)
@@ -20,14 +20,14 @@ namespace bombsweeper
             return _commandString;
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
             if (Console.KeyAvailable)
                 ProcessKeyInfo(Console.ReadKey());
             RefreshDisplay();
         }
 
-        private void ProcessKeyInfo(ConsoleKeyInfo keyInfo)
+        protected void ProcessKeyInfo(ConsoleKeyInfo keyInfo)
         {
             var keyChar = keyInfo.KeyChar;
             if (keyInfo.Key == ConsoleKey.UpArrow)
@@ -52,7 +52,7 @@ namespace bombsweeper
             return str.Length > 0 ? str.Substring(0, str.Length - 1) : str;
         }
 
-        private void ClearCommand()
+        protected virtual void ClearCommand()
         {
             Console.SetCursorPosition(0, _cursorLine);
             Console.Write(new string(' ', Console.WindowWidth));
