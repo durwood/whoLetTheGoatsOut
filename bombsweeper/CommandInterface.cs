@@ -29,38 +29,49 @@ namespace bombsweeper
             RefreshDisplay();
         }
 
+        private void GetCommandFromHistory(ConsoleKey key)
+        {
+            if (!_historyManager.HasHistory())
+                return;
+
+            if (key == ConsoleKey.UpArrow)
+                CurrentCommand = _historyManager.GetPreviousCommand();
+            else if (key == ConsoleKey.DownArrow)
+                CurrentCommand = _historyManager.GetNextCommand();
+            ClearCommand();
+        }
+
+        private void SubmitCommand()
+        {
+            ClearCommand();
+            HasCommandToProcess = true;
+            _historyManager.StoreCommand(CurrentCommand);
+        }
+
         protected void ProcessKeyInfo(ConsoleKeyInfo keyInfo)
         {
             var keyChar = keyInfo.KeyChar;
-            if (keyInfo.Key == ConsoleKey.UpArrow)
-            {
-                if (_historyManager.HasHistory())
-                    CurrentCommand = _historyManager.GetPreviousCommand();
-                ClearCommand();
-            }
-            else if (keyInfo.Key == ConsoleKey.DownArrow)
-            {
-                if (_historyManager.HasHistory())
-                    CurrentCommand = _historyManager.GetNextCommand();
-                ClearCommand();
-            }
+
+            if ((keyInfo.Key == ConsoleKey.UpArrow) || (keyInfo.Key == ConsoleKey.DownArrow))
+                GetCommandFromHistory(keyInfo.Key);
             else if ((keyChar == '\r') || (keyChar == '\n'))
-            {
-                ClearCommand();
-                HasCommandToProcess = true;
-                _historyManager.StoreCommand(CurrentCommand);
-            }
-            else if (keyChar == '\b')
+                SubmitCommand();
+            else
+                ModifyCurrentCommand(keyChar);
+        }
+
+        private void ModifyCurrentCommand(char keyChar)
+        {
+            if (keyChar == '\b')
             {
                 CurrentCommand = RemoveLastCharacter(CurrentCommand);
                 ClearCommand();
-                _historyManager.SetWorkingBuffer(CurrentCommand);
             }
             else
             {
                 CurrentCommand = CurrentCommand + keyChar;
-                _historyManager.SetWorkingBuffer(CurrentCommand);
             }
+            _historyManager.SetWorkingBuffer(CurrentCommand);
         }
 
         private static string RemoveLastCharacter(string str)
