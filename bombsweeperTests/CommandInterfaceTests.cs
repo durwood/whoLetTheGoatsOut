@@ -51,6 +51,18 @@ namespace bombsweeperTests
             return new ConsoleKeyInfo(keyChar, key, false, false, false);
         }
 
+        private void SetAndEnterCommand(string command)
+        {
+            _testObj.SetCommand(command);
+            Tick(_return);
+        }
+
+        private void Tick(ConsoleKeyInfo keyInfo)
+        {
+            _testObj.SetKeyInfo(keyInfo);
+            _testObj.Tick();
+        }
+
         [Test]
         public void BackspaceRemovesLastCharacter()
         {
@@ -58,6 +70,55 @@ namespace bombsweeperTests
             _testObj.SetKeyInfo(_backSpace);
             _testObj.Tick();
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,"));
+        }
+
+        [Test]
+        public void CallingResetOnObjectNotReadyForProcessingDoesNothing()
+        {
+            _testObj.SetCommand("c 1,1");
+            _testObj.Reset();
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
+        }
+
+        [Test]
+        public void DownArrowDoesNothingIfLessThanTwoCommandsAreInBuffer()
+        {
+            _testObj.SetKeyInfo(_downArrow);
+            _testObj.Tick();
+            Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
+
+            _testObj.SetCommand("c 0,0");
+            _testObj.SetKeyInfo(_downArrow);
+            _testObj.Tick();
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
+        }
+
+        [Test]
+        public void DownArrowRetrievesNextCommandIfTwoOrMoreCommandsAreInBuffer()
+        {
+            _testObj.SetCommand("c 0,0"); // 0
+            Tick(_return);
+            _testObj.SetCommand("c 1,1"); // 1
+            Tick(_return);
+            _testObj.SetCommand("c 2,2"); // 2
+            Tick(_return);
+            _testObj.SetCommandHistoryIndex(1);
+            Tick(_downArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
+            Tick(_downArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 2,2"));
+        }
+
+        [Test]
+        public void DownArrowRetrievesEmptyCommandWhenGoingPastBufferEnd()
+        {
+            _testObj.SetCommand("c 0,0"); // 0
+            Tick(_return);
+            _testObj.SetCommand("j");
+            Tick(_downArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
+            Tick(_downArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
         }
 
         [Test]
@@ -104,84 +165,21 @@ namespace bombsweeperTests
         }
 
         [Test]
-        public void CallingResetOnObjectNotReadyForProcessingDoesNothing()
-        {
-            _testObj.SetCommand("c 1,1");
-            _testObj.Reset();
-            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
-        }
-
-        [Test]
         public void UpArrowRetrievesPreviousCommandIfTwoOrMoreCommandsAreInBuffer()
         {
-            _testObj.SetCommand("c 0,0");  // 0
+            _testObj.SetCommand("c 0,0"); // 0
             Tick(_return);
-            _testObj.SetCommand("c 1,1");  // 1
+            _testObj.SetCommand("c 1,1"); // 1
             Tick(_return);
             _testObj.SetCommand("c 2,2"); // 2
+            Tick(_return);
+            Tick(_upArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 2,2"));
             Tick(_upArrow);
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
             Tick(_upArrow);
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
             Tick(_upArrow);
-            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
-        }
-
-        [Test]
-        public void DownArrowRetrievesNextCommandIfTwoOrMoreCommandsAreInBuffer()
-        {
-            _testObj.SetCommand("c 0,0");  // 0
-            Tick(_return);
-            _testObj.SetCommand("c 1,1");  // 1
-            Tick(_return);
-            _testObj.SetCommand("c 2,2"); // 2
-            _testObj.SetCommandIndex(0);
-            Tick(_downArrow);
-            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
-            Tick(_downArrow);
-            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 2,2"));
-            Tick(_downArrow);
-            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 2,2"));
-        }
-
-        [Test]
-        public void ResetSavesCommandAndPointsToNewEmptyCommand()
-        {
-            _testObj.SetCommand("c 1,1");
-            Tick(_return);
-            _testObj.SetCommand("c 2,2");
-            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 2,2"));
-            Tick(_return);
-            Assert.IsFalse(_testObj.HasCommandToProcess);
-            Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
-            _testObj.SetCommandIndex(0);
-            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
-        }
-
-        private void SetAndEnterCommand(string command)
-        {
-            _testObj.SetCommand(command);
-            Tick(_return);
-        }
-
-        private void Tick(ConsoleKeyInfo keyInfo)
-        {
-            _testObj.SetKeyInfo(keyInfo);
-            _testObj.Tick();
-            if (keyInfo.Key == ConsoleKey.Enter)
-                _testObj.Reset();
-        }
-
-        [Test]
-        public void DownArrowDoesNothingIfLessThanTwoCommandsAreInBuffer()
-        {
-            _testObj.SetKeyInfo(_downArrow);
-            _testObj.Tick();
-            Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
-
-            _testObj.SetCommand("c 0,0");
-            _testObj.SetKeyInfo(_downArrow);
-            _testObj.Tick();
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
         }
     }

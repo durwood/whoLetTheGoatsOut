@@ -13,7 +13,7 @@ namespace bombsweeperTests
 
         public void SetCommand(string str)
         {
-            CommandString[_commandIndex] = str;
+            CurrentCommand = str;
         }
 
         public void EnterCommand()
@@ -40,9 +40,9 @@ namespace bombsweeperTests
         {
         }
 
-        public void SetCommandIndex(int commandIndex)
+        public void SetCommandHistoryIndex(int commandIndex)
         {
-            _commandIndex = commandIndex;
+            _historyIndex = commandIndex;
         }
     }
 }
