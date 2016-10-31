@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace bombsweeperTests
 {
     [TestFixture]
-    public class InputGetterTests
+    public class CommandParserTests
     {
         [SetUp]
         public void SetUp()
