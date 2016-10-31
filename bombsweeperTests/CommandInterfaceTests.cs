@@ -3,6 +3,33 @@ using NUnit.Framework;
 
 namespace bombsweeperTests
 {
+    public static class ConsoleKeyHelper
+    {
+        public static ConsoleKeyInfo KeyInfoFactory(ConsoleKey key)
+        {
+            var keyChar = LookupKeyChar(key);
+            return new ConsoleKeyInfo(keyChar, key, false, false, false);
+        }
+
+        private static char LookupKeyChar(ConsoleKey key)
+        {
+            switch (key)
+            {
+                case ConsoleKey.Delete:
+                    return '\b';
+                case ConsoleKey.Enter:
+                    return '\r';
+                case ConsoleKey.D1:
+                    return '1';
+                case ConsoleKey.UpArrow:
+                case ConsoleKey.DownArrow:
+                    return '\0';
+                default:
+                    throw new ArgumentException("Unsupported Console Key.");
+            }
+        }
+    }
+
     [TestFixture]
     public class CommandInterfaceTests
     {
@@ -12,11 +39,11 @@ namespace bombsweeperTests
             _testObj = new FakeCommandInterface();
         }
 
-        private readonly ConsoleKeyInfo _backSpace = KeyInfoFactory('\b', ConsoleKey.Delete);
-        private readonly ConsoleKeyInfo _return = KeyInfoFactory('\r', ConsoleKey.Enter);
-        private readonly ConsoleKeyInfo _1 = KeyInfoFactory('1', ConsoleKey.D1);
-        private ConsoleKeyInfo _upArrow = KeyInfoFactory('\0', ConsoleKey.UpArrow);
-        private ConsoleKeyInfo _downArrow = KeyInfoFactory('\0', ConsoleKey.DownArrow);
+        private readonly ConsoleKeyInfo _backSpace = ConsoleKeyHelper.KeyInfoFactory(ConsoleKey.Delete);
+        private readonly ConsoleKeyInfo _return = ConsoleKeyHelper.KeyInfoFactory(ConsoleKey.Enter);
+        private readonly ConsoleKeyInfo _1 = ConsoleKeyHelper.KeyInfoFactory(ConsoleKey.D1);
+        private readonly ConsoleKeyInfo _upArrow = ConsoleKeyHelper.KeyInfoFactory(ConsoleKey.UpArrow);
+        private readonly ConsoleKeyInfo _downArrow = ConsoleKeyHelper.KeyInfoFactory(ConsoleKey.DownArrow);
         private FakeCommandInterface _testObj;
 
         private static ConsoleKeyInfo KeyInfoFactory(char keyChar, ConsoleKey key)
@@ -61,6 +88,101 @@ namespace bombsweeperTests
             _testObj.Reset();
             Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
             Assert.IsFalse(_testObj.HasCommandToProcess);
+        }
+
+        [Test]
+        public void UpArrowDoesNothingIfLessThanTwoCommandsAreInBuffer()
+        {
+            _testObj.SetKeyInfo(_upArrow);
+            _testObj.Tick();
+            Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
+
+            _testObj.SetCommand("c 0,0");
+            _testObj.SetKeyInfo(_upArrow);
+            _testObj.Tick();
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
+        }
+
+        [Test]
+        public void CallingResetOnObjectNotReadyForProcessingDoesNothing()
+        {
+            _testObj.SetCommand("c 1,1");
+            _testObj.Reset();
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
+        }
+
+        [Test]
+        public void UpArrowRetrievesPreviousCommandIfTwoOrMoreCommandsAreInBuffer()
+        {
+            _testObj.SetCommand("c 0,0");  // 0
+            Tick(_return);
+            _testObj.SetCommand("c 1,1");  // 1
+            Tick(_return);
+            _testObj.SetCommand("c 2,2"); // 2
+            Tick(_upArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
+            Tick(_upArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
+            Tick(_upArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
+        }
+
+        [Test]
+        public void DownArrowRetrievesNextCommandIfTwoOrMoreCommandsAreInBuffer()
+        {
+            _testObj.SetCommand("c 0,0");  // 0
+            Tick(_return);
+            _testObj.SetCommand("c 1,1");  // 1
+            Tick(_return);
+            _testObj.SetCommand("c 2,2"); // 2
+            _testObj.SetCommandIndex(0);
+            Tick(_downArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
+            Tick(_downArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 2,2"));
+            Tick(_downArrow);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 2,2"));
+        }
+
+        [Test]
+        public void ResetSavesCommandAndPointsToNewEmptyCommand()
+        {
+            _testObj.SetCommand("c 1,1");
+            Tick(_return);
+            _testObj.SetCommand("c 2,2");
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 2,2"));
+            Tick(_return);
+            Assert.IsFalse(_testObj.HasCommandToProcess);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
+            _testObj.SetCommandIndex(0);
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
+        }
+
+        private void SetAndEnterCommand(string command)
+        {
+            _testObj.SetCommand(command);
+            Tick(_return);
+        }
+
+        private void Tick(ConsoleKeyInfo keyInfo)
+        {
+            _testObj.SetKeyInfo(keyInfo);
+            _testObj.Tick();
+            if (keyInfo.Key == ConsoleKey.Enter)
+                _testObj.Reset();
+        }
+
+        [Test]
+        public void DownArrowDoesNothingIfLessThanTwoCommandsAreInBuffer()
+        {
+            _testObj.SetKeyInfo(_downArrow);
+            _testObj.Tick();
+            Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
+
+            _testObj.SetCommand("c 0,0");
+            _testObj.SetKeyInfo(_downArrow);
+            _testObj.Tick();
+            Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
         }
     }
 }

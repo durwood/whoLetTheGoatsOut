@@ -1,23 +1,26 @@
 using System;
+using System.Collections.Generic;
 
 namespace bombsweeper
 {
     public class CommandInterface
     {
         private readonly int _cursorLine;
-        protected string _commandString;
+        protected List<string> CommandString = new List<string>();
+        protected int _commandIndex;
         public bool HasCommandToProcess;
 
         public CommandInterface(int cursorLine)
         {
             _cursorLine = cursorLine;
-            _commandString = "";
+            CommandString.Add("");
+            _commandIndex = 0;
             HasCommandToProcess = false;
         }
 
         public string GetCommand()
         {
-            return _commandString;
+            return CommandString[_commandIndex];
         }
 
         public virtual void Tick()
@@ -32,6 +35,15 @@ namespace bombsweeper
             var keyChar = keyInfo.KeyChar;
             if (keyInfo.Key == ConsoleKey.UpArrow)
             {
+                if (_commandIndex > 0)
+                    _commandIndex -= 1;
+                ClearCommand();
+            }
+            else if (keyInfo.Key == ConsoleKey.DownArrow)
+            {
+                if (_commandIndex < CommandString.Count - 1)
+                    _commandIndex += 1;
+                ClearCommand();
             }
             else if ((keyChar == '\r') || (keyChar == '\n'))
             {
@@ -40,11 +52,11 @@ namespace bombsweeper
             }
             else if (keyChar == '\b')
             {
-                _commandString = RemoveLastCharacter(_commandString);
+                CommandString[_commandIndex] = RemoveLastCharacter(CommandString[_commandIndex]);
                 ClearCommand();
             }
             else
-                _commandString = _commandString + keyChar;
+                CommandString[_commandIndex] = CommandString[_commandIndex] + keyChar;
         }
 
         private static string RemoveLastCharacter(string str)
@@ -60,15 +72,19 @@ namespace bombsweeper
 
         public void Reset()
         {
-            HasCommandToProcess = false;
-            _commandString = "";
-            ClearCommand();
+            if (HasCommandToProcess)
+            {
+                HasCommandToProcess = false;
+                CommandString.Add("");
+                _commandIndex++;
+                ClearCommand();
+            }
         }
 
         private void RefreshDisplay()
         {
             Console.SetCursorPosition(0, _cursorLine);
-            Console.Write("> " + _commandString);
+            Console.Write("> " + CommandString[_commandIndex]);
         }
     }
 }
