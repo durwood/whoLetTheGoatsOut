@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace bombsweeper
 {
@@ -6,18 +7,54 @@ namespace bombsweeper
     {
         public static void Main(string[] args)
         {
-            var board = Build9();
+            var options = ParseArgs(args);
 
-            var game = new Game(new CommandParser(), board);
+            if (options["windows"])
+                throw new NotImplementedException("Only Console Implemented");
+            PlayConsoleVersion(options);
+        }
+
+        private static void PlayConsoleVersion(Dictionary<string, bool> options)
+        {
+            var board = CreateBoard(options);
+            var game = new Game(board);
             game.Run();
             Console.ReadKey();
         }
 
-        private static Board Build2()
+        private static Board CreateBoard(Dictionary<string, bool> options)
         {
-            var board = new Board(2);
-            board.AddBomb(0, 0);
+            Board board;
+            if (options["simpleBoard"])
+                board = Build3();
+            else if (options["generateBoard"])
+                board = GenerateBoard();
+            else
+                board = Build9();
             return board;
+        }
+
+        private static Board GenerateBoard()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static Dictionary<string, bool> ParseArgs(string[] args)
+        {
+            var dict = new Dictionary<string, bool>
+            {
+                {"windows", false},
+                {"generateBoard", false},
+                {"simpleBoard", false}
+            };
+            foreach (var arg in args)
+                if (arg == "--windows")
+                    dict["windows"] = true;
+                else if (arg == "--generate")
+                    dict["generateBoard"] = true;
+                else if (arg == "--simple")
+                    dict["simpleBoard"] = true;
+            return dict;
         }
 
         private static Board Build3()
@@ -25,13 +62,6 @@ namespace bombsweeper
             var board = new Board(3);
             board.AddBomb(0, 0);
             board.AddBomb(1, 0);
-            return board;
-        }
-
-        private static Board Build4()
-        {
-            var board = new Board(3);
-            board.AddBomb(0, 0);
             return board;
         }
 

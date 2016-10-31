@@ -13,10 +13,10 @@ namespace bombsweeper
         private int _elapsedSec;
         private int _numBombs;
 
-        public Game(CommandParser commandParser, Board board)
+        public Game(Board board)
         {
             Console.CursorVisible = false;
-            _commandParser = commandParser;
+            _commandParser = new CommandParser();
             _board = board;
             _statusLine = 0;
             _boardLine = 2;
