@@ -76,6 +76,30 @@ namespace bombsweeperTests
         }
 
         [Test]
+        public void NumberOfUnmarkedBombsDecrementsWhenCellsMarked()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.AddBomb(0, 1);
+            _testObj.ToggleMark(0, 0);
+            Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void NumberOfUnmarkedBombsEqualsNumberOfBombsInitially()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.AddBomb(0, 1);
+            Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(2));
+        }
+
+        [Test]
+        public void NumberOfUnmarkedBombsNeverGoesBelowZero()
+        {
+            _testObj.ToggleMark(0, 0);
+            Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(0));
+        }
+
+        [Test]
         public void RevealingLastCellWinsGame()
         {
             _testObj.AddBomb(0, 0);
@@ -90,6 +114,15 @@ namespace bombsweeperTests
             var result = _testObj.DisplayRow(0);
             var expected = $"{_hidden} {_hidden} ";
             Assert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void UnmarkingBombsIncreasesNumberOfUnmarkedBombs()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.ToggleMark(0, 0);
+            _testObj.ToggleMark(0, 0);
+            Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(1));
         }
     }
 }

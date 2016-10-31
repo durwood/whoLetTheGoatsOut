@@ -185,10 +185,10 @@ namespace bombsweeper
             return _size;
         }
 
-        public void Mark(int x, int y)
+        public void ToggleMark(int x, int y)
         {
             _cells[x, y].ToggleMark();
-            _numMarked = (from Cell item in _cells select item.IsMarked).Count();
+            _numMarked = (from Cell item in _cells where item.IsMarked select item).Count();
         }
 
         public int GetNumberOfUnmarkedBombs()

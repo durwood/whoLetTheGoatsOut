@@ -10,8 +10,8 @@ namespace bombsweeper
         private readonly CommandParser _commandParser;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
         private readonly int _statusLine;
-        private int _numBombs;
         private int _elapsedSec;
+        private int _numBombs;
 
         public Game(CommandParser commandParser, Board board)
         {
@@ -45,7 +45,7 @@ namespace bombsweeper
 
         private void UpdateStatusDisplay()
         {
-            bool needToDisplay = false;
+            var needToDisplay = false;
             var elapsedSec = _elapsedSecondsCalculator.ElapsedSec();
             if (elapsedSec != _elapsedSec)
             {
@@ -77,7 +77,7 @@ namespace bombsweeper
                     if (command == BoardCommand.RevealCell)
                         _board.Reveal(cell.X, cell.Y);
                     else if (command == BoardCommand.MarkCell)
-                        _board.Mark(cell.X, cell.Y);
+                        _board.ToggleMark(cell.X, cell.Y);
                 }
         }
 
