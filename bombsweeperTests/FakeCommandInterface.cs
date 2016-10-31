@@ -14,6 +14,7 @@ namespace bombsweeperTests
         public void SetCommand(string str)
         {
             CurrentCommand = str;
+            _historyManager.SetWorkingBuffer(str);
         }
 
         public void EnterCommand()
@@ -38,11 +39,6 @@ namespace bombsweeperTests
 
         protected override void ClearCommand()
         {
-        }
-
-        public void SetCommandHistoryIndex(int commandIndex)
-        {
-            _historyIndex = commandIndex;
         }
     }
 }

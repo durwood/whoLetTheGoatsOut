@@ -50,6 +50,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHistoryManager.cs" />
     <Compile Include="CommandInterface.cs" />
     <Compile Include="ElapsedSecondsCalculator.cs" />
     <Compile Include="Program.cs" />
