@@ -1,11 +1,5 @@
 namespace bombsweeper
 {
-    public struct BoardClick
-    {
-        public int X;
-        public int Y;
-    }
-
     public enum BoardCommand
     {
         QuitGame,
@@ -16,9 +10,9 @@ namespace bombsweeper
 
     public class CommandParser
     {
-        private BoardClick _click;
+        private Coordinate _click;
 
-        public virtual BoardClick GetCell()
+        public virtual Coordinate GetCell()
         {
             return _click;
         }
@@ -27,7 +21,7 @@ namespace bombsweeper
         {
             var items = input.Split(',', ' ');
             if (items.Length == 3)
-                _click = new BoardClick {X = int.Parse(items[1]) - 1, Y = int.Parse(items[2]) - 1};
+                _click = new Coordinate {X = int.Parse(items[1]) - 1, Y = int.Parse(items[2]) - 1};
             switch (items[0])
             {
                 case "q":

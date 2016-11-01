@@ -57,6 +57,7 @@ namespace bombsweeper
                 SubmitCommand();
             else
                 ModifyCurrentCommand(keyInfo);
+            ClearCommand();
         }
 
         private void ModifyCurrentCommand(ConsoleKeyInfo keyInfo)

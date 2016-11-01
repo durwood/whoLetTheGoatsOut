@@ -140,6 +140,9 @@ namespace bombsweeper
 
         public void Reveal(int x, int y)
         {
+            if (_cells[x, y].IsMarked)
+                return;
+            
             var content = _cells[x, y].Reveal();
             if (content == Cell.Bomb)
             {

@@ -86,6 +86,17 @@ namespace bombsweeperTests
         }
 
         [Test]
+        public void ClickingOnMarkedCellDoesNothing()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.ToggleMark(0, 0);
+            _testObj.ToggleMark(1, 0);
+            _testObj.Reveal(0, 0);
+            _testObj.Reveal(1, 0);
+            ValidateCells(_marked, _marked, _hidden, _hidden);
+        }
+
+        [Test]
         public void NumberOfUnmarkedBombsEqualsNumberOfBombsInitially()
         {
             _testObj.AddBomb(0, 0);

@@ -36,7 +36,17 @@ namespace bombsweeper
 
         private static Board GenerateBoard()
         {
-            throw new NotImplementedException();
+            var board = new Board(9);
+            int[,] bombLocations = new int[9, 9];
+            var rng = new Random();
+            for (var bomb = 0; bomb < 9; ++bomb)
+                AddBomb(bombLocations, rng);
+            return board;
+        }
+
+        private static void AddBomb(int[,] bombLocations, Random rng)
+        {
+            //bool addAdjacent = rng.NextDouble() < 0.33;
         }
 
         private static Dictionary<string, bool> ParseArgs(string[] args)
