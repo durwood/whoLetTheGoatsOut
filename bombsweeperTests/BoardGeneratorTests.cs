@@ -1,18 +1,11 @@
-﻿using System;
-using bombsweeper;
+﻿using bombsweeper;
 using NUnit.Framework;
-using bombsweeperTests;
 
 namespace bombsweeperTests
 {
     [TestFixture]
     public class BoardGeneratorTests
     {
-        private readonly char _hidden = Cell.Block;
-        private readonly char _empty = Cell.Empty;
-        private readonly char _bomb = Cell.Bomb;
-        private readonly char _marked = Cell.Check;
-
         [SetUp]
         public void SetUp()
         {
@@ -39,7 +32,6 @@ namespace bombsweeperTests
 
     internal class FakeRandomGenerator : IRandomGenerator
     {
-
         public double NextDouble()
         {
             return 0.0;
