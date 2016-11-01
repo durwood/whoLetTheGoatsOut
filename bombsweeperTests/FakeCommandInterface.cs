@@ -14,7 +14,7 @@ namespace bombsweeperTests
         public void SetCommand(string str)
         {
             CurrentCommand = str;
-            _historyManager.SetWorkingBuffer(str);
+            HistoryManager.SetWorkingBuffer(str);
         }
 
         public void EnterCommand()

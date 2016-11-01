@@ -51,6 +51,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="BoardGeneratorTests.cs" />
     <Compile Include="BoardTests.cs" />
     <Compile Include="CommandHistoryManagerTests.cs" />
     <Compile Include="CommandInterfaceTests.cs" />

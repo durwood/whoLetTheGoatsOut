@@ -1,3 +1,5 @@
+using System;
+
 namespace bombsweeper
 {
     public class Cell
@@ -9,6 +11,7 @@ namespace bombsweeper
         public char Content;
         public bool IsMarked;
         public bool IsRevealed;
+        public bool Loser;
 
         public Cell()
         {
@@ -32,6 +35,13 @@ namespace bombsweeper
             if (IsMarked)
                 IsMarked = false;
             return Content;
+        }
+
+        internal void MarkAsLoser()
+        {
+            Loser = true;
+            if (!HasBomb())
+                throw new ArgumentException("Loser cell must contain bomb.");
         }
 
         public void AddAdjacencyNumber(int number)

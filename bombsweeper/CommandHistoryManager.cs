@@ -24,9 +24,7 @@ namespace bombsweeper
         public string GetNextCommand()
         {
             if (HistoryIndex == CommandHistory.Count - 1)
-            {
                 return _workingBuffer;
-            }
             HistoryIndex += 1;
             return CommandHistory[HistoryIndex];
         }

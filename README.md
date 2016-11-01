@@ -14,6 +14,12 @@ X  7. Clicking on all non-bomb slots wins game and reveals board
    8. Add command-line option for windows version
    9. Write out elapsed time at top and number of bombs remaining
   10. Animate board reveal
+x 11. When bomb exposed and board is revealed, reveal ONLY unmarked bombs, 
+      leaving unrevealed squares unrevealed.
+x 12. Highlight bomb which caused you to lose. Reverse display maybe?
+x 13. Clicking on marked cell does nothing. Must unmark to reveal.
+
+
 
 
 

@@ -5,7 +5,7 @@ namespace bombsweeper
     public class CommandInterface
     {
         private readonly int _cursorLine;
-        protected readonly CommandHistoryManager _historyManager;
+        protected readonly CommandHistoryManager HistoryManager;
         protected string CurrentCommand;
         public bool HasCommandToProcess;
 
@@ -14,7 +14,7 @@ namespace bombsweeper
             _cursorLine = cursorLine;
             CurrentCommand = "";
             HasCommandToProcess = false;
-            _historyManager = new CommandHistoryManager();
+            HistoryManager = new CommandHistoryManager();
         }
 
         public string GetCommand()
@@ -31,41 +31,40 @@ namespace bombsweeper
 
         private void GetCommandFromHistory(ConsoleKey key)
         {
-            if (!_historyManager.HasHistory())
+            if (!HistoryManager.HasHistory())
                 return;
 
             if (key == ConsoleKey.UpArrow)
-                CurrentCommand = _historyManager.GetPreviousCommand();
+                CurrentCommand = HistoryManager.GetPreviousCommand();
             else if (key == ConsoleKey.DownArrow)
-                CurrentCommand = _historyManager.GetNextCommand();
+                CurrentCommand = HistoryManager.GetNextCommand();
         }
 
         private void SubmitCommand()
         {
-             HasCommandToProcess = true;
-            _historyManager.StoreCommand(CurrentCommand);
+            HasCommandToProcess = true;
+            HistoryManager.StoreCommand(CurrentCommand);
         }
 
         protected void ProcessKeyInfo(ConsoleKeyInfo keyInfo)
         {
-            var keyChar = keyInfo.KeyChar;
-
-            if ((keyInfo.Key == ConsoleKey.UpArrow) || (keyInfo.Key == ConsoleKey.DownArrow))
-                GetCommandFromHistory(keyInfo.Key);
-            else if ((keyChar == '\r') || (keyChar == '\n'))
+            var key = keyInfo.Key;
+            if ((key == ConsoleKey.UpArrow) || (key == ConsoleKey.DownArrow))
+                GetCommandFromHistory(key);
+            else if (key == ConsoleKey.Enter)
                 SubmitCommand();
             else
-                ModifyCurrentCommand(keyChar);
+                ModifyCurrentCommand(keyInfo);
             ClearCommand();
         }
 
-        private void ModifyCurrentCommand(char keyChar)
+        private void ModifyCurrentCommand(ConsoleKeyInfo keyInfo)
         {
-            if (keyChar == '\b')
+            if ((keyInfo.Key == ConsoleKey.Backspace) || (keyInfo.Key == ConsoleKey.Delete))
                 CurrentCommand = RemoveLastCharacter(CurrentCommand);
             else
-                CurrentCommand = CurrentCommand + keyChar;
-            _historyManager.SetWorkingBuffer(CurrentCommand);
+                CurrentCommand = CurrentCommand + keyInfo.KeyChar;
+            HistoryManager.SetWorkingBuffer(CurrentCommand);
         }
 
         private static string RemoveLastCharacter(string str)

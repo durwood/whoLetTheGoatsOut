@@ -16,9 +16,10 @@ namespace bombsweeperTests
         private readonly char _hidden = Cell.Block;
         private readonly char _empty = Cell.Empty;
         private readonly char _bomb = Cell.Bomb;
+        private readonly char _marked = Cell.Check;
         private Board _testObj;
 
-        private string GetExpectedString(params char[] cells)
+        private static string GetExpectedString(params char[] cells)
         {
             var cellIdx = 0;
             var sb = new StringBuilder();
@@ -33,6 +34,13 @@ namespace bombsweeperTests
                 sb.AppendLine();
             }
             return sb.ToString();
+        }
+
+        internal static void ValidateCells(Board board, params char[] cells)
+        {
+            var expected = GetExpectedString(cells);
+            var result = board.Display();
+            Assert.AreEqual(expected, result);
         }
 
         private void ValidateCells(params char[] cells)
@@ -62,6 +70,17 @@ namespace bombsweeperTests
         }
 
         [Test]
+        public void ClickingOnMarkedCellDoesNothing()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.ToggleMark(0, 0);
+            _testObj.ToggleMark(1, 0);
+            _testObj.Reveal(0, 0);
+            _testObj.Reveal(1, 0);
+            ValidateCells(_marked, _marked, _hidden, _hidden);
+        }
+
+        [Test]
         public void ClickingOnNonBombRevealsAdjacentCells()
         {
             _testObj.AddBomb(0, 0);
@@ -73,6 +92,16 @@ namespace bombsweeperTests
         public void IniltialBoardDisplaysProperly()
         {
             ValidateCells(_hidden, _hidden, _hidden, _hidden);
+        }
+
+        [Test]
+        public void MarkedCellsWithBombsAreNotRevealedWhenGameIsLost()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.AddBomb(1, 0);
+            _testObj.ToggleMark(0, 0);
+            _testObj.Reveal(1, 0);
+            ValidateCells(_marked, _bomb, _hidden, _hidden);
         }
 
         [Test]

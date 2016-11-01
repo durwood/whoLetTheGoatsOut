@@ -28,15 +28,14 @@ namespace bombsweeper
             if (options["simpleBoard"])
                 board = Build3();
             else if (options["generateBoard"])
-                board = GenerateBoard();
+            {
+                var rnd = new RandomGenerator();
+                var boardGenerator = new BoardGenerator(rnd);
+                board = boardGenerator.GenerateBoard(9, 10);
+            }
             else
                 board = Build9();
             return board;
-        }
-
-        private static Board GenerateBoard()
-        {
-            throw new NotImplementedException();
         }
 
         private static Dictionary<string, bool> ParseArgs(string[] args)
