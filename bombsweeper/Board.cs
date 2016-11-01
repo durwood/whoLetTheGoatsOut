@@ -20,6 +20,8 @@ namespace bombsweeper
         private int _numBombs;
         private int _numMarked;
 
+        private const int labelAllowance = 3;
+
         public Board(int size)
         {
             _size = size;
@@ -78,11 +80,32 @@ namespace bombsweeper
             return showLabels ? DisplayWithLabels() : DisplayWithoutLabels();
         }
 
+        public Cell GetLosingBombCell(out int x, out int y)
+        {
+            for (var row = 0; row < _size; ++row)
+                for (var col = 0; col < _size; ++col)
+                    if (_cells[col, row].Loser)
+                    {
+                        x = col;
+                        y = row;
+                        GetConsoleCoordinate(ref x, ref y);
+                        return _cells[col, row];
+                    }
+            x = 0;
+            y = 0;
+            return null;
+        }
+
+        void GetConsoleCoordinate(ref int x, ref int y)
+        {
+            x = labelAllowance + 1 + x * 2;
+        }
+
         private string DisplayWithLabels()
         {
             var sb = new StringBuilder();
             for (var row = 0; row < _size; ++row)
-                sb.AppendLine($"{row + 1} {DisplayRow(row)}");
+                sb.AppendLine($"{row + 1,labelAllowance} {DisplayRow(row)}");
             sb.AppendLine(DisplayFooter());
             return sb.ToString();
         }
@@ -120,6 +143,7 @@ namespace bombsweeper
             var content = _cells[x, y].Reveal();
             if (content == Cell.Bomb)
             {
+                _cells[x, y].MarkAsLoser();
                 _gameState = GameState.Lost;
                 RevealAllBombs();
             }
@@ -136,7 +160,7 @@ namespace bombsweeper
         private void RevealAllBombs()
         {
             foreach (var cell in _cells)
-                if (cell.HasBomb())
+                if (!cell.IsMarked && cell.HasBomb())
                     cell.Reveal();
         }
 
@@ -165,9 +189,18 @@ namespace bombsweeper
         private string DisplayFooter()
         {
             var sb = new StringBuilder();
-            sb.Append($"  ");
+            if (_size > 9)
+            {
+                sb.Append($"{"",labelAllowance + 1}");    
+                for (var col = 0; col < _size; ++col)
+                    sb.Append($"{(col + 1)/10} ");
+                sb.AppendLine();
+            }
+            sb.Append($"{"",labelAllowance + 1}");
             for (var col = 0; col < _size; ++col)
-                sb.Append($"{col + 1} ");
+            {
+                sb.Append($"{(col + 1)%10} ");
+            }
             sb.AppendLine();
             return sb.ToString();
         }

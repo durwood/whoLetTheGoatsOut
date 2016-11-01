@@ -16,6 +16,7 @@ namespace bombsweeperTests
         private readonly char _hidden = Cell.Block;
         private readonly char _empty = Cell.Empty;
         private readonly char _bomb = Cell.Bomb;
+        private readonly char _marked = Cell.Check;
         private Board _testObj;
 
         private string GetExpectedString(params char[] cells)
@@ -97,6 +98,16 @@ namespace bombsweeperTests
         {
             _testObj.ToggleMark(0, 0);
             Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void MarkedCellsWithBombsAreNotRevealedWhenGameIsLost()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.AddBomb(1, 0);
+            _testObj.ToggleMark(0, 0);
+            _testObj.Reveal(1, 0);
+            ValidateCells(_marked, _bomb, _hidden, _hidden);
         }
 
         [Test]

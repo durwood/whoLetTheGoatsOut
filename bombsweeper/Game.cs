@@ -10,6 +10,7 @@ namespace bombsweeper
         private readonly CommandParser _commandParser;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
         private readonly int _statusLine;
+        private int _cursorLine;
         private int _elapsedSec;
         private int _numBombs;
 
@@ -20,9 +21,9 @@ namespace bombsweeper
             _board = board;
             _statusLine = 0;
             _boardLine = 2;
-            var cursorLine = _boardLine + board.GetSize() + 2;
+            _cursorLine = _boardLine + board.GetSize() + 2;
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
-            _commandInterface = new CommandInterface(cursorLine);
+            _commandInterface = new CommandInterface(_cursorLine);
         }
 
         public void Run()
@@ -95,6 +96,17 @@ namespace bombsweeper
         {
             Console.SetCursorPosition(0, _boardLine);
             Console.Write(_board.Display(true));
+            if (_board.GameLost())
+            {
+                int x, y;
+                var cell = _board.GetLosingBombCell(out x, out y);
+                var savedColor = Console.BackgroundColor;
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.SetCursorPosition(x, y + _boardLine);
+                Console.Write(cell.Display());
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(0, _cursorLine);
+            }
         }
     }
 }

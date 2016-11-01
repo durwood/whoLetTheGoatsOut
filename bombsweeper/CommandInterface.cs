@@ -50,26 +50,25 @@ namespace bombsweeper
 
         protected void ProcessKeyInfo(ConsoleKeyInfo keyInfo)
         {
-            var keyChar = keyInfo.KeyChar;
-
+            var key = keyInfo.Key;
             if ((keyInfo.Key == ConsoleKey.UpArrow) || (keyInfo.Key == ConsoleKey.DownArrow))
                 GetCommandFromHistory(keyInfo.Key);
-            else if ((keyChar == '\r') || (keyChar == '\n'))
+            else if (keyInfo.Key == ConsoleKey.Enter)
                 SubmitCommand();
             else
-                ModifyCurrentCommand(keyChar);
+                ModifyCurrentCommand(keyInfo);
         }
 
-        private void ModifyCurrentCommand(char keyChar)
+        private void ModifyCurrentCommand(ConsoleKeyInfo keyInfo)
         {
-            if (keyChar == '\b')
+            if (keyInfo.Key == ConsoleKey.Backspace || keyInfo.Key == ConsoleKey.Delete)
             {
                 CurrentCommand = RemoveLastCharacter(CurrentCommand);
                 ClearCommand();
             }
             else
             {
-                CurrentCommand = CurrentCommand + keyChar;
+                CurrentCommand = CurrentCommand + keyInfo.KeyChar;
             }
             _historyManager.SetWorkingBuffer(CurrentCommand);
         }

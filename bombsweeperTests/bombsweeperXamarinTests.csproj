@@ -34,7 +34,10 @@
     <Compile Include="Test.cs" />
     <Compile Include="BoardTests.cs" />
     <Compile Include="CellTests.cs" />
-    <Compile Include="FakeInputGetter.cs" />
+    <Compile Include="CommandHistoryManagerTests.cs" />
+    <Compile Include="CommandInterfaceTests.cs" />
+    <Compile Include="CommandParserTests.cs" />
+    <Compile Include="FakeCommandInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bombsweeper\bombsweeper.csproj">
