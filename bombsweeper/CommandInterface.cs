@@ -38,13 +38,11 @@ namespace bombsweeper
                 CurrentCommand = _historyManager.GetPreviousCommand();
             else if (key == ConsoleKey.DownArrow)
                 CurrentCommand = _historyManager.GetNextCommand();
-            ClearCommand();
         }
 
         private void SubmitCommand()
         {
-            ClearCommand();
-            HasCommandToProcess = true;
+             HasCommandToProcess = true;
             _historyManager.StoreCommand(CurrentCommand);
         }
 
@@ -58,19 +56,15 @@ namespace bombsweeper
                 SubmitCommand();
             else
                 ModifyCurrentCommand(keyChar);
+            ClearCommand();
         }
 
         private void ModifyCurrentCommand(char keyChar)
         {
             if (keyChar == '\b')
-            {
                 CurrentCommand = RemoveLastCharacter(CurrentCommand);
-                ClearCommand();
-            }
             else
-            {
                 CurrentCommand = CurrentCommand + keyChar;
-            }
             _historyManager.SetWorkingBuffer(CurrentCommand);
         }
 
