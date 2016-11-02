@@ -82,6 +82,46 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="goat01.jpg" />
+    <EmbeddedResource Include="goat02.jpg" />
+    <Content Include="goat03.jpg" />
+    <Content Include="goat04.jpg" />
+    <Content Include="goat05.JPG" />
+    <Content Include="goat06.jpg" />
+    <Content Include="goat07.jpg" />
+    <Content Include="goat08.jpg" />
+    <Content Include="goat09.jpg" />
+    <Content Include="goat10.jpg" />
+    <Content Include="goat11.jpg" />
+    <Content Include="goat12.jpg" />
+    <Content Include="goat13.jpg" />
+    <Content Include="goat14.jpg" />
+    <Content Include="goat15.jpg" />
+    <Content Include="goat16.jpg" />
+    <Content Include="goat17.jpg" />
+    <Content Include="goat18.jpg" />
+    <Content Include="goat19.jpg" />
+    <Content Include="goat20.jpg" />
+    <Content Include="goat21.jpg" />
+    <Content Include="goat22.jpg" />
+    <Content Include="goat23.jpg" />
+    <Content Include="goat24.jpg" />
+    <Content Include="goat25.jpg" />
+    <Content Include="goat26.jpg" />
+    <Content Include="goat27.jpg" />
+    <Content Include="goat28.jpg" />
+    <Content Include="goat29.jpg" />
+    <Content Include="goat30.jpg" />
+    <Content Include="goat31.jpg" />
+    <Content Include="goat32.jpg" />
+    <Content Include="goat33.jpg" />
+    <Content Include="goat34.jpg" />
+    <Content Include="goat35.jpg" />
+    <Content Include="goat36.jpg" />
+    <Content Include="goat37.jpg" />
+    <Content Include="goat38.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

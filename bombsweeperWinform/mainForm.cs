@@ -4,11 +4,11 @@ using System.Windows.Forms;
 
 namespace bombsweeperWinform
 {
-    public partial class mainForm : Form
+    public partial class MainForm : Form
     {
         private readonly Square[,] _square = new Square[9, 9];
 
-        public mainForm()
+        public MainForm()
         {
             InitializeComponent();
             for (var ii = 0; ii < 9; ++ii)
