@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("winformSample")]
+[assembly: AssemblyTitle("bombsweeperWinform")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("winformSample")]
+[assembly: AssemblyProduct("bombsweeperWinform")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1c70dc53-f0c5-42ed-9350-a0c6442fb9fa")]
+[assembly: Guid("620cec0c-d3ce-43d1-ac6a-0c07b079929f")]
 
 // Version information for an assembly consists of the following four values:
 //

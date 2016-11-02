@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace winformSample.Properties
+namespace bombsweeperWinform.Properties
 {
 
 
