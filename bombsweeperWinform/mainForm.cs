@@ -8,8 +8,8 @@ namespace bombsweeperWinform
 {
     public partial class MainForm : Form
     {
-        public const int BoardSize = 9;
-        public const int NumGoats = 38;
+        public static int BoardSize = 9;
+        public static int NumGoats = 38;
         private readonly Square[,] _square = new Square[BoardSize, BoardSize];
         private Assembly _assembly;
         private Stream _imageStream;
@@ -42,6 +42,7 @@ namespace bombsweeperWinform
         {
             var mouseEvent = e as MouseEventArgs;
             var sq = sender as Square;
+            sq.LoadIcon(Square.BoardIcon.MarkGoat);
             var result = $"{mouseEvent?.Button}-Clicked on ({sq?.XPos}, {sq?.YPos})";
             MessageBox.Show(result);
         }
@@ -53,23 +54,8 @@ namespace bombsweeperWinform
                 for (var jj = 0; jj < BoardSize; ++jj)
                 {
                     var linearIndex = 1 + ii + (jj * BoardSize);
-                    var goatIndex = linearIndex%NumGoats + 1;
-                    LoadImage(goatIndex);
-                    _square[ii, jj].Image = new Bitmap(_imageStream);
+                    _square[ii,jj].LoadGoatImage(linearIndex);
                 }
-        }
-
-        private void LoadImage(int number)
-        {
-            var image = $"bombsweeperWinform.goat{number:D2}.jpg";
-            try
-            {
-                _imageStream = _assembly.GetManifestResourceStream(image);
-            }
-            catch
-            {
-                MessageBox.Show($"Error accessing image resource {image}");
-            }
         }
     }
 }
