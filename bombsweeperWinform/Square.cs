@@ -43,9 +43,9 @@ namespace bombsweeperWinform
 
         public enum BoardIcon { MarkGoat, One, Two, Three, Four, Five, Six, Seven, Eight }
 
-        public void LoadIcon(object markGoat)
+        public void LoadIcon(BoardIcon boardIcon)
         {
-            throw new System.NotImplementedException();
+            LoadImage("goat-icon.png");
         }
     }
 }

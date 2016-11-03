@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -11,8 +10,7 @@ namespace bombsweeperWinform
         public static int BoardSize = 9;
         public static int NumGoats = 38;
         private readonly Square[,] _square = new Square[BoardSize, BoardSize];
-        private Assembly _assembly;
-        private Stream _imageStream;
+        private Random _random = new Random();
 
         public MainForm()
         {
@@ -33,7 +31,6 @@ namespace bombsweeperWinform
                     sq.TabStop = false;
                     sq.Click += Sq_Click;
                     sq.SizeMode = PictureBoxSizeMode.StretchImage;
-                    //sq.Image = new Bitmap(_imageStream);
                     Controls.Add(sq);
                 }
         }
@@ -42,14 +39,17 @@ namespace bombsweeperWinform
         {
             var mouseEvent = e as MouseEventArgs;
             var sq = sender as Square;
-            sq.LoadIcon(Square.BoardIcon.MarkGoat);
+            if (mouseEvent?.Button == MouseButtons.Right)
+               sq.LoadIcon(Square.BoardIcon.MarkGoat);
+            else if (mouseEvent?.Button == MouseButtons.Left)
+                sq.LoadGoatImage(_random.Next(1,NumGoats));
             var result = $"{mouseEvent?.Button}-Clicked on ({sq?.XPos}, {sq?.YPos})";
             MessageBox.Show(result);
         }
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-            _assembly = Assembly.GetExecutingAssembly();
+            Assembly.GetExecutingAssembly();
             for (var ii = 0; ii < BoardSize; ++ii)
                 for (var jj = 0; jj < BoardSize; ++jj)
                 {

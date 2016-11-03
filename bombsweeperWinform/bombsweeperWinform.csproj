@@ -122,6 +122,21 @@
     <EmbeddedResource Include="goat37.jpg" />
     <EmbeddedResource Include="goat38.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="checkbox-in-circle-icon.png" />
+    <EmbeddedResource Include="checkmark-icon.png" />
+    <EmbeddedResource Include="checkmark-in-box-icon.png" />
+    <EmbeddedResource Include="empty-box-icon.png" />
+    <EmbeddedResource Include="goat-icon.png" />
+    <EmbeddedResource Include="numbers-1-icon.png" />
+    <EmbeddedResource Include="numbers-2-icon.png" />
+    <EmbeddedResource Include="numbers-3-icon.png" />
+    <EmbeddedResource Include="numbers-4-icon.png" />
+    <EmbeddedResource Include="numbers-5-icon.png" />
+    <EmbeddedResource Include="numbers-6-icon.png" />
+    <EmbeddedResource Include="numbers-7-icon.png" />
+    <EmbeddedResource Include="numbers-8-icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
