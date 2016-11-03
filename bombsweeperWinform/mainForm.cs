@@ -10,7 +10,7 @@ namespace bombsweeperWinform
         public static int BoardSize = 9;
         public static int NumGoats = 38;
         private readonly Square[,] _square = new Square[BoardSize, BoardSize];
-        private Random _random = new Random();
+        private readonly Random _random = new Random();
 
         public MainForm()
         {
@@ -40,9 +40,9 @@ namespace bombsweeperWinform
             var mouseEvent = e as MouseEventArgs;
             var sq = sender as Square;
             if (mouseEvent?.Button == MouseButtons.Right)
-               sq.LoadIcon(Square.BoardIcon.MarkGoat);
+                sq.LoadIcon(BoardIcon.MarkGoat);
             else if (mouseEvent?.Button == MouseButtons.Left)
-                sq.LoadGoatImage(_random.Next(1,NumGoats));
+                sq.LoadGoatImage(_random.Next(1, NumGoats));
             var result = $"{mouseEvent?.Button}-Clicked on ({sq?.XPos}, {sq?.YPos})";
             MessageBox.Show(result);
         }
@@ -53,8 +53,8 @@ namespace bombsweeperWinform
             for (var ii = 0; ii < BoardSize; ++ii)
                 for (var jj = 0; jj < BoardSize; ++jj)
                 {
-                    var linearIndex = 1 + ii + (jj * BoardSize);
-                    _square[ii,jj].LoadGoatImage(linearIndex);
+                    var linearIndex = 1 + ii + jj*BoardSize;
+                    _square[ii, jj].LoadGoatImage(linearIndex);
                 }
         }
     }
