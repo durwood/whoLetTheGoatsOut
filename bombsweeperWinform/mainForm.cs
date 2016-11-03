@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace bombsweeperWinform
 {
     public partial class MainForm : Form
     {
-        private readonly Square[,] _square = new Square[9, 9];
+        public const int BoardSize = 9;
+        public const int NumGoats = 38;
+        private readonly Square[,] _square = new Square[BoardSize, BoardSize];
+        private Assembly _assembly;
+        private Stream _imageStream;
 
         public MainForm()
         {
@@ -26,6 +32,8 @@ namespace bombsweeperWinform
                     sq.TabIndex = 2;
                     sq.TabStop = false;
                     sq.Click += Sq_Click;
+                    sq.SizeMode = PictureBoxSizeMode.StretchImage;
+                    //sq.Image = new Bitmap(_imageStream);
                     Controls.Add(sq);
                 }
         }
@@ -40,6 +48,28 @@ namespace bombsweeperWinform
 
         private void mainForm_Load(object sender, EventArgs e)
         {
+            _assembly = Assembly.GetExecutingAssembly();
+            for (var ii = 0; ii < BoardSize; ++ii)
+                for (var jj = 0; jj < BoardSize; ++jj)
+                {
+                    var linearIndex = 1 + ii + (jj * BoardSize);
+                    var goatIndex = linearIndex%NumGoats + 1;
+                    LoadImage(goatIndex);
+                    _square[ii, jj].Image = new Bitmap(_imageStream);
+                }
+        }
+
+        private void LoadImage(int number)
+        {
+            var image = $"bombsweeperWinform.goat{number:D2}.jpg";
+            try
+            {
+                _imageStream = _assembly.GetManifestResourceStream(image);
+            }
+            catch
+            {
+                MessageBox.Show($"Error accessing image resource {image}");
+            }
         }
     }
 }
