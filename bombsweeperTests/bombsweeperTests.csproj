@@ -61,6 +61,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\bombsweeperWinform\bombsweeperWinform.csproj">
+      <Project>{620cec0c-d3ce-43d1-ac6a-0c07b079929f}</Project>
+      <Name>bombsweeperWinform</Name>
+    </ProjectReference>
     <ProjectReference Include="..\bombsweeper\bombsweeper.csproj">
       <Project>{0a883c66-bcb9-41d5-a731-5a9a1d91b406}</Project>
       <Name>bombsweeper</Name>

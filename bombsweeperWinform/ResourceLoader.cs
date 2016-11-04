@@ -1,24 +1,18 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
 namespace bombsweeperWinform
 {
-    public partial class ResourceLoader
+    public class ResourceLoader
     {
         private readonly Assembly _assembly;
-        private readonly Dictionary<BoardIcon, string> _iconMap = new Dictionary<BoardIcon, string>();
+        private readonly BoardIcons _icons;
 
         public ResourceLoader(Assembly assembly)
         {
             _assembly = assembly;
-            InitializeIconMap();
-        }
-
-        private void InitializeIconMap()
-        {
-            _iconMap.Add(BoardIcon.MarkGoat, "goat-icon.png");
+            _icons = new BoardIcons();
         }
 
         public Stream GetGoatImage(int number)
@@ -42,9 +36,9 @@ namespace bombsweeperWinform
             return null;
         }
 
-        public Stream GetIcon(BoardIcon boardIcon)
+        public Stream GetIcon(BoardIcon icon)
         {
-            return GetImage(_iconMap[boardIcon]);
+            return GetImage(_icons.GetResourceName(icon));
         }
     }
 }

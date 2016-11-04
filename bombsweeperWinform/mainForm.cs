@@ -9,8 +9,8 @@ namespace bombsweeperWinform
     {
         public static int BoardSize = 9;
         public static int NumGoats = 38;
-        private readonly Square[,] _square = new Square[BoardSize, BoardSize];
         private readonly Random _random = new Random();
+        private readonly Square[,] _square = new Square[BoardSize, BoardSize];
 
         public MainForm()
         {
@@ -50,12 +50,18 @@ namespace bombsweeperWinform
         private void mainForm_Load(object sender, EventArgs e)
         {
             Assembly.GetExecutingAssembly();
-            for (var ii = 0; ii < BoardSize; ++ii)
-                for (var jj = 0; jj < BoardSize; ++jj)
-                {
-                    var linearIndex = 1 + ii + jj*BoardSize;
-                    _square[ii, jj].LoadGoatImage(linearIndex);
-                }
+
+            var icons = (BoardIcon[]) Enum.GetValues(typeof(BoardIcon));
+
+            var cellIdx = 0;
+            foreach (var square in _square)
+            {
+                if (cellIdx < icons.Length)
+                    square.LoadIcon(icons[cellIdx]);
+                else
+                    square.LoadGoatImage(cellIdx);
+                ++cellIdx;
+            }
         }
     }
 }
