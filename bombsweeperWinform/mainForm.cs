@@ -23,7 +23,7 @@ namespace bombsweeperWinform
                     {
                         XPos = row,
                         YPos = col,
-                        BackColor = SystemColors.ActiveCaption,
+                        BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
                         Location = new Point(0 + row*CellSize, 0 + col*CellSize),
                         Name = $"Row{row}_Col{col}",
@@ -42,13 +42,16 @@ namespace bombsweeperWinform
         {
             var mouseEvent = e as MouseEventArgs;
             var sq = sender as Square;
+            if ((sq == null) || (mouseEvent == null))
+                return;
+
             if (mouseEvent?.Button == MouseButtons.Right)
                 //sq.LoadIcon(BoardIcon.MarkGoat);
                 sq.Image = _savedImage;
             else if (mouseEvent?.Button == MouseButtons.Left)
             {
                 //sq.LoadGoatImage(_random.Next(1, NumGoats));
-                _savedImage = sq?.Image;
+                _savedImage = sq.Image;
                 sq.Image = null;
             }
 
