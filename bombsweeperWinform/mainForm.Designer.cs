@@ -30,11 +30,11 @@
         {
             this.SuspendLayout();
             // 
-            // mainForm
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(274, 229);
+            this.ClientSize = new System.Drawing.Size(924, 879);
             this.Name = "MainForm";
             this.Text = "BombSweeper";
             this.Load += new System.EventHandler(this.mainForm_Load);

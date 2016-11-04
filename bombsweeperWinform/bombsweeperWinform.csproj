@@ -153,6 +153,13 @@
   <ItemGroup>
     <EmbeddedResource Include="question-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="chainlink-slat-1-icon.jpg" />
+    <EmbeddedResource Include="chainlink-slat-2-icon.jpg" />
+    <EmbeddedResource Include="chainlink-slat-3-icon.jpg" />
+    <EmbeddedResource Include="chainlink-slat-4-icon.jpg" />
+    <EmbeddedResource Include="chainlink-slat-5-icon.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -11,6 +11,8 @@ namespace bombsweeperWinform
         private char piece;
         public int XPos;
         public int YPos;
+        public int GoatNumber;
+        public BoardIcon Icon;
 
         public Square()
         {
@@ -20,11 +22,14 @@ namespace bombsweeperWinform
 
         public void LoadIcon(BoardIcon icon)
         {
+            GoatNumber = 0;
+            Icon = icon;
             Image = new Bitmap(_resourceLoader.GetIcon(icon));
         }
 
         public void LoadGoatImage(int number)
         {
+            GoatNumber = number;
             Image = new Bitmap(_resourceLoader.GetGoatImage(number));
         }
     }
