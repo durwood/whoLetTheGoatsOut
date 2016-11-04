@@ -139,6 +139,20 @@
     <EmbeddedResource Include="numbers-7-icon.png" />
     <EmbeddedResource Include="numbers-8-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="faq-icon.png" />
+    <EmbeddedResource Include="fence-1-icon.png" />
+    <EmbeddedResource Include="fence-2-icon.png" />
+    <EmbeddedResource Include="fence-3-icon.png" />
+    <EmbeddedResource Include="fence-chainlink-1-icon.png" />
+    <EmbeddedResource Include="fence-chainlink-2-icon.png" />
+    <EmbeddedResource Include="fence-chainlink-3-icon.jpg" />
+    <EmbeddedResource Include="fence-chainlink-4-icon.jpg" />
+    <EmbeddedResource Include="flash-bang-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="question-icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -17,7 +17,17 @@ namespace bombsweeperWinform
         CheckmarkInCircle,
         Checkmark,
         CheckmarkInBox,
-        EmptyBox
+        EmptyBox,
+        Question1,
+        Fence1,
+        Fence2,
+        Fence3,
+        ChainlinkFence1,
+        ChainLinkFence2,
+        ChainLinkFence3,
+        ChainLinkFence4,
+        FlashBang,
+        Question2
     }
 
     public class BoardIcons
@@ -36,7 +46,17 @@ namespace bombsweeperWinform
             {BoardIcon.CheckmarkInCircle, "checkbox-in-circle-icon.png"},
             {BoardIcon.Checkmark, "checkmark-icon.png"},
             {BoardIcon.CheckmarkInBox, "checkmark-in-box-icon.png"},
-            {BoardIcon.EmptyBox, "empty-box-icon.png"}
+            {BoardIcon.EmptyBox, "empty-box-icon.png" },
+            {BoardIcon.Question1, "faq-icon.png"},
+            {BoardIcon.Fence1, "fence-1-icon.png"},
+            {BoardIcon.Fence2, "fence-2-icon.png"},
+            {BoardIcon.Fence3, "fence-3-icon.png"},
+            {BoardIcon.ChainlinkFence1, "fence-chainlink-1-icon.png"},
+            {BoardIcon.ChainLinkFence2, "fence-chainlink-2-icon.png"},
+            {BoardIcon.ChainLinkFence3, "fence-chainlink-3-icon.jpg"},
+            {BoardIcon.ChainLinkFence4, "fence-chainlink-4-icon.jpg"},
+            {BoardIcon.FlashBang, "flash-bang-icon.png"},
+            {BoardIcon.Question2, "question-icon.png"}
         };
 
         public string GetResourceName(BoardIcon icon)
