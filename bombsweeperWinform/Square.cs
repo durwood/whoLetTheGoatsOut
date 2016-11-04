@@ -8,11 +8,11 @@ namespace bombsweeperWinform
     {
         private readonly ResourceLoader _resourceLoader;
         private bool color;
+        public int GoatNumber;
+        public BoardIcon Icon;
         private char piece;
         public int XPos;
         public int YPos;
-        public int GoatNumber;
-        public BoardIcon Icon;
 
         public Square()
         {
