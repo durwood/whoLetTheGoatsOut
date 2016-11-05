@@ -39,14 +39,14 @@ namespace bombsweeperTests
         internal static void ValidateCells(Board board, params char[] cells)
         {
             var expected = GetExpectedString(cells);
-            var result = board.Display();
+            var result = board.DisplayWithoutLabels();
             Assert.AreEqual(expected, result);
         }
 
         private void ValidateCells(params char[] cells)
         {
             var expected = GetExpectedString(cells);
-            var result = _testObj.Display();
+            var result = _testObj.DisplayWithoutLabels();
             Assert.AreEqual(expected, result);
         }
 

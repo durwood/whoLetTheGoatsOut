@@ -96,7 +96,7 @@ namespace bombsweeper
         private void DisplayBoard()
         {
             Console.SetCursorPosition(0, _boardLine);
-            Console.Write(_board.Display(true));
+            Console.Write(_board.DisplayWithLabels());
             if (_board.GameLost())
             {
                 int x, y;

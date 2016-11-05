@@ -74,11 +74,6 @@ namespace bombsweeper
             return (x < 0) || (x > _size - 1) || (y < 0) || (y > _size - 1);
         }
 
-        public string Display(bool showLabels = false)
-        {
-            return showLabels ? DisplayWithLabels() : DisplayWithoutLabels();
-        }
-
         public Cell GetLosingBombCell(out int x, out int y)
         {
             for (var row = 0; row < _size; ++row)
@@ -100,7 +95,7 @@ namespace bombsweeper
             x = LabelAllowance + 1 + x*2;
         }
 
-        private string DisplayWithLabels()
+        public string DisplayWithLabels()
         {
             var sb = new StringBuilder();
             for (var row = 0; row < _size; ++row)
@@ -109,7 +104,7 @@ namespace bombsweeper
             return sb.ToString();
         }
 
-        private string DisplayWithoutLabels()
+        public string DisplayWithoutLabels()
         {
             var sb = new StringBuilder();
             for (var row = 0; row < _size; ++row)

@@ -24,11 +24,6 @@ namespace bombsweeper
             return Content == Bomb;
         }
 
-        public string Display()
-        {
-            return (IsRevealed ? Content : IsMarked ? Check : Block).ToString();
-        }
-
         public override string ToString()
         {
             return (IsRevealed ? Content : IsMarked ? Check : Block).ToString();
