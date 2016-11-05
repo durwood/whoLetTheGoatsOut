@@ -8,9 +8,9 @@ namespace bombsweeper
         private readonly int _boardLine;
         private readonly CommandInterface _commandInterface;
         private readonly CommandParser _commandParser;
+        private readonly int _cursorLine;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
         private readonly int _statusLine;
-        private readonly int _cursorLine;
         private int _elapsedSec;
         private int _numBombs;
 
@@ -104,7 +104,7 @@ namespace bombsweeper
                 var savedColor = Console.BackgroundColor;
                 Console.BackgroundColor = ConsoleColor.Red;
                 Console.SetCursorPosition(x, y + _boardLine);
-                Console.Write(cell.Display());
+                Console.Write(cell);
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(0, _cursorLine);
             }

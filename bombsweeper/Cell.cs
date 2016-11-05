@@ -29,6 +29,11 @@ namespace bombsweeper
             return (IsRevealed ? Content : IsMarked ? Check : Block).ToString();
         }
 
+        public override string ToString()
+        {
+            return (IsRevealed ? Content : IsMarked ? Check : Block).ToString();
+        }
+
         public char Reveal()
         {
             IsRevealed = true;

@@ -209,7 +209,7 @@ namespace bombsweeper
         {
             var sb = new StringBuilder();
             for (var col = 0; col < _size; ++col)
-                sb.Append($"{_cells[col, row].Display()} ");
+                sb.Append($"{_cells[col, row]} ");
             return sb.ToString();
         }
 

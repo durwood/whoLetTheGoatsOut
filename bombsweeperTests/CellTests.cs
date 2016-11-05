@@ -16,7 +16,7 @@ namespace bombsweeperTests
 
         private void ValidateDisplay(char expected)
         {
-            Assert.That(_testObj.Display(), Is.EqualTo(expected.ToString()));
+            Assert.That(_testObj.ToString(), Is.EqualTo(expected.ToString()));
         }
 
         [Test]
