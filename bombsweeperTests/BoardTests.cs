@@ -21,19 +21,7 @@ namespace bombsweeperTests
 
         private static string GetExpectedString(params char[] cells)
         {
-            var cellIdx = 0;
-            var sb = new StringBuilder();
-            var size = cells.Length == 4 ? 2 : 3;
-            for (var row = 0; row < size; ++row)
-            {
-                for (var col = 0; col < size; ++col)
-                {
-                    var cell = cells[cellIdx++];
-                    sb.Append($"{cell} ");
-                }
-                sb.AppendLine();
-            }
-            return sb.ToString();
+            return string.Join(" ", cells);
         }
 
         internal static void ValidateCells(Board board, params char[] cells)
@@ -139,14 +127,6 @@ namespace bombsweeperTests
             _testObj.Reveal(1, 1);
             ValidateCells(_hidden, '1', '1', '1');
             Assert.IsTrue(_testObj.GameWon());
-        }
-
-        [Test]
-        public void RowsDisplayProperly()
-        {
-            var result = _testObj.ToString().Split('\r', '\n')[0];
-            var expected = $"{_hidden} {_hidden} ";
-            Assert.AreEqual(expected, result);
         }
 
         [Test]

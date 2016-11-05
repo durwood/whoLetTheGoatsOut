@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using System.Text;
 
 namespace bombsweeper
 {
@@ -120,14 +119,8 @@ namespace bombsweeper
 
         public override string ToString()
         {
-            var sb = new StringBuilder();
-            for (var row = 0; row < _size; ++row)
-            {
-                for (var col = 0; col < _size; ++col)
-                    sb.Append($"{_cells[row, col]} ");
-                sb.AppendLine();
-            }
-            return sb.ToString();
+            var cellStrings = _cells.Cast<Cell>().Select(cell => cell.ToString());
+            return string.Join(" ", cellStrings);
         }
 
         public bool GameWon()
