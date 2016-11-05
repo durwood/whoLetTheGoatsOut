@@ -125,7 +125,6 @@
     <EmbeddedResource Include="goat38.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="goat-icon.png" />
     <EmbeddedResource Include="numbers-1-icon.png" />
     <EmbeddedResource Include="numbers-2-icon.png" />
     <EmbeddedResource Include="numbers-3-icon.png" />
@@ -136,10 +135,10 @@
     <EmbeddedResource Include="numbers-8-icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="goat-over-fence-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="fence-chainlink-1-icon.png" />
-    <EmbeddedResource Include="fence-chainlink-2-icon.png" />
-    <EmbeddedResource Include="fence-chainlink-3-icon.jpg" />
-    <EmbeddedResource Include="fence-chainlink-4-icon.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

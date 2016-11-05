@@ -14,17 +14,14 @@ namespace bombsweeperWinform
         Six,
         Seven,
         Eight,
-        ChainLinkFence1,
-        ChainLinkFence2,
-        ChainLinkFence3,
-        ChainLinkFence4
+        ChainLinkFence1
     }
 
     public class BoardIcons
     {
         private readonly Dictionary<BoardIcon, string> _boardIconMap = new Dictionary<BoardIcon, string>
         {
-            {BoardIcon.MarkGoat, "goat-icon.png"},
+            {BoardIcon.MarkGoat, "goat-over-fence-icon.png"},
             {BoardIcon.One, "numbers-1-icon.png"},
             {BoardIcon.Two, "numbers-2-icon.png"},
             {BoardIcon.Three, "numbers-3-icon.png"},
@@ -33,10 +30,7 @@ namespace bombsweeperWinform
             {BoardIcon.Six, "numbers-6-icon.png"},
             {BoardIcon.Seven, "numbers-7-icon.png"},
             {BoardIcon.Eight, "numbers-8-icon.png"},
-            {BoardIcon.ChainLinkFence1, "fence-chainlink-1-icon.png"},
-            {BoardIcon.ChainLinkFence2, "fence-chainlink-2-icon.png"},
-            {BoardIcon.ChainLinkFence3, "fence-chainlink-3-icon.jpg"},
-            {BoardIcon.ChainLinkFence4, "fence-chainlink-4-icon.jpg"}
+            {BoardIcon.ChainLinkFence1, "fence-chainlink-1-icon.png"}
         };
 
         public string GetResourceName(BoardIcon icon)

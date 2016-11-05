@@ -61,16 +61,23 @@ namespace bombsweeperWinform
 
         private void mainForm_Load(object sender, EventArgs e)
         {
+            PreviewGoatsAndIcons();
+        }
+
+        private void PreviewGoatsAndIcons()
+        {
             var icons = (BoardIcon[]) Enum.GetValues(typeof(BoardIcon));
 
-            var cellIdx = 0;
+            var iconIdx = 0;
+            var goatIdx = 0;
             foreach (var square in _squares)
             {
-                if (cellIdx < icons.Length)
-                    square.LoadIcon(icons[cellIdx]);
+                if (iconIdx < icons.Length)
+                    square.LoadIcon(icons[iconIdx++]);
+                else if (goatIdx < NumGoats)
+                    square.LoadGoatImage(goatIdx++);
                 else
-                    square.LoadGoatImage(cellIdx);
-                ++cellIdx;
+                    break;
             }
         }
     }
