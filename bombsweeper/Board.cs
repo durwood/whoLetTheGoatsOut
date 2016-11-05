@@ -95,20 +95,24 @@ namespace bombsweeper
             x = LabelAllowance + 1 + x*2;
         }
 
-        public string DisplayWithLabels()
+        public void Display()
         {
-            var sb = new StringBuilder();
             for (var row = 0; row < _size; ++row)
-                sb.AppendLine($"{row + 1,LabelAllowance} {DisplayRow(row)}");
-            sb.AppendLine(DisplayFooter());
-            return sb.ToString();
+            {
+                var rowString = DisplayRow(row);
+                Console.WriteLine($"{row + 1,LabelAllowance} {rowString}");
+            }
+            Console.WriteLine(DisplayFooter());
         }
 
-        public string DisplayWithoutLabels()
+        public override string ToString()
         {
             var sb = new StringBuilder();
             for (var row = 0; row < _size; ++row)
-                sb.AppendLine(DisplayRow(row));
+            {
+                var displayRow = DisplayRow(row);
+                sb.AppendLine(displayRow);
+            }
             return sb.ToString();
         }
 
@@ -200,7 +204,7 @@ namespace bombsweeper
             return sb.ToString();
         }
 
-        public string DisplayRow(int row)
+        private string DisplayRow(int row)
         {
             var sb = new StringBuilder();
             for (var col = 0; col < _size; ++col)

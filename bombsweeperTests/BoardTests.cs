@@ -39,14 +39,14 @@ namespace bombsweeperTests
         internal static void ValidateCells(Board board, params char[] cells)
         {
             var expected = GetExpectedString(cells);
-            var result = board.DisplayWithoutLabels();
+            var result = board.ToString();
             Assert.AreEqual(expected, result);
         }
 
         private void ValidateCells(params char[] cells)
         {
             var expected = GetExpectedString(cells);
-            var result = _testObj.DisplayWithoutLabels();
+            var result = _testObj.ToString();
             Assert.AreEqual(expected, result);
         }
 
@@ -140,7 +140,7 @@ namespace bombsweeperTests
         [Test]
         public void RowsDisplayProperly()
         {
-            var result = _testObj.DisplayRow(0);
+            var result = _testObj.ToString().Split('\r', '\n')[0];
             var expected = $"{_hidden} {_hidden} ";
             Assert.AreEqual(expected, result);
         }
