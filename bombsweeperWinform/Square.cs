@@ -17,12 +17,28 @@ namespace bombsweeperWinform
 
         public void LoadIcon(BoardIcon icon)
         {
-            Image = new Bitmap(_resourceLoader.GetIcon(icon));
+            try
+            {
+                var iconImage = _resourceLoader.GetIcon(icon);
+                Image = new Bitmap(iconImage);
+            }
+            catch
+            {
+                MessageBox.Show($"Error accessing image resource for BoardIcon {icon}");
+            }
         }
 
         public void LoadGoatImage(int number)
         {
-            Image = new Bitmap(_resourceLoader.GetGoatImage(number));
+            try
+            {
+                var goatImage = _resourceLoader.GetGoatImage(number);
+                Image = new Bitmap(goatImage);
+            }
+            catch
+            {
+                MessageBox.Show($"Error accessing image resource for Goat number {number}");
+            }
         }
     }
 }

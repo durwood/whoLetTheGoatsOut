@@ -85,60 +85,60 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="goat01.jpg" />
-    <EmbeddedResource Include="goat02.jpg" />
-    <EmbeddedResource Include="goat03.jpg" />
-    <EmbeddedResource Include="goat04.jpg" />
-    <EmbeddedResource Include="goat05.jpg" />
-    <EmbeddedResource Include="goat06.jpg" />
-    <EmbeddedResource Include="goat07.jpg" />
-    <EmbeddedResource Include="goat08.jpg" />
-    <EmbeddedResource Include="goat09.jpg" />
-    <EmbeddedResource Include="goat10.jpg" />
-    <EmbeddedResource Include="goat11.jpg" />
-    <EmbeddedResource Include="goat12.jpg" />
-    <EmbeddedResource Include="goat13.jpg" />
-    <EmbeddedResource Include="goat14.jpg" />
-    <EmbeddedResource Include="goat15.jpg" />
-    <EmbeddedResource Include="goat16.jpg" />
-    <EmbeddedResource Include="goat17.jpg" />
-    <EmbeddedResource Include="goat18.jpg" />
-    <EmbeddedResource Include="goat19.jpg" />
-    <EmbeddedResource Include="goat20.jpg" />
-    <EmbeddedResource Include="goat21.jpg" />
-    <EmbeddedResource Include="goat22.jpg" />
-    <EmbeddedResource Include="goat23.jpg" />
-    <EmbeddedResource Include="goat24.jpg" />
-    <EmbeddedResource Include="goat25.jpg" />
-    <EmbeddedResource Include="goat26.jpg" />
-    <EmbeddedResource Include="goat27.jpg" />
-    <EmbeddedResource Include="goat28.jpg" />
-    <EmbeddedResource Include="goat29.jpg" />
-    <EmbeddedResource Include="goat30.jpg" />
-    <EmbeddedResource Include="goat31.jpg" />
-    <EmbeddedResource Include="goat32.jpg" />
-    <EmbeddedResource Include="goat33.jpg" />
-    <EmbeddedResource Include="goat34.jpg" />
-    <EmbeddedResource Include="goat35.jpg" />
-    <EmbeddedResource Include="goat36.jpg" />
-    <EmbeddedResource Include="goat37.jpg" />
-    <EmbeddedResource Include="goat38.jpg" />
+    <EmbeddedResource Include="ImageResources\goat01.jpg" />
+    <EmbeddedResource Include="ImageResources\goat02.jpg" />
+    <EmbeddedResource Include="ImageResources\goat03.jpg" />
+    <EmbeddedResource Include="ImageResources\goat04.jpg" />
+    <EmbeddedResource Include="ImageResources\goat05.jpg" />
+    <EmbeddedResource Include="ImageResources\goat06.jpg" />
+    <EmbeddedResource Include="ImageResources\goat07.jpg" />
+    <EmbeddedResource Include="ImageResources\goat08.jpg" />
+    <EmbeddedResource Include="ImageResources\goat09.jpg" />
+    <EmbeddedResource Include="ImageResources\goat10.jpg" />
+    <EmbeddedResource Include="ImageResources\goat11.jpg" />
+    <EmbeddedResource Include="ImageResources\goat12.jpg" />
+    <EmbeddedResource Include="ImageResources\goat13.jpg" />
+    <EmbeddedResource Include="ImageResources\goat14.jpg" />
+    <EmbeddedResource Include="ImageResources\goat15.jpg" />
+    <EmbeddedResource Include="ImageResources\goat16.jpg" />
+    <EmbeddedResource Include="ImageResources\goat17.jpg" />
+    <EmbeddedResource Include="ImageResources\goat18.jpg" />
+    <EmbeddedResource Include="ImageResources\goat19.jpg" />
+    <EmbeddedResource Include="ImageResources\goat20.jpg" />
+    <EmbeddedResource Include="ImageResources\goat21.jpg" />
+    <EmbeddedResource Include="ImageResources\goat22.jpg" />
+    <EmbeddedResource Include="ImageResources\goat23.jpg" />
+    <EmbeddedResource Include="ImageResources\goat24.jpg" />
+    <EmbeddedResource Include="ImageResources\goat25.jpg" />
+    <EmbeddedResource Include="ImageResources\goat26.jpg" />
+    <EmbeddedResource Include="ImageResources\goat27.jpg" />
+    <EmbeddedResource Include="ImageResources\goat28.jpg" />
+    <EmbeddedResource Include="ImageResources\goat29.jpg" />
+    <EmbeddedResource Include="ImageResources\goat30.jpg" />
+    <EmbeddedResource Include="ImageResources\goat31.jpg" />
+    <EmbeddedResource Include="ImageResources\goat32.jpg" />
+    <EmbeddedResource Include="ImageResources\goat33.jpg" />
+    <EmbeddedResource Include="ImageResources\goat34.jpg" />
+    <EmbeddedResource Include="ImageResources\goat35.jpg" />
+    <EmbeddedResource Include="ImageResources\goat36.jpg" />
+    <EmbeddedResource Include="ImageResources\goat37.jpg" />
+    <EmbeddedResource Include="ImageResources\goat38.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="numbers-1-icon.png" />
-    <EmbeddedResource Include="numbers-2-icon.png" />
-    <EmbeddedResource Include="numbers-3-icon.png" />
-    <EmbeddedResource Include="numbers-4-icon.png" />
-    <EmbeddedResource Include="numbers-5-icon.png" />
-    <EmbeddedResource Include="numbers-6-icon.png" />
-    <EmbeddedResource Include="numbers-7-icon.png" />
-    <EmbeddedResource Include="numbers-8-icon.png" />
+    <EmbeddedResource Include="ImageResources\numbers-1-icon.png" />
+    <EmbeddedResource Include="ImageResources\numbers-2-icon.png" />
+    <EmbeddedResource Include="ImageResources\numbers-3-icon.png" />
+    <EmbeddedResource Include="ImageResources\numbers-4-icon.png" />
+    <EmbeddedResource Include="ImageResources\numbers-5-icon.png" />
+    <EmbeddedResource Include="ImageResources\numbers-6-icon.png" />
+    <EmbeddedResource Include="ImageResources\numbers-7-icon.png" />
+    <EmbeddedResource Include="ImageResources\numbers-8-icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="goat-over-fence-icon.png" />
+    <EmbeddedResource Include="ImageResources\goat-over-fence-icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="fence-chainlink-1-icon.png" />
+    <EmbeddedResource Include="ImageResources\fence-chainlink-1-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

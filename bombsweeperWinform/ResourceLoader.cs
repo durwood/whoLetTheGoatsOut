@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Reflection;
-using System.Windows.Forms;
 
 namespace bombsweeperWinform
 {
@@ -24,16 +23,8 @@ namespace bombsweeperWinform
 
         private Stream GetImage(string filename)
         {
-            var image = $"bombsweeperWinform.{filename}";
-            try
-            {
-                return _assembly.GetManifestResourceStream(image);
-            }
-            catch
-            {
-                MessageBox.Show($"Error accessing image resource {image}");
-            }
-            return null;
+            var image = $"bombsweeperWinform.ImageResources.{filename}";
+            return _assembly.GetManifestResourceStream(image);
         }
 
         public Stream GetIcon(BoardIcon icon)
