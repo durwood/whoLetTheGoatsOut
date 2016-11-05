@@ -8,56 +8,55 @@ namespace bombsweeper
         public const char Check = '\u2713';
         public const char Bomb = '*';
         public const char Empty = ' ';
-        public char Content;
+        private char _content;
+        public bool IsLoser;
         public bool IsMarked;
         public bool IsRevealed;
-        public bool Loser;
 
         public Cell()
         {
             IsRevealed = false;
-            Content = Empty;
+            _content = Empty;
         }
 
         public bool HasBomb()
         {
-            return Content == Bomb;
+            return _content == Bomb;
         }
 
         public override string ToString()
         {
-            return (IsRevealed ? Content : IsMarked ? Check : Block).ToString();
+            return (IsRevealed ? _content : IsMarked ? Check : Block).ToString();
         }
 
         public char Reveal()
         {
-            IsRevealed = true;
-            if (IsMarked)
-                IsMarked = false;
-            return Content;
+            if (!IsMarked)
+                IsRevealed = true;
+            return _content;
         }
 
-        internal void MarkAsLoser()
+        public void MarkAsLoser()
         {
-            Loser = true;
             if (!HasBomb())
-                throw new ArgumentException("Loser cell must contain bomb.");
+                throw new ArgumentException("IsLoser cell must contain bomb.");
+            IsLoser = true;
         }
 
-        public void AddAdjacencyNumber(int number)
+        public void AddBombsAroundCellCount(int number)
         {
             if (!HasBomb())
-                Content = number.ToString()[0];
+                _content = number.ToString()[0];
         }
 
         public void AddBomb()
         {
-            Content = Bomb;
+            _content = Bomb;
         }
 
         public void ClearContents()
         {
-            Content = Empty;
+            _content = Empty;
         }
 
         public void ToggleMark()

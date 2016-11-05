@@ -22,8 +22,9 @@ namespace bombsweeperTests
         [Test]
         public void AddingAdjacencyNumberChangesContent()
         {
-            _testObj.AddAdjacencyNumber(3);
-            Assert.That(_testObj.Content, Is.EqualTo('3'));
+            _testObj.AddBombsAroundCellCount(3);
+            var content = _testObj.Reveal();
+            Assert.That(content, Is.EqualTo('3'));
         }
 
         [Test]
@@ -37,8 +38,17 @@ namespace bombsweeperTests
         public void AttemptToAddAdjacencyCountShouldNotClearBomb()
         {
             _testObj.AddBomb();
-            _testObj.AddAdjacencyNumber(4);
+            _testObj.AddBombsAroundCellCount(4);
             Assert.IsTrue(_testObj.HasBomb());
+        }
+
+        [Test]
+        public void CannotRevealAMarkedCell()
+        {
+            _testObj.ToggleMark();
+            _testObj.Reveal();
+            Assert.IsFalse(_testObj.IsRevealed);
+            Assert.True(_testObj.IsMarked);
         }
 
         [Test]
@@ -57,14 +67,6 @@ namespace bombsweeperTests
         public void CellIsNotRevealedByDefault()
         {
             Assert.IsFalse(_testObj.IsRevealed);
-        }
-
-        [Test]
-        public void ClearingMarkedCellWithNoBombClearsMark()
-        {
-            _testObj.ToggleMark();
-            _testObj.Reveal();
-            Assert.IsFalse(_testObj.IsMarked);
         }
 
         [Test]
@@ -98,6 +100,8 @@ namespace bombsweeperTests
             ValidateDisplay(Cell.Block);
             _testObj.ToggleMark();
             ValidateDisplay(Cell.Check);
+            _testObj.ToggleMark();
+            ValidateDisplay(Cell.Block);
             _testObj.Reveal();
             ValidateDisplay(Cell.Empty);
             _testObj.AddBomb();

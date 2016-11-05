@@ -77,9 +77,9 @@ namespace bombsweeper
                 {
                     var cell = _commandParser.GetCell();
                     if (command == BoardCommand.RevealCell)
-                        _board.Reveal(cell.X, cell.Y);
+                        _board.Reveal(cell.Y, cell.X);
                     else if (command == BoardCommand.MarkCell)
-                        _board.ToggleMark(cell.X, cell.Y);
+                        _board.ToggleMark(cell.Y, cell.X);
                 }
         }
 
@@ -88,7 +88,7 @@ namespace bombsweeper
             if (_board.GameWon())
                 Console.WriteLine("Congratulations, you won!");
             else if (_board.GameLost())
-                Console.WriteLine("Loser.");
+                Console.WriteLine("IsLoser.");
             else
                 Console.WriteLine("Quitter.");
         }

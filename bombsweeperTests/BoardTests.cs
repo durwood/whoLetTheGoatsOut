@@ -56,7 +56,7 @@ namespace bombsweeperTests
             _testObj = new Board(3);
             _testObj.AddBomb(0, 0);
             _testObj.AddBomb(1, 0);
-            _testObj.Reveal(0, 2);
+            _testObj.Reveal(2, 0);
             ValidateCells(_hidden, _hidden, _hidden, '2', '2', '1', _empty, _empty, _empty);
         }
 
@@ -64,7 +64,7 @@ namespace bombsweeperTests
         public void ClickingOnBombLosesGameAndRevealsBoard()
         {
             _testObj.AddBomb(0, 1);
-            _testObj.Reveal(0, 1);
+            _testObj.Reveal(1, 0);
             ValidateCells(_hidden, _hidden, _bomb, _hidden);
             Assert.IsTrue(_testObj.GameLost());
         }
@@ -74,9 +74,9 @@ namespace bombsweeperTests
         {
             _testObj.AddBomb(0, 0);
             _testObj.ToggleMark(0, 0);
-            _testObj.ToggleMark(1, 0);
+            _testObj.ToggleMark(0, 1);
             _testObj.Reveal(0, 0);
-            _testObj.Reveal(1, 0);
+            _testObj.Reveal(0, 1);
             ValidateCells(_marked, _marked, _hidden, _hidden);
         }
 
@@ -100,7 +100,7 @@ namespace bombsweeperTests
             _testObj.AddBomb(0, 0);
             _testObj.AddBomb(1, 0);
             _testObj.ToggleMark(0, 0);
-            _testObj.Reveal(1, 0);
+            _testObj.Reveal(0, 1);
             ValidateCells(_marked, _bomb, _hidden, _hidden);
         }
 
@@ -113,7 +113,7 @@ namespace bombsweeperTests
             Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(1));
             _testObj.ToggleMark(0, 0); // unmark bomb
             Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(2));
-            _testObj.ToggleMark(1, 0); // mark non-bomb
+            _testObj.ToggleMark(0, 1); // mark non-bomb
             Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(1));
         }
 

@@ -24,9 +24,9 @@ namespace bombsweeper
         public Board(int size)
         {
             _size = size;
-            _cells = new Cell[_size, _size];
-            for (var row = 0; row < _size; ++row)
-                for (var col = 0; col < _size; ++col)
+            _cells = new Cell[size, size];
+            for (var row = 0; row < size; ++row)
+                for (var col = 0; col < size; ++col)
                     _cells[row, col] = new Cell();
             _gameState = GameState.InProgress;
         }
@@ -45,40 +45,43 @@ namespace bombsweeper
                 {
                     if (_cells[row, col].HasBomb())
                         continue;
-                    var adjacentBombs = CountAdjacentBombs(col, row);
-                    if (adjacentBombs == 0)
+                    var bombsAroundCellCount = CountBombsAroundCell(row, col);
+                    if (bombsAroundCellCount == 0)
                         _cells[row, col].ClearContents();
                     else
-                        _cells[row, col].AddAdjacencyNumber(adjacentBombs);
+                        _cells[row, col].AddBombsAroundCellCount(bombsAroundCellCount);
                 }
         }
 
-        private int CountAdjacentBombs(int x0, int y0)
+        private int CountBombsAroundCell(int row0, int col0)
         {
             var count = 0;
-            for (var x = x0 - 1; x <= x0 + 1; ++x)
-                for (var y = y0 - 1; y <= y0 + 1; ++y)
+            for (var row = row0 - 1; row <= row0 + 1; ++row)
+                for (var col = col0 - 1; col <= col0 + 1; ++col)
                 {
-                    if (IsValidCell(x, y))
+                    if (NotValidCell(row, col) || IsSameCell(row0, col0, row, col))
                         continue;
-                    if ((x == x0) && (y == y0))
-                        continue;
-                    if (_cells[y, x].HasBomb())
+                    if (_cells[row, col].HasBomb())
                         count++;
                 }
             return count;
         }
 
-        private bool IsValidCell(int x, int y)
+        private static bool IsSameCell(int row0, int col0, int row1, int col1)
         {
-            return (x < 0) || (x > _size - 1) || (y < 0) || (y > _size - 1);
+            return (col1 == col0) && (row1 == row0);
+        }
+
+        private bool NotValidCell(int row, int col)
+        {
+            return (row < 0) || (row > _size - 1) || (col < 0) || (col > _size - 1);
         }
 
         public Cell GetLosingBombCell(out int x, out int y)
         {
             for (var row = 0; row < _size; ++row)
                 for (var col = 0; col < _size; ++col)
-                    if (_cells[row, col].Loser)
+                    if (_cells[row, col].IsLoser)
                     {
                         x = col;
                         y = row;
@@ -90,7 +93,7 @@ namespace bombsweeper
             return null;
         }
 
-        private void GetConsoleXCoordinate(ref int x)
+        private static void GetConsoleXCoordinate(ref int x)
         {
             x = LabelAllowance + 1 + x*2;
         }
@@ -98,15 +101,18 @@ namespace bombsweeper
         public void Display()
         {
             for (var row = 0; row < _size; ++row)
-            {
-                var rowString = string.Join(" ", GetRow(row).Select(c => c.ToString()));
-                var line = string.Join(" ", $"{row + 1,LabelAllowance}", $"{rowString}");
-                Console.WriteLine(line);
-            }
+                DisplayRow(row);
             DisplayFooter();
         }
 
-        public Cell[] GetRow(int row)
+        private void DisplayRow(int row)
+        {
+            var rowString = string.Join(" ", GetRow(row).Select(c => c.ToString()));
+            var line = string.Join(" ", $"{row + 1,LabelAllowance}", $"{rowString}");
+            Console.WriteLine(line);
+        }
+
+        private Cell[] GetRow(int row)
         {
             var offset = row*_size;
             return _cells.Cast<Cell>().Skip(offset).Take(_size).ToArray();
@@ -144,26 +150,28 @@ namespace bombsweeper
             _gameState = GameState.Quitted;
         }
 
-        public void Reveal(int x, int y)
+        public void Reveal(int row, int col)
         {
-            if (_cells[y, x].IsMarked)
-                return;
+            var cell = _cells[row, col];
+            var content = cell.Reveal();
+            if (cell.IsRevealed)
+                if (content == Cell.Bomb)
+                {
+                    cell.MarkAsLoser();
+                    _gameState = GameState.Lost;
+                    RevealAllBombs();
+                }
+                else
+                {
+                    RevealNeighbors(row, col);
+                    if (NoFurtherCellsToReveal())
+                        _gameState = GameState.Won;
+                }
+        }
 
-            var content = _cells[y, x].Reveal();
-            if (content == Cell.Bomb)
-            {
-                _cells[y, x].MarkAsLoser();
-                _gameState = GameState.Lost;
-                RevealAllBombs();
-            }
-            else
-            {
-                Expose(x, y);
-                foreach (var cell in _cells)
-                    if (!cell.IsRevealed && !cell.HasBomb())
-                        return;
-                _gameState = GameState.Won;
-            }
+        private bool NoFurtherCellsToReveal()
+        {
+            return !_cells.Cast<Cell>().Any(cell => !cell.IsRevealed && !cell.HasBomb());
         }
 
         private void RevealAllBombs()
@@ -173,24 +181,20 @@ namespace bombsweeper
                     cell.Reveal();
         }
 
-        private void Expose(int x0, int y0)
+        private void RevealNeighbors(int row0, int col0)
         {
-            for (var x = x0 - 1; x <= x0 + 1; ++x)
-                for (var y = y0 - 1; y <= y0 + 1; ++y)
+            for (var row = row0 - 1; row <= row0 + 1; ++row)
+                for (var col = col0 - 1; col <= col0 + 1; ++col)
                 {
-                    if ((x < 0) || (x > _size - 1))
+                    if (NotValidCell(row, col) || IsSameCell(row0, col0, row, col))
                         continue;
-                    if ((y < 0) || (y > _size - 1))
-                        continue;
-                    if ((x == x0) && (y == y0))
-                        continue;
-                    if (_cells[y, x].HasBomb())
-                        continue;
-                    if (!_cells[y, x].IsRevealed)
+
+                    var cell = _cells[row, col];
+                    if (!cell.HasBomb() && !cell.IsRevealed)
                     {
-                        var content = _cells[y, x].Reveal();
+                        var content = cell.Reveal();
                         if (content == Cell.Empty)
-                            Expose(x, y);
+                            RevealNeighbors(row, col);
                     }
                 }
         }
@@ -223,9 +227,9 @@ namespace bombsweeper
             return _size;
         }
 
-        public void ToggleMark(int x, int y)
+        public void ToggleMark(int row, int col)
         {
-            _cells[y, x].ToggleMark();
+            _cells[row, col].ToggleMark();
             var markedCells = from Cell item in _cells where item.IsMarked select item;
             _numMarked = markedCells.Count();
         }
