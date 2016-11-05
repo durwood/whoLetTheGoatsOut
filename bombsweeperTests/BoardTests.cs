@@ -109,7 +109,11 @@ namespace bombsweeperTests
         {
             _testObj.AddBomb(0, 0);
             _testObj.AddBomb(0, 1);
-            _testObj.ToggleMark(0, 0);
+            _testObj.ToggleMark(0, 0); // mark bomb
+            Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(1));
+            _testObj.ToggleMark(0, 0); // unmark bomb
+            Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(2));
+            _testObj.ToggleMark(1, 0); // mark non-bomb
             Assert.That(_testObj.GetNumberOfUnmarkedBombs(), Is.EqualTo(1));
         }
 
