@@ -99,7 +99,10 @@ namespace bombsweeper
         {
             for (var row = 0; row < _size; ++row)
             {
-                var rowString = DisplayRow(row);
+                var sb = new StringBuilder();
+                for (var col = 0; col < _size; ++col)
+                    sb.Append($"{_cells[col, row]} ");
+                var rowString = sb.ToString();
                 Console.WriteLine($"{row + 1,LabelAllowance} {rowString}");
             }
             Console.WriteLine(DisplayFooter());
@@ -110,8 +113,11 @@ namespace bombsweeper
             var sb = new StringBuilder();
             for (var row = 0; row < _size; ++row)
             {
-                var displayRow = DisplayRow(row);
-                sb.AppendLine(displayRow);
+                var sb1 = new StringBuilder();
+                for (var col = 0; col < _size; ++col)
+                    sb1.Append($"{_cells[col, row]} ");
+                var rowString = sb1.ToString();
+                sb.AppendLine(rowString);
             }
             return sb.ToString();
         }
@@ -201,14 +207,6 @@ namespace bombsweeper
             for (var col = 0; col < _size; ++col)
                 sb.Append($"{(col + 1)%10} ");
             sb.AppendLine();
-            return sb.ToString();
-        }
-
-        private string DisplayRow(int row)
-        {
-            var sb = new StringBuilder();
-            for (var col = 0; col < _size; ++col)
-                sb.Append($"{_cells[col, row]} ");
             return sb.ToString();
         }
 
