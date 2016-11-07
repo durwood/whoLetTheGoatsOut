@@ -25,7 +25,7 @@ namespace bombsweeperWinform
                         YPos = col,
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
-                        Location = new Point(0 + row*CellSize, 0 + col*CellSize),
+                        Location = new Point(0 + row*CellSize, 80 + col*CellSize),
                         Name = $"Row{row}_Col{col}",
                         Size = new Size(CellSize, CellSize),
                         TabIndex = 2,
@@ -79,6 +79,11 @@ namespace bombsweeperWinform
                 else
                     break;
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
