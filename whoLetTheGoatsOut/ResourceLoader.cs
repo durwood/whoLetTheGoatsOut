@@ -23,7 +23,7 @@ namespace bombsweeperWinform
 
         private Stream GetImage(string filename)
         {
-            var image = $"bombsweeperWinform.ImageResources.{filename}";
+            var image = $"whoLetTheGoatsOut.ImageResources.{filename}";
             return _assembly.GetManifestResourceStream(image);
         }
 

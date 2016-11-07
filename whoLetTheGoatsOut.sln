@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bombsweeperTests", "bombswe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bombsweeper", "bombsweeper\bombsweeper.csproj", "{0A883C66-BCB9-41D5-A731-5A9A1D91B406}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bombsweeperWinform", "bombsweeperWinform\bombsweeperWinform.csproj", "{620CEC0C-D3CE-43D1-AC6A-0C07B079929F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "whoLetTheGoatsOut", "whoLetTheGoatsOut\whoLetTheGoatsOut.csproj", "{620CEC0C-D3CE-43D1-AC6A-0C07B079929F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

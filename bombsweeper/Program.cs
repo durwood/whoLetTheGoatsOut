@@ -8,14 +8,6 @@ namespace bombsweeper
         public static void Main(string[] args)
         {
             var options = ParseArgs(args);
-
-            if (options["windows"])
-                throw new NotImplementedException("Only Console Implemented");
-            PlayConsoleVersion(options);
-        }
-
-        private static void PlayConsoleVersion(Dictionary<string, bool> options)
-        {
             var board = CreateBoard(options);
             var game = new Game(board);
             game.Run();
@@ -42,14 +34,11 @@ namespace bombsweeper
         {
             var dict = new Dictionary<string, bool>
             {
-                {"windows", false},
                 {"generateBoard", false},
                 {"simpleBoard", false}
             };
             foreach (var arg in args)
-                if (arg == "--windows")
-                    dict["windows"] = true;
-                else if (arg == "--generate")
+                if (arg == "--generate")
                     dict["generateBoard"] = true;
                 else if (arg == "--simple")
                     dict["simpleBoard"] = true;

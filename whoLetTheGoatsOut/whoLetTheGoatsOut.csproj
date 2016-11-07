@@ -7,8 +7,8 @@
     <ProjectGuid>{620CEC0C-D3CE-43D1-AC6A-0C07B079929F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>bombsweeperWinform</RootNamespace>
-    <AssemblyName>bombsweeperWinform</AssemblyName>
+    <RootNamespace>whoLetTheGoatsOut</RootNamespace>
+    <AssemblyName>whoLetTheGoatsOut</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -70,6 +70,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
