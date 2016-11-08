@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using bombsweeper;
 
 namespace bombsweeperWinform
 {
@@ -12,9 +13,11 @@ namespace bombsweeperWinform
         private readonly Random _random = new Random();
         private readonly Square[,] _squares = new Square[BoardSize, BoardSize];
         private Image _savedImage;
+        private Game _game;
 
-        public MainForm()
+        public MainForm(Game game)
         {
+            _game = game;
             InitializeComponent();
             for (var col = 0; col < 9; ++col)
                 for (var row = 0; row < 9; ++row)

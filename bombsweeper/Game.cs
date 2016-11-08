@@ -13,10 +13,11 @@ namespace bombsweeper
         private readonly int _statusLine;
         private int _elapsedSec;
         private int _numBombs;
+        private IUi _ui;
 
-        public Game(Board board)
+        public Game(Board board, IUi ui)
         {
-            Console.CursorVisible = false;
+            _ui = ui;
             _commandParser = new CommandParser();
             _board = board;
             _statusLine = 0;
@@ -28,7 +29,6 @@ namespace bombsweeper
 
         public void Run()
         {
-            Console.Clear();
             DisplayBoard();
             do
             {

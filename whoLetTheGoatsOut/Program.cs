@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using bombsweeper;
 
 namespace bombsweeperWinform
 {
@@ -13,7 +14,7 @@ namespace bombsweeperWinform
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new MainForm(new Game(BoardGenerator.Build9(), new WindowsUi())));
         }
     }
 }
