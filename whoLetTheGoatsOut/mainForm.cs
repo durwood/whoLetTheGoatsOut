@@ -11,10 +11,11 @@ namespace bombsweeperWinform
         public static int BoardSize = 9;
         public static int NumGoats = 38;
         public static int CellSize = 50;
+        private readonly Game _game;
         private readonly Random _random = new Random();
         private readonly Square[,] _squares = new Square[BoardSize, BoardSize];
+        private int _goatCounter;
         private Image _savedImage;
-        private readonly Game _game;
 
         public MainForm()
         {
@@ -42,6 +43,57 @@ namespace bombsweeperWinform
                 }
         }
 
+        public void HighlightLosingCell(int x, int y, Cell cell)
+        {
+        }
+
+        public void Display(Board board)
+        {
+            board.Display(this);
+        }
+
+        public void UpdateStatus(int bombs, int sec)
+        {
+        }
+
+        public void UpdateRow(int row, Cell[] rowOfCells)
+        {
+            var column = 0;
+            foreach (var cell in rowOfCells)
+            {
+                var sq = _squares[row, column++];
+                switch (cell.ToString())
+                {
+                    case " ":
+                        sq.Image = null;
+                        break;
+                    case "*":
+                        sq.LoadGoatImage(_goatCounter++);
+                        break;
+                    case "\u2713":
+                        sq.LoadIcon(BoardIcon.MarkGoat);
+                        break;
+                    case "\u25A0":
+                        sq.LoadIcon(BoardIcon.BlockingFence);
+                        break;
+                    case "1":
+                    case "2":
+                    case "3":
+                    case "4":
+                    case "5":
+                    case "6":
+                    case "7":
+                    case "8":
+                        sq.LoadIcon(GetIconForContent(cell.ToString()));
+                        break;
+                }
+            }
+        }
+
+        public void DisplayFooter(int size)
+        {
+        }
+
         private void Sq_Click(object sender, EventArgs e)
         {
             var mouseEvent = e as MouseEventArgs;
@@ -66,7 +118,7 @@ namespace bombsweeperWinform
         private void mainForm_Load(object sender, EventArgs e)
         {
             var thread = new Thread(() => _game.Run());
-            FormClosing += (object sender1, FormClosingEventArgs e1) => thread.Abort();
+            FormClosing += (sender1, e1) => thread.Abort();
             thread.Start();
             //PreviewGoatsAndIcons();
         }
@@ -78,63 +130,23 @@ namespace bombsweeperWinform
             var iconIdx = 0;
             var goatIdx = 0;
             foreach (var square in _squares)
-            {
                 if (iconIdx < icons.Length)
                     square.LoadIcon(icons[iconIdx++]);
                 else if (goatIdx < NumGoats)
                     square.LoadGoatImage(goatIdx++);
                 else
                     break;
-            }
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
-        }
-
-        public void HighlightLosingCell(int x, int y, Cell cell)
-        {
-        }
-
-        public void Display(Board board)
-        {
-            board.Display(this);
-        }
-
-        public void UpdateStatus(int bombs, int sec)
-        {
-        }
-
-        public void UpdateRow(int row, Cell[] rowOfCells)
-        {
-            int column = 0;
-            foreach (var cell in rowOfCells)
-            {
-                if (cell.IsRevealed)
-                    if (cell.HasBomb())
-                        _squares[row, column].LoadGoatImage(5);
-                    else if (cell.ToString() == " ")
-                        _squares[row, column].Image = null;
-                    else
-                        _squares[row, column].LoadIcon(GetIconForContent(cell.ToString()));
-                else if (cell.IsMarked)
-                    _squares[row, column].LoadIcon(BoardIcon.MarkGoat);
-                else
-                    _squares[row, column++].LoadIcon(BoardIcon.BlockingFence);
-            }
         }
 
         private BoardIcon GetIconForContent(string value)
         {
-            var icons = (BoardIcon[])Enum.GetValues(typeof(BoardIcon));
+            var icons = (BoardIcon[]) Enum.GetValues(typeof(BoardIcon));
             var index = int.Parse(value);
             return icons[index];
-
-        }
-
-        public void DisplayFooter(int size)
-        {
         }
     }
 }
