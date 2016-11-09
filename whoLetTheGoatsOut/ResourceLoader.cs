@@ -1,7 +1,8 @@
 ﻿using System.IO;
 using System.Reflection;
+using bombsweeperWinform;
 
-namespace bombsweeperWinform
+namespace whoLetTheGoatsOut
 {
     public class ResourceLoader
     {

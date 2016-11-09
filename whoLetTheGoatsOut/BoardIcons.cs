@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace bombsweeperWinform
+namespace whoLetTheGoatsOut
 {
     public enum BoardIcon
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using bombsweeperWinform;
 
-namespace bombsweeperWinform
+namespace whoLetTheGoatsOut
 {
     internal static class Program
     {
