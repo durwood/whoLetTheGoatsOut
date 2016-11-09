@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using bombsweeper;
 
 namespace whoLetTheGoatsOut
 {
@@ -11,9 +12,13 @@ namespace whoLetTheGoatsOut
         [STAThread]
         private static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            var rnd = new RandomGenerator();
+            var boardGenerator = new BoardGenerator(rnd);
+            var board = boardGenerator.GenerateBoard(9, 10);
+            var game = new WinformGameController(board);
+            game.Run();
+
+
         }
     }
 }

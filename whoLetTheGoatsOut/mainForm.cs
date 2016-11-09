@@ -1,23 +1,31 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using bombsweeper;
 
 namespace whoLetTheGoatsOut
 {
     public partial class MainForm : Form
     {
-        public static int BoardSize = 9;
         public static int NumGoats = 38;
         public static int CellSize = 50;
+        private readonly Board _board;
         private readonly Random _random = new Random();
-        private readonly Square[,] _squares = new Square[BoardSize, BoardSize];
         private Image _savedImage;
+        private Square[,] _squares;
 
-        public MainForm()
+        public MainForm(Board board)
         {
             InitializeComponent();
-            for (var col = 0; col < 9; ++col)
-                for (var row = 0; row < 9; ++row)
+            _board = board;
+            InitializeBoard();
+        }
+
+        private void InitializeBoard()
+        {
+            _squares = new Square[_board.GetSize(), _board.GetSize()];
+            for (var col = 0; col < _board.GetSize(); ++col)
+                for (var row = 0; row < _board.GetSize(); ++row)
                 {
                     var sq = new Square
                     {
@@ -32,6 +40,7 @@ namespace whoLetTheGoatsOut
                         TabStop = false,
                         SizeMode = PictureBoxSizeMode.StretchImage
                     };
+                    sq.LoadIcon(BoardIcon.BlockingFence);
                     sq.Click += Sq_Click;
                     Controls.Add(sq);
                     _squares[col, row] = sq;
@@ -61,7 +70,7 @@ namespace whoLetTheGoatsOut
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-            PreviewGoatsAndIcons();
+            //PreviewGoatsAndIcons();
         }
 
         private void PreviewGoatsAndIcons()
