@@ -21,8 +21,8 @@ namespace whoLetTheGoatsOut
                 {
                     var sq = new Square
                     {
-                        YPos = row,
-                        XPos = col,
+                        Row = row,
+                        Col = col,
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
                         Location = new Point(0 + row*CellSize, 80 + col*CellSize),
@@ -55,7 +55,7 @@ namespace whoLetTheGoatsOut
                 sq.Image = null;
             }
 
-            var result = $"{mouseEvent?.Button}-Clicked on ({sq?.XPos}, {sq?.YPos})";
+            var result = $"{mouseEvent?.Button}-Clicked on ({sq?.Col}, {sq?.Row})";
             MessageBox.Show(result);
         }
 

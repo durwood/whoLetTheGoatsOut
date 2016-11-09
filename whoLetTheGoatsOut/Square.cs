@@ -7,8 +7,8 @@ namespace whoLetTheGoatsOut
     public class Square : PictureBox
     {
         private readonly ResourceLoader _resourceLoader;
-        public int XPos;
-        public int YPos;
+        public int Col;
+        public int Row;
 
         public Square()
         {
