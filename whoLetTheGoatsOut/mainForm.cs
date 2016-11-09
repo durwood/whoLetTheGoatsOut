@@ -73,7 +73,7 @@ namespace bombsweeperWinform
             var column = 0;
             foreach (var cell in rowOfCells)
             {
-                var sq = _squares[column++, row];
+                var sq = _squares[row, column++];
                 switch (cell.ToString())
                 {
                     case " ":
