@@ -25,7 +25,7 @@ namespace bombsweeperTests
         {
             _testObj.Mark(1,5);
             Assert.IsTrue(_testObj.HasCommandToProcess);
-            Assert.AreEqual("m 1,5", _testObj.GetCommand());
+            Assert.AreEqual("m 2,6", _testObj.GetCommand());
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace bombsweeperTests
         {
             _testObj.Reveal(2,3);
             Assert.IsTrue(_testObj.HasCommandToProcess);
-            Assert.AreEqual("c 2,3", _testObj.GetCommand());
+            Assert.AreEqual("c 3,4", _testObj.GetCommand());
         }
 
         [Test]

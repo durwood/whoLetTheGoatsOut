@@ -24,14 +24,18 @@ namespace bombsweeperWinform
 
         public void Mark(int x, int y)
         {
+            SetCommand(x, y, 'm');
+        }
+
+        private void SetCommand(int x, int y, char type)
+        {
             HasCommandToProcess = true;
-            _command = $"m {x},{y}";
+            _command = $"{type} {++x},{++y}";
         }
 
         public void Reveal(int x, int y)
         {
-            HasCommandToProcess = true;
-            _command = $"c {x},{y}";
+            SetCommand(x, y, 'c');
         }
     }
 }
