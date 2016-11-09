@@ -1,13 +1,15 @@
+using System;
+
 namespace bombsweeper
 {
-    public class Game
+    public class ConsoleGameController : IGameController
     {
         private readonly Board _board;
         private readonly CommandInterface _commandInterface;
         private readonly CommandParser _commandParser;
         private readonly GameConsoleView _gameConsoleView;
 
-        public Game(Board board)
+        public ConsoleGameController(Board board)
         {
             _board = board;
             _commandParser = new CommandParser();
@@ -31,6 +33,7 @@ namespace bombsweeper
             } while (_board.GameInProgress());
             _gameConsoleView.DisplayBoard();
             _gameConsoleView.ShowResult();
+            Console.ReadKey();
         }
 
         private void ExecuteBoardCommand(string commandString)

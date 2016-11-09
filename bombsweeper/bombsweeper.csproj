@@ -55,12 +55,13 @@
     <Compile Include="CellConsoleView.cs" />
     <Compile Include="CommandHistoryManager.cs" />
     <Compile Include="CommandInterface.cs" />
+    <Compile Include="ConsoleGameController.cs" />
     <Compile Include="ElapsedSecondsCalculator.cs" />
     <Compile Include="GameConsoleView.cs" />
     <Compile Include="IRandomGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="IGameController.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="CommandParser.cs" />

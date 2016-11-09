@@ -9,9 +9,8 @@ namespace bombsweeper
         {
             var options = ParseArgs(args);
             var board = CreateBoard(options);
-            var game = new Game(board);
+            var game = new ConsoleGameController(board);
             game.Run();
-            Console.ReadKey();
         }
 
         private static Board CreateBoard(Dictionary<string, bool> options)
