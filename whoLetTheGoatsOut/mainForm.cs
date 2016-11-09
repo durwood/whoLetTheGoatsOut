@@ -99,6 +99,7 @@ namespace bombsweeperWinform
 
         public void Display(Board board)
         {
+            board.Display(this);
         }
 
         public void UpdateStatus(int bombs, int sec)
@@ -107,6 +108,29 @@ namespace bombsweeperWinform
 
         public void UpdateRow(int row, Cell[] rowOfCells)
         {
+            int column = 0;
+            foreach (var cell in rowOfCells)
+            {
+                if (cell.IsRevealed)
+                    if (cell.HasBomb())
+                        _squares[row, column].LoadGoatImage(5);
+                    else if (cell.ToString() == " ")
+                        _squares[row, column].Image = null;
+                    else
+                        _squares[row, column].LoadIcon(GetIconForContent(cell.ToString()));
+                else if (cell.IsMarked)
+                    _squares[row, column].LoadIcon(BoardIcon.MarkGoat);
+                else
+                    _squares[row, column++].LoadIcon(BoardIcon.BlockingFence);
+            }
+        }
+
+        private BoardIcon GetIconForContent(string value)
+        {
+            var icons = (BoardIcon[])Enum.GetValues(typeof(BoardIcon));
+            var index = int.Parse(value);
+            return icons[index];
+
         }
 
         public void DisplayFooter(int size)
