@@ -1,17 +1,19 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using bombsweeper;
 
 namespace whoLetTheGoatsOut
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, IGameView
     {
         public static int NumGoats = 38;
         public static int CellSize = 50;
         private readonly Board _board;
         private readonly Random _random = new Random();
-        private Image _savedImage;
+        private int _elapsedTime;
+        private int _numBombs;
         private WinformCellView[,] _winformCellViews;
 
         public MainForm(Board board)
@@ -19,6 +21,35 @@ namespace whoLetTheGoatsOut
             InitializeComponent();
             _board = board;
             InitializeBoard();
+        }
+
+        public void DisplayBoard()
+        {
+            foreach (var cell in _winformCellViews)
+                UpdateCellDisplay(cell);
+        }
+
+        public void UpdateStatusDisplay()
+        {
+            ElapsedTimeLabel.Text = $"Elapsed Time: {_elapsedTime}";
+            if (_numBombs != _board.GetNumberOfUnmarkedBombs())
+            {
+                _numBombs = _board.GetNumberOfUnmarkedBombs();
+                BombCountLabel.Text = $"Unmarked Bombs Remaining: {_numBombs}";
+            }
+        }
+
+        public void ShowResult()
+        {
+            string result;
+            if (_board.GameWon())
+                result = "Congratulations, you won!";
+            else if (_board.GameLost())
+                result = "Loser.";
+            else
+                result = "Quitter.";
+
+            MessageBox.Show(result);
         }
 
         private void InitializeBoard()
@@ -32,9 +63,7 @@ namespace whoLetTheGoatsOut
                     {
                         Row = row,
                         Col = col,
-
                         ModelCell = cells[row, col],
-
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
                         Location = new Point(0 + row*CellSize, 80 + col*CellSize),
@@ -58,25 +87,13 @@ namespace whoLetTheGoatsOut
             if ((sq == null) || (mouseEvent == null))
                 return;
 
-            if (mouseEvent?.Button == MouseButtons.Right)
-            {
+            if (mouseEvent.Button == MouseButtons.Right)
                 _board.ToggleMark(sq.Row, sq.Col);
-                UpdateBoardDisplay();
-            }
-            else if (mouseEvent?.Button == MouseButtons.Left)
-            {
+            else if (mouseEvent.Button == MouseButtons.Left)
                 _board.Reveal(sq.Row, sq.Col);
-                UpdateBoardDisplay();
-            }
-
-            //var result = $"{mouseEvent.Button}-Clicked on ({sq.Col}, {sq.Row})";
-            //MessageBox.Show(result);
-        }
-
-        private void UpdateBoardDisplay()
-        {
-            foreach (var cell in _winformCellViews)
-                UpdateCellDisplay(cell);
+            DisplayBoard();
+            if (!_board.GameInProgress())
+                ShowResult();
         }
 
         private void UpdateCellDisplay(WinformCellView cell)
@@ -84,7 +101,7 @@ namespace whoLetTheGoatsOut
             var modelCell = cell.ModelCell;
             if (modelCell.IsRevealed)
                 if (modelCell.HasBomb)
-                    cell.LoadGoatImage(47);
+                    cell.LoadGoatImage(cell.Col + cell.Row);
                 else if (modelCell.NeighboringBombCount > 0)
                     cell.LoadBombCount(modelCell.NeighboringBombCount);
                 else
@@ -95,9 +112,35 @@ namespace whoLetTheGoatsOut
                 cell.LoadIcon(BoardIcon.BlockingFence);
         }
 
+        private void mainForm_Closing(object sender, CancelEventArgs ee)
+        {
+            ShowResult();
+        }
+
         private void mainForm_Load(object sender, EventArgs e)
         {
+            FormClosing += mainForm_Closing;
+
             //PreviewGoatsAndIcons();
+            UpdateStatusDisplay();
+            RegisterTimer();
+        }
+
+        private void RegisterTimer()
+        {
+            var timer = new Timer {Interval = 1000}; // 1 second
+            timer.Tick += timer_Tick;
+            timer.Start();
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            var timer = sender as Timer;
+            if (timer == null)
+                return;
+
+            _elapsedTime += 1;
+            UpdateStatusDisplay();
         }
 
         private void PreviewGoatsAndIcons()

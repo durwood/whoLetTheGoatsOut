@@ -58,6 +58,7 @@
     <Compile Include="ConsoleGameController.cs" />
     <Compile Include="ElapsedSecondsCalculator.cs" />
     <Compile Include="GameConsoleView.cs" />
+    <Compile Include="IGameView.cs" />
     <Compile Include="IRandomGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

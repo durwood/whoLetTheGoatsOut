@@ -2,7 +2,7 @@ using System;
 
 namespace bombsweeper
 {
-    public class GameConsoleView
+    public class GameConsoleView : IGameView
     {
         private readonly int _boardLine;
         private readonly Board _boardModel;

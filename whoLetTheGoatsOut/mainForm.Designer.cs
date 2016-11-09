@@ -35,40 +35,44 @@
             // 
             // BombCountLabel
             // 
-            this.BombCountLabel.Location = new System.Drawing.Point(315, 33);
+            this.BombCountLabel.Location = new System.Drawing.Point(158, 17);
+            this.BombCountLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.BombCountLabel.Name = "BombCountLabel";
-            this.BombCountLabel.Size = new System.Drawing.Size(610, 31);
+            this.BombCountLabel.Size = new System.Drawing.Size(305, 16);
             this.BombCountLabel.TabIndex = 3;
             this.BombCountLabel.Text = "Unmarked Goats Remaining:";
             this.BombCountLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // ElapsedTimeLabel
             // 
-            this.ElapsedTimeLabel.Location = new System.Drawing.Point(315, 79);
+            this.ElapsedTimeLabel.Location = new System.Drawing.Point(158, 41);
+            this.ElapsedTimeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.ElapsedTimeLabel.Name = "ElapsedTimeLabel";
-            this.ElapsedTimeLabel.Size = new System.Drawing.Size(605, 42);
+            this.ElapsedTimeLabel.Size = new System.Drawing.Size(302, 22);
             this.ElapsedTimeLabel.TabIndex = 4;
             this.ElapsedTimeLabel.Text = "Elapsed Time:";
             // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 21);
+            this.label1.Location = new System.Drawing.Point(6, 11);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(250, 100);
+            this.label1.Size = new System.Drawing.Size(125, 52);
             this.label1.TabIndex = 5;
             this.label1.Text = "Who Let the Goats Out?";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(924, 990);
+            this.ClientSize = new System.Drawing.Size(462, 454);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ElapsedTimeLabel);
             this.Controls.Add(this.BombCountLabel);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "MainForm";
-            this.Text = "BombSweeper";
+            this.Text = "Who Let the Goats Out?";
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.ResumeLayout(false);
 
