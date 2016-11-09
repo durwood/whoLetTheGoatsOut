@@ -56,7 +56,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceLoader.cs" />
-    <Compile Include="Square.cs">
+    <Compile Include="WinformCellView.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WinformGameController.cs" />
