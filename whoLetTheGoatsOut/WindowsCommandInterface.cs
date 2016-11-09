@@ -18,6 +18,8 @@ namespace bombsweeperWinform
 
         public void Reset()
         {
+            HasCommandToProcess = false;
+            _command = "";
         }
 
         public void Mark(int x, int y)

@@ -35,5 +35,14 @@ namespace bombsweeperTests
             Assert.IsTrue(_testObj.HasCommandToProcess);
             Assert.AreEqual("c 2,3", _testObj.GetCommand());
         }
+
+        [Test]
+        public void TestReset()
+        {
+            _testObj.Reveal(5,6);
+            _testObj.Reset();
+            Assert.IsFalse(_testObj.HasCommandToProcess);
+            Assert.AreEqual("", _testObj.GetCommand());
+        }
     }
 }
