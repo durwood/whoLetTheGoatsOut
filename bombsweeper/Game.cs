@@ -95,22 +95,10 @@ namespace bombsweeper
 
         private void DisplayBoard()
         {
+            var boardConsoleView = new BoardConsoleView(_board, _boardLine);
             Console.SetCursorPosition(0, _boardLine);
-            _board.Display();
-            if (_board.GameLost())
-            {
-                int x, y;
-                var cell = _board.GetLosingBombCell(out x, out y);
-                var savedColor = Console.BackgroundColor;
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.SetCursorPosition(x, y + _boardLine);
-
-                var cellConsoleView = new CellConsoleView(cell);
-                cellConsoleView.DisplayCell();
-
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(0, _cursorLine);
-            }
+            boardConsoleView.DisplayBoard();
+            Console.SetCursorPosition(0, _cursorLine);
         }
     }
 }

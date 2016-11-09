@@ -13,7 +13,6 @@ namespace bombsweeper
 
     public class Board
     {
-        private const int LabelAllowance = 3;
         private readonly Cell[,] _cells;
         private readonly int _size;
         private GameState _gameState;
@@ -35,6 +34,21 @@ namespace bombsweeper
             _cells[y, x].AddBomb();
             _numBombs++;
             PopulateAdjacencyCounts();
+        }
+
+        public Cell GetLosingBombCell(out int x, out int y)
+        {
+            for (var row = 0; row < _size; ++row)
+                for (var col = 0; col < _size; ++col)
+                    if (_cells[row, col].IsLoser)
+                    {
+                        x = col;
+                        y = row;
+                        return _cells[row, col];
+                    }
+            x = 0;
+            y = 0;
+            return null;
         }
 
         private void PopulateAdjacencyCounts()
@@ -74,53 +88,6 @@ namespace bombsweeper
         private bool NotValidCell(int row, int col)
         {
             return (row < 0) || (row > _size - 1) || (col < 0) || (col > _size - 1);
-        }
-
-        public Cell GetLosingBombCell(out int x, out int y)
-        {
-            for (var row = 0; row < _size; ++row)
-                for (var col = 0; col < _size; ++col)
-                    if (_cells[row, col].IsLoser)
-                    {
-                        x = col;
-                        y = row;
-                        GetConsoleXCoordinate(ref x);
-                        return _cells[row, col];
-                    }
-            x = 0;
-            y = 0;
-            return null;
-        }
-
-        private static void GetConsoleXCoordinate(ref int x)
-        {
-            x = LabelAllowance + 1 + x*2;
-        }
-
-        public void Display()
-        {
-            for (var row = 0; row < _size; ++row)
-                DisplayRow(row);
-            DisplayFooter();
-        }
-
-        private void DisplayRow(int row)
-        {
-            Console.Write($"{row + 1,LabelAllowance}");
-            var cells = GetRow(row);
-            foreach (var cell in cells)
-            {
-                Console.Write(" ");
-                var cellConsoleView = new CellConsoleView(cell);
-                cellConsoleView.DisplayCell();
-            }
-            Console.WriteLine("");
-        }
-
-        private Cell[] GetRow(int row)
-        {
-            var offset = row*_size;
-            return _cells.Cast<Cell>().Skip(offset).Take(_size).ToArray();
         }
 
         public override string ToString()
@@ -198,29 +165,6 @@ namespace bombsweeper
                 }
         }
 
-        private void DisplayFooter()
-        {
-            if (_size > 9)
-                DisplayFooterTens();
-            DisplayFooterOnes();
-        }
-
-        private void DisplayFooterOnes()
-        {
-            Console.Write($"{"",LabelAllowance + 1}");
-            for (var col = 0; col < _size; ++col)
-                Console.Write($"{(col + 1)%10} ");
-            Console.WriteLine();
-        }
-
-        private void DisplayFooterTens()
-        {
-            Console.Write($"{"",LabelAllowance + 1}");
-            for (var col = 0; col < _size; ++col)
-                Console.Write($"{(col + 1)/10} ");
-            Console.WriteLine();
-        }
-
         public int GetSize()
         {
             return _size;
@@ -236,6 +180,11 @@ namespace bombsweeper
         public int GetNumberOfUnmarkedBombs()
         {
             return Math.Max(_numBombs - _numMarked, 0);
+        }
+
+        public Cell[,] GetCells()
+        {
+            return _cells;
         }
     }
 }

@@ -50,6 +50,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardConsoleView.cs" />
     <Compile Include="BoardGenerator.cs" />
     <Compile Include="CellConsoleView.cs" />
     <Compile Include="CommandHistoryManager.cs" />
