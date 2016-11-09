@@ -4,11 +4,6 @@ namespace bombsweeper
 {
     public class Cell
     {
-        public const char Block = '\u25A0';
-        public const char Check = '\u2713';
-        public const char Bomb = '*';
-        public const char Empty = ' ';
-        private char _content;
         public bool IsLoser;
         public bool IsMarked;
         public bool IsRevealed;
@@ -16,53 +11,51 @@ namespace bombsweeper
         public Cell()
         {
             IsRevealed = false;
-            _content = Empty;
+            HasBomb = false;
         }
 
-        public bool HasBomb()
-        {
-            return _content == Bomb;
-        }
+        public int NeighboringBombCount { get; private set; }
+        public bool HasBomb { get; private set; }
 
-        public override string ToString()
-        {
-            return (IsRevealed ? _content : IsMarked ? Check : Block).ToString();
-        }
-
-        public char Reveal()
+        public void Reveal()
         {
             if (!IsMarked)
                 IsRevealed = true;
-            return _content;
         }
 
         public void MarkAsLoser()
         {
-            if (!HasBomb())
+            if (!HasBomb)
                 throw new ArgumentException("IsLoser cell must contain bomb.");
             IsLoser = true;
         }
 
         public void AddBombsAroundCellCount(int number)
         {
-            if (!HasBomb())
-                _content = number.ToString()[0];
+            if (!HasBomb)
+                NeighboringBombCount = number;
         }
 
         public void AddBomb()
         {
-            _content = Bomb;
+            HasBomb = true;
         }
 
         public void ClearContents()
         {
-            _content = Empty;
+            HasBomb = false;
+            NeighboringBombCount = 0;
         }
 
         public void ToggleMark()
         {
             if (!IsRevealed)
                 IsMarked = !IsMarked;
+        }
+
+        public bool IsEmpty()
+        {
+            return !HasBomb && (NeighboringBombCount == 0);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace bombsweeper
             for (var row = 0; row < _size; ++row)
                 for (var col = 0; col < _size; ++col)
                 {
-                    if (_cells[row, col].HasBomb())
+                    if (_cells[row, col].HasBomb)
                         continue;
                     var bombsAroundCellCount = CountBombsAroundCell(row, col);
                     if (bombsAroundCellCount == 0)
@@ -60,7 +60,7 @@ namespace bombsweeper
                 {
                     if (NotValidCell(row, col) || IsSameCell(row0, col0, row, col))
                         continue;
-                    if (_cells[row, col].HasBomb())
+                    if (_cells[row, col].HasBomb)
                         count++;
                 }
             return count;
@@ -146,9 +146,9 @@ namespace bombsweeper
         public void Reveal(int row, int col)
         {
             var cell = _cells[row, col];
-            var content = cell.Reveal();
+            cell.Reveal();
             if (cell.IsRevealed)
-                if (content == Cell.Bomb)
+                if (cell.HasBomb)
                 {
                     cell.MarkAsLoser();
                     _gameState = GameState.Lost;
@@ -164,13 +164,13 @@ namespace bombsweeper
 
         private bool NoFurtherCellsToReveal()
         {
-            return !_cells.Cast<Cell>().Any(cell => !cell.IsRevealed && !cell.HasBomb());
+            return !_cells.Cast<Cell>().Any(cell => !cell.IsRevealed && !cell.HasBomb);
         }
 
         private void RevealAllBombs()
         {
             foreach (var cell in _cells)
-                if (!cell.IsMarked && cell.HasBomb())
+                if (!cell.IsMarked && cell.HasBomb)
                     cell.Reveal();
         }
 
@@ -183,10 +183,10 @@ namespace bombsweeper
                         continue;
 
                     var cell = _cells[row, col];
-                    if (!cell.HasBomb() && !cell.IsRevealed)
+                    if (!cell.HasBomb && !cell.IsRevealed)
                     {
-                        var content = cell.Reveal();
-                        if (content == Cell.Empty)
+                        cell.Reveal();
+                        if (cell.IsEmpty())
                             RevealNeighbors(row, col);
                     }
                 }

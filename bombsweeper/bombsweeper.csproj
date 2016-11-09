@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardGenerator.cs" />
+    <Compile Include="CellConsoleView.cs" />
     <Compile Include="CommandHistoryManager.cs" />
     <Compile Include="CommandInterface.cs" />
     <Compile Include="ElapsedSecondsCalculator.cs" />

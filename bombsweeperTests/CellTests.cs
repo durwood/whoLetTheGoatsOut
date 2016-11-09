@@ -14,24 +14,20 @@ namespace bombsweeperTests
 
         private Cell _testObj;
 
-        private void ValidateDisplay(char expected)
-        {
-            Assert.That(_testObj.ToString(), Is.EqualTo(expected.ToString()));
-        }
 
         [Test]
         public void AddingAdjacencyNumberChangesContent()
         {
             _testObj.AddBombsAroundCellCount(3);
-            var content = _testObj.Reveal();
-            Assert.That(content, Is.EqualTo('3'));
+            _testObj.Reveal();
+            Assert.That(_testObj.NeighboringBombCount, Is.EqualTo(3));
         }
 
         [Test]
         public void AddingBombAddsBombToCell()
         {
             _testObj.AddBomb();
-            Assert.IsTrue(_testObj.HasBomb());
+            Assert.IsTrue(_testObj.HasBomb);
         }
 
         [Test]
@@ -39,7 +35,7 @@ namespace bombsweeperTests
         {
             _testObj.AddBomb();
             _testObj.AddBombsAroundCellCount(4);
-            Assert.IsTrue(_testObj.HasBomb());
+            Assert.IsTrue(_testObj.HasBomb);
         }
 
         [Test]
@@ -54,7 +50,7 @@ namespace bombsweeperTests
         [Test]
         public void CellContentsAreEmptyByDefault()
         {
-            Assert.IsFalse(_testObj.HasBomb());
+            Assert.IsFalse(_testObj.HasBomb);
         }
 
         [Test]
@@ -74,7 +70,7 @@ namespace bombsweeperTests
         {
             _testObj.AddBomb();
             _testObj.ToggleMark();
-            Assert.IsTrue(_testObj.HasBomb());
+            Assert.IsTrue(_testObj.HasBomb);
         }
 
         [Test]
@@ -97,15 +93,22 @@ namespace bombsweeperTests
         [Test]
         public void NewCellDisplaysProperly()
         {
-            ValidateDisplay(Cell.Block);
+            Assert.That(!_testObj.IsRevealed);
+            Assert.That(!_testObj.IsMarked);
+            Assert.That(!_testObj.HasBomb);
+
             _testObj.ToggleMark();
-            ValidateDisplay(Cell.Check);
+            Assert.That(_testObj.IsMarked);
+
             _testObj.ToggleMark();
-            ValidateDisplay(Cell.Block);
+            Assert.That(!_testObj.IsMarked);
+
             _testObj.Reveal();
-            ValidateDisplay(Cell.Empty);
+            Assert.That(_testObj.IsRevealed);
+            Assert.That(_testObj.IsEmpty);
+
             _testObj.AddBomb();
-            ValidateDisplay(Cell.Bomb);
+            Assert.That(_testObj.HasBomb);
         }
 
         [Test]
@@ -113,7 +116,7 @@ namespace bombsweeperTests
         {
             _testObj.AddBomb();
             _testObj.Reveal();
-            Assert.IsTrue(_testObj.HasBomb());
+            Assert.IsTrue(_testObj.HasBomb);
         }
 
         [Test]
