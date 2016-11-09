@@ -97,18 +97,11 @@ namespace bombsweeper
             x = LabelAllowance + 1 + x*2;
         }
 
-        public void Display()
+        public void Display(IUi ui)
         {
             for (var row = 0; row < _size; ++row)
-                DisplayRow(row);
-            DisplayFooter();
-        }
-
-        private void DisplayRow(int row)
-        {
-            var rowString = string.Join(" ", GetRow(row).Select(c => c.ToString()));
-            var line = string.Join(" ", $"{row + 1,LabelAllowance}", $"{rowString}");
-            Console.WriteLine(line);
+                ui.UpdateRow(row, GetRow(row));
+            ui.DisplayFooter(_size);
         }
 
         private Cell[] GetRow(int row)
@@ -190,29 +183,6 @@ namespace bombsweeper
                             RevealNeighbors(row, col);
                     }
                 }
-        }
-
-        private void DisplayFooter()
-        {
-            if (_size > 9)
-                DisplayFooterTens();
-            DisplayFooterOnes();
-        }
-
-        private void DisplayFooterOnes()
-        {
-            Console.Write($"{"",LabelAllowance + 1}");
-            for (var col = 0; col < _size; ++col)
-                Console.Write($"{(col + 1)%10} ");
-            Console.WriteLine();
-        }
-
-        private void DisplayFooterTens()
-        {
-            Console.Write($"{"",LabelAllowance + 1}");
-            for (var col = 0; col < _size; ++col)
-                Console.Write($"{(col + 1)/10} ");
-            Console.WriteLine();
         }
 
         public int GetSize()
