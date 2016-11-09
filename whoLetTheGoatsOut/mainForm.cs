@@ -24,13 +24,13 @@ namespace whoLetTheGoatsOut
         private void InitializeBoard()
         {
             _squares = new Square[_board.GetSize(), _board.GetSize()];
-            for (var col = 0; col < _board.GetSize(); ++col)
-                for (var row = 0; row < _board.GetSize(); ++row)
+            for (var row = 0; row < 9; ++row)
+                for (var col = 0; col < 9; ++col)
                 {
                     var sq = new Square
                     {
-                        XPos = row,
-                        YPos = col,
+                        YPos = row,
+                        XPos = col,
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
                         Location = new Point(0 + row*CellSize, 80 + col*CellSize),
@@ -43,7 +43,7 @@ namespace whoLetTheGoatsOut
                     sq.LoadIcon(BoardIcon.BlockingFence);
                     sq.Click += Sq_Click;
                     Controls.Add(sq);
-                    _squares[col, row] = sq;
+                    _squares[row, col] = sq;
                 }
         }
 
