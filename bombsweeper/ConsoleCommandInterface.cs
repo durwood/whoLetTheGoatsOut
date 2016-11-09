@@ -2,14 +2,13 @@ using System;
 
 namespace bombsweeper
 {
-    public class CommandInterface
+    public class ConsoleCommandInterface : ICommandInterface
     {
         private readonly int _cursorLine;
         protected readonly CommandHistoryManager HistoryManager;
         protected string CurrentCommand;
-        public bool HasCommandToProcess;
 
-        public CommandInterface(int cursorLine)
+        public ConsoleCommandInterface(int cursorLine)
         {
             _cursorLine = cursorLine;
             CurrentCommand = "";
@@ -28,6 +27,8 @@ namespace bombsweeper
                 ProcessKeyInfo(Console.ReadKey());
             RefreshDisplay();
         }
+
+        public bool HasCommandToProcess { get; set; }
 
         private void GetCommandFromHistory(ConsoleKey key)
         {

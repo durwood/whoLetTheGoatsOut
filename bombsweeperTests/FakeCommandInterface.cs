@@ -3,7 +3,7 @@ using bombsweeper;
 
 namespace bombsweeperTests
 {
-    internal class FakeCommandInterface : CommandInterface
+    internal class FakeCommandInterface : ConsoleCommandInterface
     {
         private ConsoleKeyInfo? _keyInfo;
 

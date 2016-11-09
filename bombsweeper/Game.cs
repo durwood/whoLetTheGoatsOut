@@ -5,26 +5,20 @@ namespace bombsweeper
     public class Game
     {
         private readonly Board _board;
-        private readonly int _boardLine;
-        private readonly CommandInterface _commandInterface;
+        private readonly ICommandInterface _commandInterface;
         private readonly CommandParser _commandParser;
-        private readonly int _cursorLine;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
-        private readonly int _statusLine;
         private int _elapsedSec;
         private int _numBombs;
-        private IUi _ui;
+        private readonly IUi _ui;
 
-        public Game(Board board, IUi ui)
+        public Game(Board board, IUi ui, ICommandInterface ci)
         {
+            _commandInterface = ci;
             _ui = ui;
             _commandParser = new CommandParser();
             _board = board;
-            _statusLine = 0;
-            _boardLine = 2;
-            _cursorLine = _boardLine + board.GetSize() + 2;
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
-            _commandInterface = new CommandInterface(_cursorLine);
         }
 
         public void Run()
@@ -61,11 +55,9 @@ namespace bombsweeper
                 _numBombs = numBombs;
             }
             if (needToDisplay)
-            {
-                Console.SetCursorPosition(0, _statusLine);
-                Console.WriteLine($"Bombs: {_numBombs}  Elapsed Time: {_elapsedSec}");
-            }
+                _ui.UpdateStatus(_numBombs, _elapsedSec);
         }
+
 
         private void ExecuteBoardCommand(string commandString)
         {
@@ -95,19 +87,14 @@ namespace bombsweeper
 
         private void DisplayBoard()
         {
-            Console.SetCursorPosition(0, _boardLine);
-            _board.Display();
+            _ui.Display(_board);
             if (_board.GameLost())
             {
                 int x, y;
                 var cell = _board.GetLosingBombCell(out x, out y);
-                var savedColor = Console.BackgroundColor;
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.SetCursorPosition(x, y + _boardLine);
-                Console.Write(cell);
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(0, _cursorLine);
+                _ui.HighlightLosingCell(x, y, cell);
             }
         }
+
     }
 }

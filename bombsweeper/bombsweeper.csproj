@@ -52,9 +52,10 @@
   <ItemGroup>
     <Compile Include="BoardGenerator.cs" />
     <Compile Include="CommandHistoryManager.cs" />
-    <Compile Include="CommandInterface.cs" />
+    <Compile Include="ConsoleCommandInterface.cs" />
     <Compile Include="ConsoleUi.cs" />
     <Compile Include="ElapsedSecondsCalculator.cs" />
+    <Compile Include="ICommandInterface.cs" />
     <Compile Include="IRandomGenerator.cs" />
     <Compile Include="IUi.cs" />
     <Compile Include="Program.cs" />

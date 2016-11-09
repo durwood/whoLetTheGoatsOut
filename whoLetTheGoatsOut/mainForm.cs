@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using bombsweeper;
 
@@ -17,8 +18,11 @@ namespace bombsweeperWinform
 
         public MainForm(Game game)
         {
-            _game = game;
             InitializeComponent();
+            _game = game;
+            var thread = new Thread(() => _game.Run());
+            FormClosing += (object sender, FormClosingEventArgs e) => thread.Abort();
+            thread.Start();
             for (var col = 0; col < 9; ++col)
                 for (var row = 0; row < 9; ++row)
                 {
