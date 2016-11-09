@@ -1,4 +1,4 @@
-﻿namespace bombsweeperWinform
+﻿namespace whoLetTheGoatsOut
 {
     partial class MainForm
     {

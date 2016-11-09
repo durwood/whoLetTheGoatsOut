@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using whoLetTheGoatsOut;
 
-namespace bombsweeperWinform
+namespace whoLetTheGoatsOut
 {
     public partial class MainForm : Form
     {
@@ -72,19 +71,16 @@ namespace bombsweeperWinform
             var iconIdx = 0;
             var goatIdx = 0;
             foreach (var square in _squares)
-            {
                 if (iconIdx < icons.Length)
                     square.LoadIcon(icons[iconIdx++]);
                 else if (goatIdx < NumGoats)
                     square.LoadGoatImage(goatIdx++);
                 else
                     break;
-            }
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
     }
 }
