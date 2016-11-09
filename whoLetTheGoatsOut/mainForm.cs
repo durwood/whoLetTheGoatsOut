@@ -6,7 +6,7 @@ using bombsweeper;
 
 namespace bombsweeperWinform
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, IUi
     {
         public static int BoardSize = 9;
         public static int NumGoats = 38;
@@ -14,15 +14,12 @@ namespace bombsweeperWinform
         private readonly Random _random = new Random();
         private readonly Square[,] _squares = new Square[BoardSize, BoardSize];
         private Image _savedImage;
-        private Game _game;
+        private readonly Game _game;
 
-        public MainForm(Game game)
+        public MainForm()
         {
             InitializeComponent();
-            _game = game;
-            var thread = new Thread(() => _game.Run());
-            FormClosing += (object sender, FormClosingEventArgs e) => thread.Abort();
-            thread.Start();
+            _game = new Game(BoardGenerator.Build9(), this, new WindowsCommandInterface());
             for (var col = 0; col < 9; ++col)
                 for (var row = 0; row < 9; ++row)
                 {
@@ -68,7 +65,10 @@ namespace bombsweeperWinform
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-            PreviewGoatsAndIcons();
+            var thread = new Thread(() => _game.Run());
+            FormClosing += (object sender1, FormClosingEventArgs e1) => thread.Abort();
+            thread.Start();
+            //PreviewGoatsAndIcons();
         }
 
         private void PreviewGoatsAndIcons()
@@ -91,6 +91,26 @@ namespace bombsweeperWinform
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        public void HighlightLosingCell(int x, int y, Cell cell)
+        {
+        }
+
+        public void Display(Board board)
+        {
+        }
+
+        public void UpdateStatus(int bombs, int sec)
+        {
+        }
+
+        public void UpdateRow(int row, Cell[] rowOfCells)
+        {
+        }
+
+        public void DisplayFooter(int size)
+        {
         }
     }
 }

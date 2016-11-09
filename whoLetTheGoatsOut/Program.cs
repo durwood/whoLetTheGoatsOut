@@ -14,7 +14,7 @@ namespace bombsweeperWinform
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm(new Game(BoardGenerator.Build9(), new WindowsUi(), new WindowsCommandInterface())));
+            Application.Run(new MainForm());
         }
     }
 }
