@@ -4,6 +4,8 @@ namespace bombsweeperWinform
 {
     internal class WindowsCommandInterface : ICommandInterface
     {
+        private string _command = "";
+
         public void Tick()
         {
         }
@@ -11,18 +13,20 @@ namespace bombsweeperWinform
         public bool HasCommandToProcess { get; set; }
         public string GetCommand()
         {
-            return "";
+            return _command;
         }
 
         public void Reset()
         {
         }
 
-        public void Mark(int sqXPos, int sqYPos)
+        public void Mark(int x, int y)
         {
+            HasCommandToProcess = true;
+            _command = $"m {x},{y}";
         }
 
-        public void Reveal(int sqXPos, int sqYPos)
+        public void Reveal(int x, int y)
         {
         }
     }

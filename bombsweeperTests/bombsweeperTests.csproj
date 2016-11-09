@@ -59,11 +59,16 @@
     <Compile Include="CellTests.cs" />
     <Compile Include="FakeCommandInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowsCommandInterfaceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bombsweeper\bombsweeper.csproj">
       <Project>{0a883c66-bcb9-41d5-a731-5a9a1d91b406}</Project>
       <Name>bombsweeper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\whoLetTheGoatsOut\whoLetTheGoatsOut.csproj">
+      <Project>{620cec0c-d3ce-43d1-ac6a-0c07b079929f}</Project>
+      <Name>whoLetTheGoatsOut</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
