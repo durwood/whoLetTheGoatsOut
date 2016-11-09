@@ -28,6 +28,8 @@ namespace bombsweeperWinform
 
         public void Reveal(int x, int y)
         {
+            HasCommandToProcess = true;
+            _command = $"c {x},{y}";
         }
     }
 }
