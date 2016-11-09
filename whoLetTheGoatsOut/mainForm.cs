@@ -32,7 +32,9 @@ namespace whoLetTheGoatsOut
                     {
                         Row = row,
                         Col = col,
+
                         ModelCell = cells[row, col],
+
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
                         Location = new Point(0 + row*CellSize, 80 + col*CellSize),
