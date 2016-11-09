@@ -10,9 +10,9 @@ namespace whoLetTheGoatsOut
     public class WinformCellView : PictureBox
     {
         private readonly ResourceLoader _resourceLoader;
+        public int Col;
         public Cell ModelCell;
-        public int XPos;
-        public int YPos;
+        public int Row;
 
         public WinformCellView()
         {

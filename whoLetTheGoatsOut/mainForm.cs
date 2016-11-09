@@ -30,8 +30,8 @@ namespace whoLetTheGoatsOut
                 {
                     var cell = new WinformCellView
                     {
-                        YPos = row,
-                        XPos = col,
+                        Row = row,
+                        Col = col,
                         ModelCell = cells[row, col],
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
@@ -58,16 +58,16 @@ namespace whoLetTheGoatsOut
 
             if (mouseEvent?.Button == MouseButtons.Right)
             {
-                _board.ToggleMark(sq.YPos, sq.XPos);
+                _board.ToggleMark(sq.Row, sq.Col);
                 UpdateBoardDisplay();
             }
             else if (mouseEvent?.Button == MouseButtons.Left)
             {
-                _board.Reveal(sq.YPos, sq.XPos);
+                _board.Reveal(sq.Row, sq.Col);
                 UpdateBoardDisplay();
             }
 
-            //var result = $"{mouseEvent.Button}-Clicked on ({sq.XPos}, {sq.YPos})";
+            //var result = $"{mouseEvent.Button}-Clicked on ({sq.Col}, {sq.Row})";
             //MessageBox.Show(result);
         }
 
