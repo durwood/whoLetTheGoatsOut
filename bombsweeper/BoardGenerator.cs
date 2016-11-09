@@ -67,7 +67,7 @@ namespace bombsweeper
             var colMin = Math.Max(0, coord.X - 1);
             var colMax = Math.Min(_size - 1, coord.X + 1);
             var rowMin = Math.Max(0, coord.Y - 1);
-            var rowMax = Math.Max(_size - 1, coord.Y + 1);
+            var rowMax = Math.Min(_size - 1, coord.Y + 1);
             for (var col = colMin; col <= colMax; ++col)
                 for (var row = rowMin; row <= rowMax; ++row)
                 {
