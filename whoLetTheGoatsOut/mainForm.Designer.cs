@@ -31,24 +31,27 @@
             this.BombCountLabel = new System.Windows.Forms.Label();
             this.ElapsedTimeLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.HiddenGoatCount = new System.Windows.Forms.Label();
+            this.ElapsedTime = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // BombCountLabel
             // 
             this.BombCountLabel.Location = new System.Drawing.Point(315, 33);
             this.BombCountLabel.Name = "BombCountLabel";
-            this.BombCountLabel.Size = new System.Drawing.Size(610, 31);
+            this.BombCountLabel.Size = new System.Drawing.Size(288, 31);
             this.BombCountLabel.TabIndex = 3;
             this.BombCountLabel.Text = "Unmarked Goats Remaining:";
-            this.BombCountLabel.Click += new System.EventHandler(this.label1_Click);
+            this.BombCountLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // ElapsedTimeLabel
             // 
             this.ElapsedTimeLabel.Location = new System.Drawing.Point(315, 79);
             this.ElapsedTimeLabel.Name = "ElapsedTimeLabel";
-            this.ElapsedTimeLabel.Size = new System.Drawing.Size(605, 42);
+            this.ElapsedTimeLabel.Size = new System.Drawing.Size(283, 31);
             this.ElapsedTimeLabel.TabIndex = 4;
             this.ElapsedTimeLabel.Text = "Elapsed Time:";
+            this.ElapsedTimeLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label1
             // 
@@ -59,11 +62,27 @@
             this.label1.TabIndex = 5;
             this.label1.Text = "Who Let the Goats Out?";
             // 
+            // HiddenGoatCount
+            // 
+            this.HiddenGoatCount.Location = new System.Drawing.Point(603, 33);
+            this.HiddenGoatCount.Name = "HiddenGoatCount";
+            this.HiddenGoatCount.Size = new System.Drawing.Size(102, 31);
+            this.HiddenGoatCount.TabIndex = 6;
+            // 
+            // ElapsedTime
+            // 
+            this.ElapsedTime.Location = new System.Drawing.Point(603, 79);
+            this.ElapsedTime.Name = "ElapsedTime";
+            this.ElapsedTime.Size = new System.Drawing.Size(102, 31);
+            this.ElapsedTime.TabIndex = 7;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(924, 990);
+            this.Controls.Add(this.ElapsedTime);
+            this.Controls.Add(this.HiddenGoatCount);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ElapsedTimeLabel);
             this.Controls.Add(this.BombCountLabel);
@@ -78,6 +97,8 @@
         private System.Windows.Forms.Label BombCountLabel;
         private System.Windows.Forms.Label ElapsedTimeLabel;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label HiddenGoatCount;
+        private System.Windows.Forms.Label ElapsedTime;
     }
 }
 

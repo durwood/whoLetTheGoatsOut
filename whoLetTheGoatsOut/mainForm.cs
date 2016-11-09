@@ -52,8 +52,18 @@ namespace bombsweeperWinform
             board.Display(this);
         }
 
+        private delegate void UpdateStatusCallback(int bombs, int sec);
         public void UpdateStatus(int bombs, int sec)
         {
+            if (HiddenGoatCount.InvokeRequired)
+            {
+                Invoke(new UpdateStatusCallback(UpdateStatus), new object[] {bombs, sec});
+            }
+            else
+            {
+                HiddenGoatCount.Text = bombs.ToString();
+                ElapsedTime.Text = sec.ToString();
+            }
         }
 
         public void UpdateRow(int row, Cell[] rowOfCells)
@@ -136,10 +146,6 @@ namespace bombsweeperWinform
                     square.LoadGoatImage(goatIdx++);
                 else
                     break;
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
         }
 
         private BoardIcon GetIconForContent(string value)
