@@ -7,9 +7,9 @@ namespace bombsweeper
     public class BoardGenerator
     {
         private readonly IRandomGenerator _rng;
+        private Board _board;
         private HashSet<Coordinate> _bombLocations;
         private int _size;
-        private Board _board;
 
         public BoardGenerator(IRandomGenerator randomNumberGenerator)
         {
@@ -29,7 +29,7 @@ namespace bombsweeper
         private void AddBomb()
         {
             var addAdjacent = _rng.NextDouble() < 0.33;
-            if (addAdjacent && _bombLocations.Count > 0)
+            if (addAdjacent && (_bombLocations.Count > 0))
                 AddAdjacentBomb();
             else
                 AddRandomBomb();
@@ -71,8 +71,8 @@ namespace bombsweeper
             for (var col = colMin; col <= colMax; ++col)
                 for (var row = rowMin; row <= rowMax; ++row)
                 {
-                    var pos = new Coordinate() {X=col, Y=row};
-                 if (!_bombLocations.Contains(pos))
+                    var pos = new Coordinate {X = col, Y = row};
+                    if (!_bombLocations.Contains(pos))
                         neighbors.Add(pos);
                 }
             return neighbors;

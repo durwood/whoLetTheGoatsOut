@@ -106,9 +106,15 @@ namespace bombsweeper
 
         private void DisplayRow(int row)
         {
-            var rowString = string.Join(" ", GetRow(row).Select(c => c.ToString()));
-            var line = string.Join(" ", $"{row + 1,LabelAllowance}", $"{rowString}");
-            Console.WriteLine(line);
+            Console.Write($"{row + 1,LabelAllowance}");
+            var cells = GetRow(row);
+            foreach (var cell in cells)
+            {
+                Console.Write(" ");
+                var cellConsoleView = new CellConsoleView(cell);
+                cellConsoleView.DisplayCell();
+            }
+            Console.WriteLine("");
         }
 
         private Cell[] GetRow(int row)

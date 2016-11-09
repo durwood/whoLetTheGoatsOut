@@ -104,7 +104,10 @@ namespace bombsweeper
                 var savedColor = Console.BackgroundColor;
                 Console.BackgroundColor = ConsoleColor.Red;
                 Console.SetCursorPosition(x, y + _boardLine);
-                Console.Write(cell);
+
+                var cellConsoleView = new CellConsoleView(cell);
+                cellConsoleView.DisplayCell();
+
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(0, _cursorLine);
             }
