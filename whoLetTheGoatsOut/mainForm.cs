@@ -16,13 +16,13 @@ namespace whoLetTheGoatsOut
         public MainForm()
         {
             InitializeComponent();
-            for (var col = 0; col < 9; ++col)
-                for (var row = 0; row < 9; ++row)
+            for (var row = 0; row < 9; ++row)
+                for (var col = 0; col < 9; ++col)
                 {
                     var sq = new Square
                     {
-                        XPos = row,
-                        YPos = col,
+                        YPos = row,
+                        XPos = col,
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
                         Location = new Point(0 + row*CellSize, 80 + col*CellSize),
@@ -34,7 +34,7 @@ namespace whoLetTheGoatsOut
                     };
                     sq.Click += Sq_Click;
                     Controls.Add(sq);
-                    _squares[col, row] = sq;
+                    _squares[row, col] = sq;
                 }
         }
 
