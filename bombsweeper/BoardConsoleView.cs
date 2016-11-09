@@ -90,7 +90,7 @@ namespace bombsweeper
                 var cellConsoleView = new CellConsoleView(cell);
                 cellConsoleView.DisplayCell();
 
-                Console.BackgroundColor = savedColor; // ConsoleColor.White;
+                Console.BackgroundColor = savedColor;
             }
         }
     }
