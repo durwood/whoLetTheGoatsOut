@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Security;
 using System.Threading;
 using System.Windows.Forms;
 using bombsweeper;
@@ -15,12 +16,13 @@ namespace bombsweeperWinform
         private readonly Random _random = new Random();
         private readonly Square[,] _squares = new Square[BoardSize, BoardSize];
         private int _goatCounter;
-        private Image _savedImage;
+        private readonly WindowsCommandInterface _commandInterface;
 
         public MainForm()
         {
             InitializeComponent();
-            _game = new Game(BoardGenerator.Build9(), this, new WindowsCommandInterface());
+            _commandInterface = new WindowsCommandInterface();
+            _game = new Game(BoardGenerator.Build9(), this, _commandInterface);
             for (var col = 0; col < 9; ++col)
                 for (var row = 0; row < 9; ++row)
                 {
@@ -71,7 +73,7 @@ namespace bombsweeperWinform
             var column = 0;
             foreach (var cell in rowOfCells)
             {
-                var sq = _squares[row, column++];
+                var sq = _squares[column++, row];
                 switch (cell.ToString())
                 {
                     case " ":
@@ -112,17 +114,9 @@ namespace bombsweeperWinform
                 return;
 
             if (mouseEvent?.Button == MouseButtons.Right)
-                //sq.LoadIcon(BoardIcon.MarkGoat);
-                sq.Image = _savedImage;
+                _commandInterface.Mark(sq.XPos, sq.YPos);
             else if (mouseEvent?.Button == MouseButtons.Left)
-            {
-                //sq.LoadGoatImage(_random.Next(1, NumGoats));
-                _savedImage = sq.Image;
-                sq.Image = null;
-            }
-
-            var result = $"{mouseEvent?.Button}-Clicked on ({sq?.XPos}, {sq?.YPos})";
-            MessageBox.Show(result);
+                _commandInterface.Reveal(sq.XPos, sq.YPos);
         }
 
         private void mainForm_Load(object sender, EventArgs e)
@@ -130,22 +124,6 @@ namespace bombsweeperWinform
             var thread = new Thread(() => _game.Run());
             FormClosing += (sender1, e1) => thread.Abort();
             thread.Start();
-            //PreviewGoatsAndIcons();
-        }
-
-        private void PreviewGoatsAndIcons()
-        {
-            var icons = (BoardIcon[]) Enum.GetValues(typeof(BoardIcon));
-
-            var iconIdx = 0;
-            var goatIdx = 0;
-            foreach (var square in _squares)
-                if (iconIdx < icons.Length)
-                    square.LoadIcon(icons[iconIdx++]);
-                else if (goatIdx < NumGoats)
-                    square.LoadGoatImage(goatIdx++);
-                else
-                    break;
         }
 
         private BoardIcon GetIconForContent(string value)

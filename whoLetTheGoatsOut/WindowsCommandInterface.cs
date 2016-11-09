@@ -17,5 +17,13 @@ namespace bombsweeperWinform
         public void Reset()
         {
         }
+
+        public void Mark(int sqXPos, int sqYPos)
+        {
+        }
+
+        public void Reveal(int sqXPos, int sqYPos)
+        {
+        }
     }
 }
