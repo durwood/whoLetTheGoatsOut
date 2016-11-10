@@ -13,6 +13,8 @@ namespace whoLetTheGoatsOut
         private readonly Board _board;
         private readonly Random _random = new Random();
         private int _elapsedTime;
+        Timer _timer;
+
         private int _numBombs;
         private WinformCellView[,] _winformCellViews;
 
@@ -20,6 +22,7 @@ namespace whoLetTheGoatsOut
         {
             InitializeComponent();
             _board = board;
+            _timer = new Timer { Interval = 1000 }; // 1 second
             InitializeBoard();
         }
 
@@ -42,6 +45,7 @@ namespace whoLetTheGoatsOut
         public void ShowResult()
         {
             string result;
+            _timer.Stop();
             if (_board.GameWon())
                 result = "Congratulations, you won!";
             else if (_board.GameLost())
@@ -50,6 +54,7 @@ namespace whoLetTheGoatsOut
                 result = "Quitter.";
 
             MessageBox.Show(result);
+            this.Close();
         }
 
         private void InitializeBoard()
@@ -128,9 +133,8 @@ namespace whoLetTheGoatsOut
 
         private void RegisterTimer()
         {
-            var timer = new Timer {Interval = 1000}; // 1 second
-            timer.Tick += timer_Tick;
-            timer.Start();
+            _timer.Tick += timer_Tick;
+            _timer.Start();
         }
 
         private void timer_Tick(object sender, EventArgs e)
