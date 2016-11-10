@@ -54,7 +54,6 @@ namespace whoLetTheGoatsOut
                 result = "Quitter.";
 
             MessageBox.Show(result);
-            this.Close();
         }
 
         private void InitializeBoard()
@@ -98,7 +97,10 @@ namespace whoLetTheGoatsOut
                 _board.Reveal(sq.Row, sq.Col);
             DisplayBoard();
             if (!_board.GameInProgress())
+            {
                 ShowResult();
+                this.Close();
+            }
         }
 
         private void UpdateCellDisplay(WinformCellView cell)
@@ -119,7 +121,10 @@ namespace whoLetTheGoatsOut
 
         private void mainForm_Closing(object sender, CancelEventArgs ee)
         {
-            ShowResult();
+            if (_board.GameInProgress())
+            {
+                ShowResult();
+            }
         }
 
         private void mainForm_Load(object sender, EventArgs e)
