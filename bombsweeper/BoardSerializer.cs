@@ -78,7 +78,11 @@ namespace bombsweeper
                 }
             }
             if (numShifts != 0)
-                aByte <<= 8 - numShifts;
+            {
+                aByte <<= 7 - numShifts;
+                byteList.Add(aByte);
+            }
+
             return byteList.ToArray();
         }
 
