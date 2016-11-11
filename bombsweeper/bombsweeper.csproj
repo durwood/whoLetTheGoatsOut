@@ -68,6 +68,7 @@
     <Compile Include="CommandParser.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="RandomGenerator.cs" />
+    <Compile Include="BoardSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,5 +1,8 @@
 using System;
 using System.Linq;
+using System.Collections;
+using System.Text;
+using System.Collections.Generic;
 
 namespace bombsweeper
 {
@@ -28,6 +31,7 @@ namespace bombsweeper
                     _cells[row, col] = new Cell();
             _gameState = GameState.InProgress;
         }
+
 
         public void AddBomb(int col, int row)
         {
@@ -185,11 +189,6 @@ namespace bombsweeper
         public int GetNumberOfUnmarkedBombs()
         {
             return Math.Max(_numBombs - _numMarked, 0);
-        }
-
-        public Cell[,] GetCells()
-        {
-            return _cells;
         }
     }
 }
