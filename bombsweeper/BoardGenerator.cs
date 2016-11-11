@@ -8,8 +8,6 @@ namespace bombsweeper
     {
         private readonly IRandomGenerator _rng;
         private Board _board;
-        private HashSet<Coordinate> _bombLocations;
-        private int _size;
 
         public BoardGenerator(IRandomGenerator randomNumberGenerator)
         {
@@ -18,9 +16,7 @@ namespace bombsweeper
 
         public Board GenerateBoard(int size, int numBombs)
         {
-            _size = size;
             _board = new Board(size);
-            _bombLocations = new HashSet<Coordinate>();
             for (var idx = 0; idx < numBombs; ++idx)
                 AddBomb();
             return _board;
@@ -28,54 +24,38 @@ namespace bombsweeper
 
         private void AddBomb()
         {
-            var addAdjacent = _rng.NextDouble() < 0.33;
-            if (addAdjacent && (_bombLocations.Count > 0))
-                AddAdjacentBomb();
-            else
-                AddRandomBomb();
+            var diceRoll = _rng.NextDouble();
+            var numAdjacent = (diceRoll < 0.15) ? 2 : (diceRoll < 0.30) ? 1 : 0;
+            if (numAdjacent == 2 && AddAdjacentBomb(2))
+                return;
+            if (numAdjacent == 1 && AddAdjacentBomb(1))
+                return;
+            AddAdjacentBomb(0);
         }
 
-        private void AddRandomBomb()
+        private bool AddAdjacentBomb(int numAdjacent)
         {
-            Coordinate newBomb;
-            do
+            var matching = (from Cell item in _board.GetCells() where item.NeighboringBombCount == numAdjacent select item).ToArray();
+            if (matching.Length > 0)
             {
-                newBomb.X = _rng.Next(0, _size);
-                newBomb.Y = _rng.Next(0, _size);
-            } while (_bombLocations.Contains(newBomb));
-            AddBomb(newBomb);
+                var bombIdx = _rng.Next(0, matching.Length);
+                var rowColTuple = GetCellPosition(matching[bombIdx]);
+                _board.AddBomb(rowColTuple.Item1, rowColTuple.Item2);
+                return true;
+            }
+            return false;
         }
 
-        private void AddBomb(Coordinate pos)
+        private Tuple<int, int> GetCellPosition(Cell cell)
         {
-            _bombLocations.Add(pos);
-            _board.AddBomb(pos.X, pos.Y);
-        }
-
-        private void AddAdjacentBomb()
-        {
-            var bombIdx = _rng.Next(0, _bombLocations.Count);
-            var existing = _bombLocations.ToList()[bombIdx];
-            var neighbors = GetNeighbors(existing);
-            var newBomb = neighbors[_rng.Next(0, neighbors.Count)];
-            AddBomb(newBomb);
-        }
-
-        private List<Coordinate> GetNeighbors(Coordinate coord)
-        {
-            var neighbors = new List<Coordinate>();
-            var colMin = Math.Max(0, coord.X - 1);
-            var colMax = Math.Min(_size - 1, coord.X + 1);
-            var rowMin = Math.Max(0, coord.Y - 1);
-            var rowMax = Math.Min(_size - 1, coord.Y + 1);
-            for (var col = colMin; col <= colMax; ++col)
-                for (var row = rowMin; row <= rowMax; ++row)
-                {
-                    var pos = new Coordinate {X = col, Y = row};
-                    if (!_bombLocations.Contains(pos))
-                        neighbors.Add(pos);
-                }
-            return neighbors;
+            for (var row = 0; row < _board.GetSize(); ++row)
+                for (var col = 0; col < _board.GetSize(); ++col)
+                    if (_board.GetCells()[row, col] == cell)
+                    {
+                        var result = new Tuple<int, int>(row, col);
+                        return result;
+                    }
+            return null;
         }
     }
 }

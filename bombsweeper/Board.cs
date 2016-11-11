@@ -30,9 +30,9 @@ namespace bombsweeper
             _gameState = GameState.InProgress;
         }
 
-        public void AddBomb(int x, int y)
+        public void AddBomb(int col, int row)
         {
-            _cells[y, x].AddBomb();
+            _cells[row, col].AddBomb();
             _numBombs++;
             PopulateAdjacencyCounts();
         }
@@ -50,6 +50,11 @@ namespace bombsweeper
                     else
                         _cells[row, col].AddBombsAroundCellCount(bombsAroundCellCount);
                 }
+        }
+
+        public Cell[,] GetCells()
+        {
+            return _cells;
         }
 
         private int CountBombsAroundCell(int row0, int col0)
