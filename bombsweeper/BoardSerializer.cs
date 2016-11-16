@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace bombsweeper
@@ -54,46 +55,53 @@ namespace bombsweeper
             return bitArray;
         }
 
-        private BitArray ByteArrayToBitArray(byte[] myBytes)
+        public BitArray ByteArrayToBitArray(byte[] myBytes)
         {
             return new BitArray(myBytes);
         }
 
-        private byte[] BitArrayToBytes(BitArray myBA3)
+        public byte[] BitArrayToBytes(BitArray myBA3)
         {
             var byteList = new List<byte>();
             byte aByte = 0;
-            int numShifts = 0;
+            int bitIndex = 0;
             foreach (var bit in myBA3)
             {
                 if ((bool)bit)
-                    aByte ^= 1;
-                aByte <<= 1;
-                numShifts++;
-                if (numShifts == 8)
+                    aByte = SetBit(aByte, bitIndex);
+                bitIndex++;
+                if (bitIndex == 8)
                 {
-                    numShifts = 0;
+                    bitIndex = 0;
                     byteList.Add(aByte);
                     aByte = 0;
                 }
             }
-            if (numShifts != 0)
+            if (bitIndex != 0)
             {
-                aByte <<= 7 - numShifts;
+                aByte <<= 7 - bitIndex;
                 byteList.Add(aByte);
             }
 
             return byteList.ToArray();
         }
 
-        private static string ByteArrayToString(byte[] ba)
+        public byte SetBit(byte aByte, int bitIndex)
+        {
+            byte mask = 1;
+            mask <<= bitIndex;
+            aByte |= mask;
+            return aByte;
+        }
+
+        public static string ByteArrayToString(byte[] ba)
         {
             string hex = BitConverter.ToString(ba);
             var result = hex.Replace("-", "");
             return result;
         }
 
-        private static byte[] StringToByteArray(String hex)
+        public static byte[] StringToByteArray(String hex)
         {
             int NumberChars = hex.Length;
             byte[] bytes = new byte[NumberChars / 2];
