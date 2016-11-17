@@ -135,7 +135,8 @@ namespace bombsweeper
                 }
                 else
                 {
-                    RevealNeighbors(row, col);
+                    if (cell.IsEmpty())
+                        RevealNeighbors(row, col);
                     if (NoFurtherCellsToReveal())
                         _gameState = GameState.Won;
                 }

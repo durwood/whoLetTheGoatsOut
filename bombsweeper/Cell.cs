@@ -4,16 +4,15 @@ namespace bombsweeper
 {
     public class Cell
     {
-        public bool IsLoser;
-        public bool IsMarked;
-        public bool IsRevealed;
-
         public Cell()
         {
             IsRevealed = false;
             HasBomb = false;
         }
 
+        public bool IsLoser { get; private set; }
+        public bool IsMarked { get; private set; }
+        public bool IsRevealed { get; private set; }
         public int NeighboringBombCount { get; private set; }
         public bool HasBomb { get; private set; }
 

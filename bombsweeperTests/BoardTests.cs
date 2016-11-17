@@ -32,9 +32,14 @@ namespace bombsweeperTests
 
         private void ValidateCells(params string[] cells)
         {
-            var expected = GetExpectedString(cells);
-            var result = _testObj.ToString();
-            Assert.AreEqual(expected, result);
+            var cellIdx = 0;
+            foreach (var cell in _testObj.GetCells())
+            {
+                var expected = cells[cellIdx++];
+                var result = _testObj.ToString();
+                Assert.AreEqual(expected, result);
+            }
+
         }
 
         [Test]
@@ -137,6 +142,8 @@ namespace bombsweeperTests
         public void RevealingLastCellWinsGame()
         {
             _testObj.AddBomb(0, 0);
+            _testObj.Reveal(0, 1);
+            _testObj.Reveal(1, 0);
             _testObj.Reveal(1, 1);
             Assert.IsTrue(_testObj.GameWon());
         }
