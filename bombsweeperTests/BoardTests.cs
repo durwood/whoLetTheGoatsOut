@@ -79,6 +79,15 @@ namespace bombsweeperTests
         }
 
         [Test]
+        public void ClickingOnNonBombDoesNotRevealDiagonalNonBomb()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.AddBomb(1, 1);
+            _testObj.Reveal(0, 1);
+            Assert.False(_testObj.GetCells()[1, 0].IsRevealed);
+        }
+
+        [Test]
         [Ignore("How to Validate?")]
         public void IniltialBoardDisplaysProperly()
         {

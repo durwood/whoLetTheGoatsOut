@@ -14,7 +14,8 @@ namespace whoLetTheGoatsOut
         {
             var rnd = new RandomGenerator();
             var boardGenerator = new BoardGenerator(rnd);
-            var board = boardGenerator.GenerateBoard(9, 10);
+            //var board = boardGenerator.GenerateBoard(9, 10);
+            var board = BoardGenerator.GetStandardBoard();
             var game = new WinformGameController(board);
             game.Run();
 

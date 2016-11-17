@@ -57,5 +57,28 @@ namespace bombsweeper
                     }
             return null;
         }
+
+
+        public static Board GetStandardBoard()
+        {
+            return Build9();
+        }
+
+        private static Board Build9()
+        {
+            var board = new Board(9);
+            board.AddBomb(1, 2);
+            board.AddBomb(2, 1);
+            board.AddBomb(2, 7);
+            board.AddBomb(6, 6);
+            board.AddBomb(3, 8);
+            board.AddBomb(4, 6);
+            board.AddBomb(4, 7);
+            board.AddBomb(5, 3);
+            board.AddBomb(7, 0);
+            board.AddBomb(8, 0);
+            return board;
+        }
     }
+
 }
