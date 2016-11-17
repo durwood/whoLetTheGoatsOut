@@ -70,21 +70,21 @@ namespace bombsweeperTests
         }
 
         [Test]
-        [Ignore("How to Validate?")]
-        public void ClickingOnNonBombRevealsAdjacentCells()
-        {
-            _testObj.AddBomb(0, 0);
-            _testObj.Reveal(1, 1);
-            ValidateCells(_hidden, "1", "1", "1");
-        }
-
-        [Test]
         public void ClickingOnNonBombDoesNotRevealDiagonalNonBomb()
         {
             _testObj.AddBomb(0, 0);
             _testObj.AddBomb(1, 1);
             _testObj.Reveal(0, 1);
             Assert.False(_testObj.GetCells()[1, 0].IsRevealed);
+        }
+
+        [Test]
+        [Ignore("How to Validate?")]
+        public void ClickingOnNonBombRevealsAdjacentCells()
+        {
+            _testObj.AddBomb(0, 0);
+            _testObj.Reveal(1, 1);
+            ValidateCells(_hidden, "1", "1", "1");
         }
 
         [Test]

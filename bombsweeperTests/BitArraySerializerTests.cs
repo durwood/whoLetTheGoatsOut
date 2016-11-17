@@ -5,7 +5,6 @@ using NUnit.Framework;
 
 namespace bombsweeperTests
 {
-
     [TestFixture]
     public class BitArraySerializerTests
     {
@@ -18,22 +17,92 @@ namespace bombsweeperTests
         private BitArraySerializer _testObj;
 
         [Test]
-        public void CanSerializeAndDeserializeDefaultBitArray()
+        public void BitArrayToByteArrayTests()
         {
-            var bitArray = new BitArray(16, false);
-            var serialized = _testObj.Serialize(bitArray);
-            var result = _testObj.Deserialize(serialized);
-            Assert.That(bitArray, Is.EqualTo(result));
+            byte[] expected = {1};
+            var bits = new BitArray(8, false);
+            bits.Set(0, true);
+            var result = _testObj.BitArrayToBytes(bits);
+            Assert.That(result, Is.EqualTo(expected));
+
+            expected = new[] {(byte) 128};
+            bits = new BitArray(8, false);
+            bits.Set(7, true);
+            result = _testObj.BitArrayToBytes(bits);
+            Assert.That(result, Is.EqualTo(expected));
+
+            expected = new[] {(byte) 128, (byte) 1};
+            bits = new BitArray(16, false);
+            bits.Set(7, true);
+            bits.Set(8, true);
+            result = _testObj.BitArrayToBytes(bits);
+            Assert.That(result, Is.EqualTo(expected));
+
+            expected = new[] {(byte) 128, (byte) 129};
+            bits = new BitArray(16, false);
+            bits.Set(7, true);
+            bits.Set(8, true);
+            bits.Set(15, true);
+            result = _testObj.BitArrayToBytes(bits);
+            Assert.That(result, Is.EqualTo(expected));
         }
 
         [Test]
-        public void CanSerializeAndDeserializeAllTrueBitArray()
+        public void ByteArrayToBitArrayTests()
         {
-            var expected = new BitArray(16, false);
+            byte[] bytes = {1};
+            var expected = new BitArray(8, false);
             expected.Set(0, true);
-            var serialized = _testObj.Serialize(expected);
-            var result = _testObj.Deserialize(serialized);
-            CollectionAssert.AreEqual(result, expected);
+            var bitArray = _testObj.ByteArrayToBitArray(bytes);
+            Assert.That(bitArray, Is.EqualTo(expected));
+
+            bytes = new[] {(byte) 128};
+            expected = new BitArray(8, false);
+            expected.Set(7, true);
+            bitArray = _testObj.ByteArrayToBitArray(bytes);
+            Assert.That(bitArray, Is.EqualTo(expected));
+
+            bytes = new[] {(byte) 128, (byte) 1};
+            expected = new BitArray(16, false);
+            expected.Set(7, true);
+            expected.Set(8, true);
+            bitArray = _testObj.ByteArrayToBitArray(bytes);
+            Assert.That(bitArray, Is.EqualTo(expected));
+
+            bytes = new[] {(byte) 128, (byte) 129};
+            expected = new BitArray(16, false);
+            expected.Set(7, true);
+            expected.Set(8, true);
+            expected.Set(15, true);
+            bitArray = _testObj.ByteArrayToBitArray(bytes);
+            Assert.That(bitArray, Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void BytesToBitArray()
+        {
+            var twoBytes = new byte[] {1, 128};
+            var bitArray = _testObj.ByteArrayToBitArray(twoBytes);
+            Assert.That(bitArray.Length, Is.EqualTo(16));
+            Assert.IsTrue(bitArray[0]);
+            Assert.IsTrue(bitArray[15]);
+
+            var byteBack = _testObj.BitArrayToBytes(bitArray);
+            CollectionAssert.AreEqual(twoBytes, byteBack);
+        }
+
+        [Test]
+        public void ByteToBitArray()
+        {
+            var bitArray = _testObj.ByteArrayToBitArray(new byte[] {1});
+            Assert.That(bitArray.Length, Is.EqualTo(8));
+            Assert.IsTrue(bitArray[0]);
+            Assert.IsFalse(bitArray[7]);
+
+            bitArray = _testObj.ByteArrayToBitArray(new byte[] {128});
+            Assert.That(bitArray.Length, Is.EqualTo(8));
+            Assert.IsFalse(bitArray[0]);
+            Assert.IsTrue(bitArray[7]);
         }
 
         [Test]
@@ -50,11 +119,22 @@ namespace bombsweeperTests
         }
 
         [Test]
-        public void SerializingBoardSmallerThan4x4Throws()
+        public void CanSerializeAndDeserializeAllTrueBitArray()
         {
-            var length = 3 * 3;
-            var bitArray = new BitArray(length, true);
-            Assert.Throws<ArgumentException>(() => _testObj.Serialize(bitArray));
+            var expected = new BitArray(16, false);
+            expected.Set(0, true);
+            var serialized = _testObj.Serialize(expected);
+            var result = _testObj.Deserialize(serialized);
+            CollectionAssert.AreEqual(result, expected);
+        }
+
+        [Test]
+        public void CanSerializeAndDeserializeDefaultBitArray()
+        {
+            var bitArray = new BitArray(16, false);
+            var serialized = _testObj.Serialize(bitArray);
+            var result = _testObj.Deserialize(serialized);
+            Assert.That(bitArray, Is.EqualTo(result));
         }
 
         [TestCase(4)]
@@ -77,34 +157,11 @@ namespace bombsweeperTests
         }
 
         [Test]
-        public void ByteArrayToBitArrayTests()
+        public void SerializingBoardSmallerThan4x4Throws()
         {
-            byte[] bytes = { (byte)1} ;
-            var expected = new BitArray(8, false);
-            expected.Set(0, true);
-            var bitArray = _testObj.ByteArrayToBitArray(bytes);
-            Assert.That(bitArray, Is.EqualTo(expected));
-
-            bytes = new byte[] { (byte)128 };
-            expected = new BitArray(8, false);
-            expected.Set(7, true);
-            bitArray = _testObj.ByteArrayToBitArray(bytes);
-            Assert.That(bitArray, Is.EqualTo(expected));
-
-            bytes = new byte[] { (byte)128, (byte) 1 };
-            expected = new BitArray(16, false);
-            expected.Set(7, true);
-            expected.Set(8, true);
-            bitArray = _testObj.ByteArrayToBitArray(bytes);
-            Assert.That(bitArray, Is.EqualTo(expected));
-
-            bytes = new byte[] { (byte)128, (byte)129 };
-            expected = new BitArray(16, false);
-            expected.Set(7, true);
-            expected.Set(8, true);
-            expected.Set(15, true);
-            bitArray = _testObj.ByteArrayToBitArray(bytes);
-            Assert.That(bitArray, Is.EqualTo(expected));
+            var length = 3*3;
+            var bitArray = new BitArray(length, true);
+            Assert.Throws<ArgumentException>(() => _testObj.Serialize(bitArray));
         }
 
         [TestCase(0, 0, 1)]
@@ -123,64 +180,5 @@ namespace bombsweeperTests
             var result = _testObj.SetBit(initialByte, index);
             Assert.That(result, Is.EqualTo(expected));
         }
-
-        [Test]
-        public void BitArrayToByteArrayTests()
-        {
-            byte[] expected = { (byte)1 };
-            var bits = new BitArray(8, false);
-            bits.Set(0, true);
-            var result = _testObj.BitArrayToBytes(bits);
-            Assert.That(result, Is.EqualTo(expected));
-
-            expected = new byte[] { (byte)128 };
-            bits = new BitArray(8, false);
-            bits.Set(7, true);
-            result = _testObj.BitArrayToBytes(bits);
-            Assert.That(result, Is.EqualTo(expected));
-
-            expected = new byte[] { (byte)128, (byte)1 };
-            bits = new BitArray(16, false);
-            bits.Set(7, true);
-            bits.Set(8, true);
-            result = _testObj.BitArrayToBytes(bits);
-            Assert.That(result, Is.EqualTo(expected));
-
-            expected = new byte[] { (byte)128, (byte)129 };
-            bits = new BitArray(16, false);
-            bits.Set(7, true);
-            bits.Set(8, true);
-            bits.Set(15, true);
-            result = _testObj.BitArrayToBytes(bits);
-            Assert.That(result, Is.EqualTo(expected));
-        }
-
-        [Test]
-        public void ByteToBitArray()
-        {
-            var bitArray = _testObj.ByteArrayToBitArray(new byte[] {1});
-            Assert.That(bitArray.Length, Is.EqualTo(8));
-            Assert.IsTrue(bitArray[0]);
-            Assert.IsFalse(bitArray[7]);
-
-            bitArray = _testObj.ByteArrayToBitArray(new byte[] { 128 });
-            Assert.That(bitArray.Length, Is.EqualTo(8));
-            Assert.IsFalse(bitArray[0]);
-            Assert.IsTrue(bitArray[7]);
-        }
-
-        [Test]
-        public void BytesToBitArray()
-        {
-            var twoBytes = new byte[] { 1, 128 };
-            var bitArray = _testObj.ByteArrayToBitArray(twoBytes);
-            Assert.That(bitArray.Length, Is.EqualTo(16));
-            Assert.IsTrue(bitArray[0]);
-            Assert.IsTrue(bitArray[15]);
-
-            var byteBack = _testObj.BitArrayToBytes(bitArray);
-            CollectionAssert.AreEqual(twoBytes, byteBack);
-        }
-
     }
 }

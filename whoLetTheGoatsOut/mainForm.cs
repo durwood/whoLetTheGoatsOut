@@ -13,9 +13,9 @@ namespace whoLetTheGoatsOut
         private readonly Board _board;
         private readonly Random _random = new Random();
         private int _elapsedTime;
-        Timer _timer;
 
         private int _numBombs;
+        private readonly Timer _timer;
         private WinformCellView[,] _winformCellViews;
 
         public MainForm(Board board)
@@ -23,7 +23,7 @@ namespace whoLetTheGoatsOut
             InitializeComponent();
             _board = board;
             //Text = $"Who Let the Goats Out? ({board.GetBoardHash()}";
-            _timer = new Timer { Interval = 1000 }; // 1 second
+            _timer = new Timer {Interval = 1000}; // 1 second
             InitializeBoard();
         }
 
@@ -100,7 +100,7 @@ namespace whoLetTheGoatsOut
             if (!_board.GameInProgress())
             {
                 ShowResult();
-                this.Close();
+                Close();
             }
         }
 
@@ -123,9 +123,7 @@ namespace whoLetTheGoatsOut
         private void mainForm_Closing(object sender, CancelEventArgs ee)
         {
             if (_board.GameInProgress())
-            {
                 ShowResult();
-            }
         }
 
         private void mainForm_Load(object sender, EventArgs e)

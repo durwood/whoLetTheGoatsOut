@@ -1,8 +1,5 @@
 using System;
 using System.Linq;
-using System.Collections;
-using System.Text;
-using System.Collections.Generic;
 
 namespace bombsweeper
 {
@@ -161,7 +158,7 @@ namespace bombsweeper
             for (var row = row0 - 1; row <= row0 + 1; ++row)
                 for (var col = col0 - 1; col <= col0 + 1; ++col)
                 {
-                if (NotValidCell(row, col) || IsSameCell(row0, col0, row, col) || IsDiagonal(row0, col0, row, col))
+                    if (NotValidCell(row, col) || IsSameCell(row0, col0, row, col) || IsDiagonal(row0, col0, row, col))
                         continue;
 
                     var cell = _cells[row, col];
@@ -174,7 +171,7 @@ namespace bombsweeper
                 }
         }
 
-        bool IsDiagonal(int row0, int col0, int row, int col)
+        private bool IsDiagonal(int row0, int col0, int row, int col)
         {
             return false;
             //return row0 != row && col0 != col;
