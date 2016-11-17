@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using bombsweeper;
+﻿using bombsweeper;
 using NUnit.Framework;
 
 namespace bombsweeperTests
@@ -10,8 +9,15 @@ namespace bombsweeperTests
         [SetUp]
         public void SetUp()
         {
-            _board = new Board(2);
+            _board = new Board(4);
             _testObj = new BoardSerializer();
+        }
+
+        [TearDown]
+        public void tearDown()
+        {
+            _board = null;
+            _testObj = null;
         }
 
         private Board _board;
@@ -27,8 +33,5 @@ namespace bombsweeperTests
             Assert.That(deSerialized.GetSize(), Is.EqualTo(_board.GetSize()));
             Assert.That(deSerialized.GetNumberOfUnmarkedBombs(), Is.EqualTo(_board.GetNumberOfUnmarkedBombs()));
         }
-
     }
-
-    
 }

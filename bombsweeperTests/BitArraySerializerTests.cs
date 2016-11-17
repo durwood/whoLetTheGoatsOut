@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using bombsweeper;
 using NUnit.Framework;
@@ -19,7 +20,7 @@ namespace bombsweeperTests
         [Test]
         public void CanSerializeAndDeserializeDefaultBitArray()
         {
-            var bitArray = new BitArray(8, false);
+            var bitArray = new BitArray(16, false);
             var serialized = _testObj.Serialize(bitArray);
             var result = _testObj.Deserialize(serialized);
             Assert.That(bitArray, Is.EqualTo(result));
@@ -28,7 +29,7 @@ namespace bombsweeperTests
         [Test]
         public void CanSerializeAndDeserializeAllTrueBitArray()
         {
-            var expected = new BitArray(8, false);
+            var expected = new BitArray(16, false);
             expected.Set(0, true);
             var serialized = _testObj.Serialize(expected);
             var result = _testObj.Deserialize(serialized);
@@ -46,6 +47,33 @@ namespace bombsweeperTests
             Assert.That(byteArray2, Is.EqualTo(byteArray));
             var bitArray2 = _testObj.ByteArrayToBitArray(byteArray);
             Assert.That(bitArray, Is.EqualTo(bitArray2));
+        }
+
+        [Test]
+        public void SerializingBoardSmallerThan4x4Throws()
+        {
+            var length = 3 * 3;
+            var bitArray = new BitArray(length, true);
+            Assert.Throws<ArgumentException>(() => _testObj.Serialize(bitArray));
+        }
+
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        [TestCase(7)]
+        [TestCase(8)]
+        [TestCase(9)]
+        [TestCase(10)]
+        [TestCase(11)]
+        [TestCase(12)]
+        [Test]
+        public void DeserializationMaintainsSize(int size)
+        {
+            var length = size*size;
+            var bitArray = new BitArray(length, true);
+            var serialized = _testObj.Serialize(bitArray);
+            var deSerialized = _testObj.Deserialize(serialized);
+            Assert.That(deSerialized.Length, Is.EqualTo(length));
         }
 
         [Test]

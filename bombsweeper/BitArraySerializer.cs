@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace bombsweeper
@@ -11,18 +12,35 @@ namespace bombsweeper
         public BitArray Deserialize(string input)
         {
             var byteArray = StringToByteArray(input);
-            return ByteArrayToBitArray(byteArray);
+            var sqrtLength = (int) Math.Sqrt(byteArray.Length*8);
+            var size = sqrtLength*sqrtLength;
+            return ByteArrayToBitArray(byteArray, size);
         }
 
         public string Serialize(BitArray bitArray)
         {
+            if (bitArray.Length < 4 * 4)
+                throw new ArgumentException("Cannot Serialize boards smaller than 4x4");
             byte[] byteArray = BitArrayToBytes(bitArray);
             var result = ByteArrayToString(byteArray);
             return result;
         }
-        public BitArray ByteArrayToBitArray(byte[] myBytes)
+        public BitArray ByteArrayToBitArray(byte[] myBytes, int size = 0)
         {
-            return new BitArray(myBytes);
+            var result = new BitArray(myBytes);
+            if (size != 0 && size != result.Length)
+            {
+                result = Truncate(result, size);
+            }
+            return result;
+        }
+
+        private BitArray Truncate(BitArray input, int size)
+        {
+            var result = new BitArray(size);
+            for (int index=0; index < size; ++index)
+                result[index] = input[index];
+            return result;
         }
 
         public byte[] BitArrayToBytes(BitArray myBA3)
