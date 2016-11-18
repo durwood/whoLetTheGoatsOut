@@ -66,11 +66,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(462, 454);
+            this.ClientSize = new System.Drawing.Size(473, 569);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ElapsedTimeLabel);
             this.Controls.Add(this.BombCountLabel);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.Text = "Who Let the Goats Out?";
             this.Load += new System.EventHandler(this.mainForm_Load);

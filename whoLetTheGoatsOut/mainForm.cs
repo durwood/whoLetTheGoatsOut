@@ -8,6 +8,7 @@ namespace whoLetTheGoatsOut
 {
     public partial class MainForm : Form, IGameView
     {
+        private const int BoardOffset = 80;
         public static int NumGoats = 38;
         public static int CellSize = 50;
         private readonly Board _board;
@@ -71,7 +72,7 @@ namespace whoLetTheGoatsOut
                         ModelCell = cells[row, col],
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
-                        Location = new Point(0 + row*CellSize, 80 + col*CellSize),
+                        Location = new Point(0 + row*CellSize, BoardOffset + col*CellSize),
                         Name = $"Row{row}_Col{col}",
                         Size = new Size(CellSize, CellSize),
                         TabIndex = 2,
