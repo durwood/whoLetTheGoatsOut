@@ -137,6 +137,8 @@ namespace bombsweeperTests
         public void RevealingLastCellWinsGame()
         {
             _testObj.AddBomb(0, 0);
+            _testObj.Reveal(1, 0);
+            _testObj.Reveal(0, 1);
             _testObj.Reveal(1, 1);
             Assert.IsTrue(_testObj.GameWon());
         }

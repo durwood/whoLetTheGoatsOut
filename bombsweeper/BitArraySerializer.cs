@@ -75,17 +75,19 @@ namespace bombsweeper
 
         public static string ByteArrayToString(byte[] ba)
         {
-            var hex = BitConverter.ToString(ba);
-            var result = hex.Replace("-", "");
+            //var hex = BitConverter.ToString(ba);
+            //var result = hex.Replace("-", "");
+            var result = Convert.ToBase64String(ba);
             return result;
         }
 
         public static byte[] StringToByteArray(string hex)
         {
-            var NumberChars = hex.Length;
-            var bytes = new byte[NumberChars/2];
-            for (var i = 0; i < NumberChars; i += 2)
-                bytes[i/2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            //var NumberChars = hex.Length;
+            //var bytes = new byte[NumberChars/2];
+            //for (var i = 0; i < NumberChars; i += 2)
+            //    bytes[i/2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            var bytes = Convert.FromBase64String(hex);
             return bytes;
         }
     }
