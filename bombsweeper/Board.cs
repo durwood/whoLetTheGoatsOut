@@ -18,9 +18,12 @@ namespace bombsweeper
         private GameState _gameState;
         private int _numBombs;
         private int _numMarked;
+        public object SavedBoard { get; private set; }
+        readonly BoardSerializer _serializer;
 
         public Board(int size)
         {
+            _serializer = new BoardSerializer();
             _size = size;
             _cells = new Cell[size, size];
             for (var row = 0; row < size; ++row)
@@ -29,6 +32,10 @@ namespace bombsweeper
             _gameState = GameState.InProgress;
         }
 
+        public void Finish()
+        {
+            SavedBoard = _size > 3 ? _serializer.Serialize(this) : "";
+        }
 
         public void AddBomb(int col, int row)
         {

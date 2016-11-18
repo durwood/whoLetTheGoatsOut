@@ -8,6 +8,7 @@ namespace bombsweeper
     {
         private readonly IRandomGenerator _rng;
         private Board _board;
+        private BoardSerializer _serializer;
 
         public BoardGenerator(IRandomGenerator randomNumberGenerator)
         {
@@ -19,6 +20,7 @@ namespace bombsweeper
             _board = new Board(size);
             for (var idx = 0; idx < numBombs; ++idx)
                 AddBomb();
+            _board.Finish();
             return _board;
         }
 
@@ -61,7 +63,9 @@ namespace bombsweeper
 
         public static Board GetStandardBoard()
         {
-            return Build9();
+            var board = Build9();
+            board.Finish();
+            return board;
         }
 
         private static Board Build9()

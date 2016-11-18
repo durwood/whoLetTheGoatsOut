@@ -22,7 +22,7 @@ namespace whoLetTheGoatsOut
         {
             InitializeComponent();
             _board = board;
-            //Text = $"Who Let the Goats Out? ({board.GetBoardHash()}";
+            Text = $"Who Let the Goats Out? ({board.SavedBoard})";
             _timer = new Timer {Interval = 1000}; // 1 second
             InitializeBoard();
         }
