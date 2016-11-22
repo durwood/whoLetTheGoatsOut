@@ -12,8 +12,8 @@ namespace whoLetTheGoatsOut
         [STAThread]
         private static void Main()
         {
-            var rnd = new RandomGenerator();
-            var boardGenerator = new BoardGenerator(rnd);
+            //var rnd = new RandomGenerator();
+            //var boardGenerator = new BoardGenerator(rnd);
             //var board = boardGenerator.GenerateBoard(9, 10);
             var board = BoardGenerator.GetStandardBoard();
             var game = new WinformGameController(board);
