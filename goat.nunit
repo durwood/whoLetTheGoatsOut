@@ -1,0 +1,9 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" processModel="Default" domainUsage="Default" />
+  <Config name="Debug">
+    <assembly path="bombsweeperTests\bin\Debug\bombsweeperTests.dll" />
+  </Config>
+  <Config name="Release">
+    <assembly path="bombsweeperTests\bin\Release\bombsweeperTests.dll" />
+  </Config>
+</NUnitProject>
