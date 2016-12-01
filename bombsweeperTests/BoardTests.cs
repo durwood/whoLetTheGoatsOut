@@ -56,7 +56,7 @@ namespace bombsweeperTests
         [Test]
         public void ClickingOnBombLosesGameAndRevealsBoard()
         {
-            _testObj.AddBomb(0, 1);
+            _testObj.AddBomb(1, 0);
             _testObj.Reveal(1, 0);
             //ValidateCells(_hidden, _hidden, _bomb, _hidden);
             Assert.IsTrue(_testObj.GameLost());

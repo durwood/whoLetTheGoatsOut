@@ -37,7 +37,7 @@ namespace bombsweeper
             SavedBoard = _size > 3 ? _serializer.Serialize(this) : "";
         }
 
-        public void AddBomb(int col, int row)
+        public void AddBomb(int row, int col)
         {
             _cells[row, col].AddBomb();
             _numBombs++;

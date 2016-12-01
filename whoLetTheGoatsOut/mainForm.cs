@@ -24,10 +24,10 @@ namespace whoLetTheGoatsOut
             var workingRectangle = Screen.PrimaryScreen.WorkingArea;
             FormHeight = workingRectangle.Height;
             var boardHeight = FormHeight - BoardOffset;
-            _cellSize = boardHeight/board.GetSize();
+            _cellSize = boardHeight/board.GetSize() - 30;
             boardHeight = _cellSize * board.GetSize();
-            FormHeight = boardHeight + BoardOffset;
-            FormWidth = _cellSize * board.GetSize();
+            FormHeight = boardHeight + BoardOffset + 40;
+            FormWidth = _cellSize * board.GetSize() + 15;
 
             //Size = new Size(Width, Height);
             InitializeComponent();
@@ -85,7 +85,8 @@ namespace whoLetTheGoatsOut
                         ModelCell = cells[row, col],
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.None,
-                        Location = new Point(0 + row*_cellSize, BoardOffset + col*_cellSize),
+                        // BorderStyle = BorderStyle.FixedSingle,
+                        Location = new Point(0 + col*_cellSize, 80 + row*_cellSize),
                         Name = $"Row{row}_Col{col}",
                         Size = new Size(_cellSize, _cellSize),
                         TabIndex = 2,
