@@ -30,7 +30,7 @@ namespace bombsweeper
             _gameState = GameState.InProgress;
         }
 
-        public void AddBomb(int col, int row)
+        public void AddBomb(int row, int col)
         {
             _cells[row, col].AddBomb();
             _numBombs++;
@@ -191,7 +191,7 @@ namespace bombsweeper
                     if (!cell.HasBomb() && !cell.IsRevealed)
                     {
                         var content = cell.Reveal();
-                        if (content == Cell.Empty)
+                        if (cell.IsRevealed && content == Cell.Empty)
                             RevealNeighbors(row, col);
                     }
                 }

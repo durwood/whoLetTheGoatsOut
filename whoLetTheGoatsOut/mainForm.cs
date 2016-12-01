@@ -25,7 +25,7 @@ namespace whoLetTheGoatsOut
                         Col = col,
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
-                        Location = new Point(0 + col*CellSize, 80 + row*CellSize),
+                        Location = new Point(0 + row*CellSize, 80 + col*CellSize),
                         Name = $"Row{row}_Col{col}",
                         Size = new Size(CellSize, CellSize),
                         TabIndex = 2,
