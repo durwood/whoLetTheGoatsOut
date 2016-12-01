@@ -51,6 +51,7 @@
             this.ElapsedTimeLabel.Size = new System.Drawing.Size(302, 22);
             this.ElapsedTimeLabel.TabIndex = 4;
             this.ElapsedTimeLabel.Text = "Elapsed Time:";
+            this.ElapsedTimeLabel.Click += new System.EventHandler(this.ElapsedTimeLabel_Click);
             // 
             // label1
             // 

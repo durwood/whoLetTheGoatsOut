@@ -10,7 +10,7 @@ namespace whoLetTheGoatsOut
     {
         private const int BoardOffset = 80;
         public static int NumGoats = 38;
-        public static int CellSize = 50;
+        private readonly int _cellSize;
         private readonly Board _board;
         private readonly Random _random = new Random();
         private int _elapsedTime;
@@ -21,12 +21,25 @@ namespace whoLetTheGoatsOut
 
         public MainForm(Board board)
         {
+            var workingRectangle = Screen.PrimaryScreen.WorkingArea;
+            FormHeight = workingRectangle.Height;
+            var boardHeight = FormHeight - BoardOffset;
+            _cellSize = boardHeight/board.GetSize();
+            boardHeight = _cellSize * board.GetSize();
+            FormHeight = boardHeight + BoardOffset;
+            FormWidth = _cellSize * board.GetSize();
+
+            //Size = new Size(Width, Height);
             InitializeComponent();
             _board = board;
             Text = $"Who Let the Goats Out? ({board.SavedBoard})";
             _timer = new Timer {Interval = 1000}; // 1 second
             InitializeBoard();
         }
+
+        public int FormWidth { get; set; }
+
+        public int FormHeight { get; set; }
 
         public void DisplayBoard()
         {
@@ -71,10 +84,10 @@ namespace whoLetTheGoatsOut
                         Col = col,
                         ModelCell = cells[row, col],
                         BackColor = Color.MediumSeaGreen,
-                        BorderStyle = BorderStyle.FixedSingle,
-                        Location = new Point(0 + row*CellSize, BoardOffset + col*CellSize),
+                        BorderStyle = BorderStyle.None,
+                        Location = new Point(0 + row*_cellSize, BoardOffset + col*_cellSize),
                         Name = $"Row{row}_Col{col}",
-                        Size = new Size(CellSize, CellSize),
+                        Size = new Size(_cellSize, _cellSize),
                         TabIndex = 2,
                         TabStop = false,
                         SizeMode = PictureBoxSizeMode.StretchImage
@@ -130,6 +143,7 @@ namespace whoLetTheGoatsOut
         private void mainForm_Load(object sender, EventArgs e)
         {
             FormClosing += mainForm_Closing;
+            Size = new Size(FormWidth, FormHeight);
 
             //PreviewGoatsAndIcons();
             UpdateStatusDisplay();
@@ -169,6 +183,11 @@ namespace whoLetTheGoatsOut
 
         private void label1_Click(object sender, EventArgs e)
         {
+        }
+
+        private void ElapsedTimeLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
