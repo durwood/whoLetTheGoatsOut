@@ -48,7 +48,7 @@ namespace bombsweeperTests
         {
             _testObj = new Board(3);
             _testObj.AddBomb(0, 0);
-            _testObj.AddBomb(1, 0);
+            _testObj.AddBomb(0, 1);
             _testObj.Reveal(2, 0);
             ValidateCells(_hidden, _hidden, _hidden, "2", "2", "1", _empty, _empty, _empty);
         }
@@ -104,10 +104,32 @@ namespace bombsweeperTests
         public void MarkedCellsWithBombsAreNotRevealedWhenGameIsLost()
         {
             _testObj.AddBomb(0, 0);
-            _testObj.AddBomb(1, 0);
+            _testObj.AddBomb(0, 1);
             _testObj.ToggleMark(0, 0);
             _testObj.Reveal(0, 1);
             ValidateCells(_marked, _bomb, _hidden, _hidden);
+        }
+
+        [Test]
+        [Ignore("How to Validate?")]
+        public void RevealDoesNotRevealAdjacentPairsOfMarkedCells()
+        {
+            var testObj = new Board(3);
+            testObj.ToggleMark(0, 1);
+            testObj.ToggleMark(0, 2);
+            testObj.Reveal(0,0);
+            ValidateCells(testObj, _empty, _marked, _marked, 
+                                  _empty, _empty, _empty,
+                                  _empty, _empty, _empty);
+        }
+
+        [Test]
+        [Ignore("How to Validate?")]
+        public void RevealDoesNotRevealAdjacentMarkedCells()
+        {
+            _testObj.ToggleMark(0, 1);
+            _testObj.Reveal(0, 0);
+            ValidateCells(_empty, _marked, _empty, _empty);
         }
 
         [Test]

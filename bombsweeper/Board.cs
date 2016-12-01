@@ -173,7 +173,7 @@ namespace bombsweeper
                     if (!cell.HasBomb && !cell.IsRevealed)
                     {
                         cell.Reveal();
-                        if (cell.IsEmpty())
+                        if (cell.IsRevealed && cell.IsEmpty())
                             RevealNeighbors(row, col);
                     }
                 }
