@@ -111,8 +111,9 @@ namespace bombsweeper
 
         private void DisplayRow(int row)
         {
+            char rowLabel = (char)(65 + row);
             var rowString = string.Join(" ", GetRow(row).Select(c => c.ToString()));
-            var line = string.Join(" ", $"{row + 1,LabelAllowance}", $"{rowString}");
+            var line = string.Join(" ", $"{rowLabel,LabelAllowance}", $"{rowString}");
             Console.WriteLine(line);
         }
 
