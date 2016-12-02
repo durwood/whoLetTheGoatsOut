@@ -25,7 +25,7 @@ namespace whoLetTheGoatsOut
                         Col = col,
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
-                        Location = new Point(0 + row*CellSize, 80 + col*CellSize),
+                        Location = new Point(0 + col*CellSize, 80 + row*CellSize),
                         Name = $"Row{row}_Col{col}",
                         Size = new Size(CellSize, CellSize),
                         TabIndex = 2,
@@ -55,8 +55,14 @@ namespace whoLetTheGoatsOut
                 sq.Image = null;
             }
 
-            var result = $"{mouseEvent?.Button}-Clicked on Col: {sq?.Col}, Row: {sq?.Row}";
-            MessageBox.Show(result);
+            string text;
+            if (mouseEvent?.Button == MouseButtons.Right)
+                text = $"Right-Clicked Col: {sq?.Col}, Row: {sq?.Row}\n Image Pasted to cell.";
+            else if (mouseEvent?.Button == MouseButtons.Left)
+                text = $"Left-Clicked Col: {sq?.Col}, Row: {sq?.Row}\n Image Cut from cell.";
+            else
+                text = $"{mouseEvent?.Button}-Clicked";
+            MessageBox.Show(text);
         }
 
         private void mainForm_Load(object sender, EventArgs e)
