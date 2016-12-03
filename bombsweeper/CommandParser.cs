@@ -19,16 +19,32 @@ namespace bombsweeper
 
         public virtual BoardCommand GetCommand(string input)
         {
-            var items = input.Split(',', ' ');
+            var items = input.ToUpper().Split(',', ' ');
             if (items.Length == 3)
-                _click = new Coordinate {X = int.Parse(items[1]) - 1, Y = int.Parse(items[2]) - 1};
+            {
+                int col;
+                int row;
+                if (int.TryParse(items[1], out col))
+                {
+                    col--;
+                    row = (int)(items[2][0]) - 65;
+                }
+                else if (int.TryParse(items[2], out col))
+                {
+                    col--;
+                    row = (int)(items[1][0]) - 65;
+                }
+                else
+                    return BoardCommand.UnknownCommand;
+                _click = new Coordinate { X = col, Y = row };
+            }
             switch (items[0])
             {
-                case "q":
+                case "Q":
                     return BoardCommand.QuitGame;
-                case "m":
+                case "M":
                     return BoardCommand.MarkCell;
-                case "c":
+                case "C":
                     return BoardCommand.RevealCell;
                 default:
                     return BoardCommand.UnknownCommand;

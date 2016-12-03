@@ -14,27 +14,36 @@ namespace bombsweeperTests
 
         private CommandParser _testObj;
 
-        private void ValidateCell(int x, int y)
-        {
-            var boardcell = _testObj.GetCell();
-            Assert.AreEqual(x, boardcell.X);
-            Assert.AreEqual(y, boardcell.Y);
-        }
-
         [Test]
         public void CanProcessClickCommand()
         {
-            var command = _testObj.GetCommand("c 1,2");
+            var command = _testObj.GetCommand("c A,2");
+            var cell = _testObj.GetCell();
+            var expected = new Coordinate {X = 1, Y = 0};
             Assert.AreEqual(BoardCommand.RevealCell, command);
-            ValidateCell(0, 1);
+            Assert.AreEqual(cell, expected);
+        }
+
+        [Test]
+        public void CanProcessCoordinatesInEitherOrderCommand()
+        {
+            _testObj.GetCommand("x A,2");
+            var cell1 = _testObj.GetCell();
+
+            _testObj.GetCommand("x 2,A");
+            var cell2 = _testObj.GetCell();
+
+            Assert.That(cell1, Is.EqualTo(cell2));
         }
 
         [Test]
         public void CanProcessMarkCommand()
         {
-            var command = _testObj.GetCommand("m 1,2");
+            var command = _testObj.GetCommand("m A,2");
+            var cell = _testObj.GetCell();
+            var expected = new Coordinate {X = 1, Y = 0};
             Assert.AreEqual(BoardCommand.MarkCell, command);
-            ValidateCell(0, 1);
+            Assert.AreEqual(cell, expected);
         }
 
         [Test]
@@ -42,6 +51,19 @@ namespace bombsweeperTests
         {
             var command = _testObj.GetCommand("q");
             Assert.AreEqual(BoardCommand.QuitGame, command);
+        }
+
+        [Test]
+        public void CommandProcessingIsNotCaseSeNsItIvE()
+        {
+            var command1 = _testObj.GetCommand("c A,2");
+            var cell1 = _testObj.GetCell();
+
+            var command2 = _testObj.GetCommand("C a,2");
+            var cell2 = _testObj.GetCell();
+
+            Assert.That(command1, Is.EqualTo(command2));
+            Assert.That(cell1, Is.EqualTo(cell2));
         }
     }
 }
