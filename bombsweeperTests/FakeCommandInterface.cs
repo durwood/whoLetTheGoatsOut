@@ -7,7 +7,7 @@ namespace bombsweeperTests
     {
         private ConsoleKeyInfo? _keyInfo;
 
-        public FakeCommandInterface() : base(0)
+        public FakeCommandInterface() : base(new ConsoleView(new Board(0)))
         {
         }
 
