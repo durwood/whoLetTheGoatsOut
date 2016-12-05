@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace bombsweeper
 {
@@ -24,6 +25,27 @@ namespace bombsweeper
             _cursorLine = _boardLine + board.GetSize() + 2;
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
             _commandInterface = new CommandInterface(_cursorLine);
+        }
+
+        public static Game Create(Dictionary<string, bool> options)
+        {
+            var board = CreateBoard(options);
+            var game = new Game(board);
+            return game;
+        }
+
+        private static Board CreateBoard(IReadOnlyDictionary<string, bool> options)
+        {
+            Board board;
+            if (options["newBoard"])
+            {
+                var rnd = new RandomGenerator();
+                var boardGenerator = new BoardGenerator(rnd);
+                board = boardGenerator.GenerateBoard(9, 10);
+            }
+            else
+                board = BoardGenerator.GetStandardBoard();
+            return board;
         }
 
         public void Run()
@@ -101,7 +123,6 @@ namespace bombsweeper
             {
                 int x, y;
                 var cell = _board.GetLosingBombCell(out x, out y);
-                var savedColor = Console.BackgroundColor;
                 Console.BackgroundColor = ConsoleColor.Red;
                 Console.SetCursorPosition(x, y + _boardLine);
                 Console.Write(cell);

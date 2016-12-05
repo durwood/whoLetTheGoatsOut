@@ -111,7 +111,7 @@ namespace bombsweeper
 
         private void DisplayRow(int row)
         {
-            char rowLabel = (char)(65 + row);
+            var rowLabel = (char) (65 + row);
             var rowString = string.Join(" ", GetRow(row).Select(c => c.ToString()));
             var line = string.Join(" ", $"{rowLabel,LabelAllowance}", $"{rowString}");
             Console.WriteLine(line);
@@ -192,7 +192,7 @@ namespace bombsweeper
                     if (!cell.HasBomb() && !cell.IsRevealed)
                     {
                         var content = cell.Reveal();
-                        if (cell.IsRevealed && content == Cell.Empty)
+                        if (cell.IsRevealed && (content == Cell.Empty))
                             RevealNeighbors(row, col);
                     }
                 }
