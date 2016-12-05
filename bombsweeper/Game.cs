@@ -1,24 +1,20 @@
-using System;
-
 namespace bombsweeper
 {
     public class Game
     {
         private readonly Board _board;
-        private readonly CommandInterface _commandInterface;
-        private readonly CommandParser _commandParser;
+        private readonly ICommandInterface _commandInterface;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
         private readonly IView _view;
         private int _elapsedSec;
         private int _numBombs;
 
-        public Game(Board board, IView consoleView)
+        public Game(Board board, IView consoleView, ICommandInterface commandInterface)
         {
-            _commandParser = new CommandParser();
             _board = board;
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
             _view = consoleView;
-            _commandInterface = new CommandInterface(_view);
+            _commandInterface = commandInterface;
         }
 
         public void Run()
@@ -28,14 +24,7 @@ namespace bombsweeper
             do
             {
                 UpdateStatusDisplay();
-                _commandInterface.Tick();
-                if (_commandInterface.HasCommandToProcess)
-                {
-                    var commandString = _commandInterface.GetCommand();
-                    ExecuteBoardCommand(_commandParser.GetCell(), _commandParser.GetCommand(commandString));
-                    _commandInterface.Reset();
-                    _view.DisplayBoard(_board);
-                }
+                _commandInterface.DoATurn(_view, _board);
             } while (_board.GameInProgress());
             _view.DisplayBoard(_board);
             ShowResult();
@@ -68,22 +57,6 @@ namespace bombsweeper
             }
             if (needToDisplay)
                 _view.StatusDisplay(_numBombs, _elapsedSec);
-        }
-
-        private void ExecuteBoardCommand(Coordinate getCell, BoardCommand boardCommand)
-        {
-            var command = boardCommand;
-            if (command != BoardCommand.UnknownCommand)
-                if (command == BoardCommand.QuitGame)
-                    _board.QuitGame();
-                else
-                {
-                    var cell = getCell;
-                    if (command == BoardCommand.RevealCell)
-                        _board.Reveal(cell.Y, cell.X);
-                    else if (command == BoardCommand.MarkCell)
-                        _board.ToggleMark(cell.Y, cell.X);
-                }
         }
     }
 }

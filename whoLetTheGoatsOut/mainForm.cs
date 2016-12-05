@@ -18,8 +18,9 @@ namespace whoLetTheGoatsOut
         {
             InitializeComponent();
 
-            var game = new Game(new Board(BoardSize), new WinFormView());
-
+            var view = new WinFormView();
+            var commandInterface = new WindowsCommandInterface();
+            var game = new Game(new Board(BoardSize), view, commandInterface);
             for (var row = 0; row < BoardSize; ++row)
                 for (var col = 0; col < BoardSize; ++col)
                 {
@@ -40,6 +41,9 @@ namespace whoLetTheGoatsOut
                     Controls.Add(sq);
                     _squares[row, col] = sq;
                 }
+            // This is where we want the game to run. Currently this doesn't work because nothing will cause the game to terminate
+            //game.Run();
+
         }
 
         private void Sq_Click(object sender, EventArgs e)
@@ -91,46 +95,6 @@ namespace whoLetTheGoatsOut
 
         private void label1_Click(object sender, EventArgs e)
         {
-        }
-    }
-
-    public class WinFormView : IView
-    {
-        public void Clear()
-        {
-        }
-
-        public void DisplayBoard(Board board)
-        {
-        }
-
-        public void StatusDisplay(int numBombs, int elapsedSec)
-        {
-        }
-
-        public void Quit()
-        {
-        }
-
-        public void Lose()
-        {
-        }
-
-        public void Win()
-        {
-        }
-
-        public void DisplayFooter(Board board)
-        {
-        }
-
-        public void DisplayRow(string line)
-        {
-        }
-
-        public int GetCursorPosition()
-        {
-            return 0;
         }
     }
 }

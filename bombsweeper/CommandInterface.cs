@@ -2,8 +2,9 @@ using System;
 
 namespace bombsweeper
 {
-    public class CommandInterface
+    public class CommandInterface : ICommandInterface
     {
+        private readonly CommandParser _commandParser;
         private readonly int _cursorLine;
         protected readonly CommandHistoryManager HistoryManager;
         protected string CurrentCommand;
@@ -15,6 +16,19 @@ namespace bombsweeper
             CurrentCommand = "";
             HasCommandToProcess = false;
             HistoryManager = new CommandHistoryManager();
+            _commandParser = new CommandParser();
+        }
+
+        public void DoATurn(IView view, Board board)
+        {
+            Tick();
+            if (HasCommandToProcess)
+            {
+                var commandString = GetCommand();
+                board.ExecuteBoardCommand(_commandParser.GetCell(), _commandParser.GetCommand(commandString));
+                Reset();
+                view.DisplayBoard(board);
+            }
         }
 
         public string GetCommand()
@@ -93,5 +107,10 @@ namespace bombsweeper
             Console.SetCursorPosition(0, _cursorLine);
             Console.Write("> " + CurrentCommand);
         }
+    }
+
+    public interface ICommandInterface
+    {
+        void DoATurn(IView view, Board board);
     }
 }

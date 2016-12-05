@@ -237,5 +237,21 @@ namespace bombsweeper
         {
             return Math.Max(_numBombs - _numMarked, 0);
         }
+
+        public void ExecuteBoardCommand(Coordinate getCell, BoardCommand boardCommand)
+        {
+            var command = boardCommand;
+            if (command != BoardCommand.UnknownCommand)
+                if (command == BoardCommand.QuitGame)
+                    QuitGame();
+                else
+                {
+                    var cell = getCell;
+                    if (command == BoardCommand.RevealCell)
+                        Reveal(cell.Y, cell.X);
+                    else if (command == BoardCommand.MarkCell)
+                        ToggleMark(cell.Y, cell.X);
+                }
+        }
     }
 }

@@ -9,7 +9,9 @@ namespace bombsweeper
         {
             var options = ParseArgs(args);
             var board = CreateBoard(options);
-            var game = new Game(board, new ConsoleView(board));
+            var view = new ConsoleView(board);
+            var commandInterface = new CommandInterface(view);
+            var game = new Game(board, view, commandInterface);
             game.Run();
             Console.ReadKey();
         }
