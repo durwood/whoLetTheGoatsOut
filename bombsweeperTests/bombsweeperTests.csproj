@@ -58,6 +58,7 @@
     <Compile Include="CommandParserTests.cs" />
     <Compile Include="CellTests.cs" />
     <Compile Include="FakeCommandInterface.cs" />
+    <Compile Include="GameTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

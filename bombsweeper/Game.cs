@@ -2,10 +2,20 @@ using System;
 
 namespace bombsweeper
 {
+    public class ConsoleOutput
+    {
+        public virtual void Init()
+        {
+            Console.CursorVisible = false;
+            Console.Clear();
+        }
+
+        public const int BoardLine = 2;
+    }
+
     public class Game
     {
         private readonly Board _board;
-        private readonly int _boardLine;
         private readonly CommandInterface _commandInterface;
         private readonly CommandParser _commandParser;
         private readonly int _cursorLine;
@@ -13,22 +23,25 @@ namespace bombsweeper
         private readonly int _statusLine;
         private int _elapsedSec;
         private int _numBombs;
-
+        private ConsoleOutput _output = new ConsoleOutput();
         public Game(Board board)
         {
-            Console.CursorVisible = false;
             _commandParser = new CommandParser();
             _board = board;
             _statusLine = 0;
-            _boardLine = 2;
-            _cursorLine = _boardLine + board.GetSize() + 2;
+            _cursorLine = ConsoleOutput.BoardLine + board.GetSize() + 2;
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
             _commandInterface = new CommandInterface(_cursorLine);
         }
 
+        public void SetOutput(ConsoleOutput output)
+        {
+            _output = output;
+        }
+
         public void Run()
         {
-            Console.Clear();
+            _output.Init();
             DisplayBoard();
             do
             {
@@ -95,15 +108,13 @@ namespace bombsweeper
 
         private void DisplayBoard()
         {
-            Console.SetCursorPosition(0, _boardLine);
             _board.Display();
             if (_board.GameLost())
             {
                 int x, y;
                 var cell = _board.GetLosingBombCell(out x, out y);
-                var savedColor = Console.BackgroundColor;
                 Console.BackgroundColor = ConsoleColor.Red;
-                Console.SetCursorPosition(x, y + _boardLine);
+                Console.SetCursorPosition(x, y + ConsoleOutput.BoardLine);
                 Console.Write(cell);
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(0, _cursorLine);

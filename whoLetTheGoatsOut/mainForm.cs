@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using bombsweeper;
 
 namespace whoLetTheGoatsOut
 {
@@ -68,6 +69,10 @@ namespace whoLetTheGoatsOut
         private void mainForm_Load(object sender, EventArgs e)
         {
             PreviewGoatsAndIcons();
+
+            Board board = BoardGenerator.GetStandardBoard();
+            var game = new Game(board);
+
         }
 
         private void PreviewGoatsAndIcons()

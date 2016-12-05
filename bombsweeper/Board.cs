@@ -13,7 +13,7 @@ namespace bombsweeper
 
     public class Board
     {
-        private const int LabelAllowance = 3;
+        private const int LabelAllowance = 4;
         private readonly Cell[,] _cells;
         private readonly int _size;
         private GameState _gameState;
@@ -109,12 +109,25 @@ namespace bombsweeper
             DisplayFooter();
         }
 
-        private void DisplayRow(int row)
+        public void DisplayRow(int row)
         {
+            var cells = GetRow(row);
+
             char rowLabel = (char)(65 + row);
-            var rowString = string.Join(" ", GetRow(row).Select(c => c.ToString()));
-            var line = string.Join(" ", $"{rowLabel,LabelAllowance}", $"{rowString}");
-            Console.WriteLine(line);
+            var lineStart = $"{rowLabel,LabelAllowance-1} ";
+            Console.SetCursorPosition(0, ConsoleOutput.BoardLine + row);
+            Console.Write(lineStart);
+
+            for (var col=0; col<cells.Length; col++)
+                DisplayCell(col, row, cells[col]);
+
+            Console.WriteLine();
+        }
+
+        private void DisplayCell(int col, int row, Cell cell)
+        {
+            Console.SetCursorPosition(LabelAllowance + col * 2, ConsoleOutput.BoardLine + row);
+            Console.Write(cell + " ");
         }
 
         private Cell[] GetRow(int row)
@@ -122,7 +135,7 @@ namespace bombsweeper
             var offset = row*_size;
             return _cells.Cast<Cell>().Skip(offset).Take(_size).ToArray();
         }
-
+        
         public override string ToString()
         {
             var cellStrings = _cells.Cast<Cell>().Select(cell => cell.ToString());
@@ -207,7 +220,7 @@ namespace bombsweeper
 
         private void DisplayFooterOnes()
         {
-            Console.Write($"{"",LabelAllowance + 1}");
+            Console.Write($"{"",LabelAllowance}");
             for (var col = 0; col < _size; ++col)
                 Console.Write($"{(col + 1)%10} ");
             Console.WriteLine();
@@ -215,7 +228,7 @@ namespace bombsweeper
 
         private void DisplayFooterTens()
         {
-            Console.Write($"{"",LabelAllowance + 1}");
+            Console.Write($"{"",LabelAllowance}");
             for (var col = 0; col < _size; ++col)
                 Console.Write($"{(col + 1)/10} ");
             Console.WriteLine();
