@@ -47,8 +47,8 @@ namespace bombsweeper
             var cursorLeft = Console.CursorLeft;
             Console.SetCursorPosition(0, _statusLine);
             Console.WriteLine($"Bombs: {numBombs}  Elapsed Time: {elapsedSec}");
+            //This is weird and we should something? test it? something?
             Console.SetCursorPosition(cursorLeft, cursorTop);
-
         }
     }
 
