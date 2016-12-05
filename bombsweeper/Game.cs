@@ -107,9 +107,7 @@ namespace bombsweeper
         {
             var board = CreateBoard(options);
             view.SetBoard(board);
-            var game = new Game(board, view);
-
-            return game;
+            return new Game(board, view);
         }
 
         private static Board CreateBoard(IReadOnlyDictionary<string, bool> options)
