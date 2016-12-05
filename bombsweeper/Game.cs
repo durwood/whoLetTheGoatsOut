@@ -5,13 +5,14 @@ namespace bombsweeper
     public class Game
     {
         private readonly Board _board;
-        private readonly CommandInterface _commandInterface;
+        private ICommandInterface _commandInterface;
         private readonly CommandParser _commandParser;
         private readonly int _cursorLine;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
         private int _elapsedSec;
         private int _numBombs;
         private IDisplay _output = new ConsoleOutput();
+
         public Game(Board board)
         {
             _commandParser = new CommandParser();
@@ -20,8 +21,6 @@ namespace bombsweeper
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
             _commandInterface = new CommandInterface(_cursorLine);
         }
-
-
 
         public void SetOutput(IDisplay output)
         {
@@ -95,6 +94,11 @@ namespace bombsweeper
             {
                 _output.DisplayLose(_board);
             }
+        }
+
+        public void SetCommandInterface(ICommandInterface commandInterface)
+        {
+            _commandInterface = commandInterface;
         }
     }
 }

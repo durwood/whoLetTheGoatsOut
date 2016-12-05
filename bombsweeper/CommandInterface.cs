@@ -7,7 +7,7 @@ namespace bombsweeper
         private readonly int _cursorLine;
         protected readonly CommandHistoryManager HistoryManager;
         protected string CurrentCommand;
-        public bool HasCommandToProcess;
+        public bool HasCommandToProcess { get; set; }
 
         public CommandInterface(int cursorLine)
         {
@@ -97,5 +97,9 @@ namespace bombsweeper
 
     public interface ICommandInterface
     {
+        void Tick();
+        bool HasCommandToProcess { get; }
+        string GetCommand();
+        void Reset();
     }
 }

@@ -9,10 +9,14 @@ namespace bombsweeperTests
         [Test]
         public void RunCallsInit()
         {
-            Board board = BoardGenerator.GetStandardBoard();
+            Board board = new Board(0);
             var testObj = new Game(board);
             var fakeOutput = new FakeOutput();
             testObj.SetOutput(fakeOutput);
+            var fakeCommandInterface = new FakeCommandInterface();
+            fakeCommandInterface.SetCommand("q");
+            fakeCommandInterface.HasCommandToProcess = true;
+            testObj.SetCommandInterface(fakeCommandInterface);
             testObj.Run();
             Assert.That(fakeOutput.InitCalled, Is.True);
         }        

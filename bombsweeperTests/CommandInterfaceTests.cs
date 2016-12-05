@@ -46,17 +46,6 @@ namespace bombsweeperTests
         private readonly ConsoleKeyInfo _downArrow = ConsoleKeyHelper.KeyInfoFactory(ConsoleKey.DownArrow);
         private FakeCommandInterface _testObj;
 
-        private static ConsoleKeyInfo KeyInfoFactory(char keyChar, ConsoleKey key)
-        {
-            return new ConsoleKeyInfo(keyChar, key, false, false, false);
-        }
-
-        private void SetAndEnterCommand(string command)
-        {
-            _testObj.SetCommand(command);
-            Tick(_return);
-        }
-
         private void Tick(ConsoleKeyInfo keyInfo)
         {
             _testObj.SetKeyInfo(keyInfo);
