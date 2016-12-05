@@ -18,3 +18,4 @@ x 10. When bomb exposed and board is revealed, reveal ONLY unmarked bombs,
 x 11. Highlight bomb which caused you to lose. Reverse display maybe?
 x 12. Clicking on marked cell does nothing. Must unmark to reveal.
 
+can I change this?
