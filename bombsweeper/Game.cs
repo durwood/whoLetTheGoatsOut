@@ -73,6 +73,7 @@ namespace bombsweeper
 
         private void ExecuteBoardCommand(string commandString)
         {
+            //TODO: Work to abstract this piece so we take in the command type and cell location instead of a string
             var command = _commandParser.GetCommand(commandString);
             if (command != BoardCommand.UnknownCommand)
                 if (command == BoardCommand.QuitGame)
