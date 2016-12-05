@@ -7,7 +7,7 @@ namespace bombsweeperTests
     {
         private ConsoleKeyInfo? _keyInfo;
 
-        public FakeCommandInterface() : base(new ConsoleView(new Board(0)))
+        public FakeCommandInterface() : base(new FakeView())
         {
         }
 
@@ -39,6 +39,46 @@ namespace bombsweeperTests
 
         protected override void ClearCommand()
         {
+        }
+    }
+
+    internal class FakeView : IView
+    {
+        public void Clear()
+        {
+        }
+
+        public void DisplayBoard(Board board)
+        {
+        }
+
+        public void StatusDisplay(int numBombs, int elapsedSec)
+        {
+        }
+
+        public void Quit()
+        {
+        }
+
+        public void Lose()
+        {
+        }
+
+        public void Win()
+        {
+        }
+
+        public void DisplayFooter(Board board)
+        {
+        }
+
+        public void DisplayRow(string line)
+        {
+        }
+
+        public int GetCursorPosition()
+        {
+            return 0;
         }
     }
 }

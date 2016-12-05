@@ -14,6 +14,7 @@ namespace bombsweeper
             _statusLine = 0;
             _boardLine = 2;
             _cursorLine = _boardLine + board.GetSize() + 2;
+            Console.CursorVisible = false;
         }
 
         public void Clear()

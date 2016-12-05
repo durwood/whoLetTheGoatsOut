@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using bombsweeper;
 
 namespace whoLetTheGoatsOut
 {
@@ -16,8 +17,11 @@ namespace whoLetTheGoatsOut
         public MainForm()
         {
             InitializeComponent();
-            for (var row = 0; row < 9; ++row)
-                for (var col = 0; col < 9; ++col)
+
+            var game = new Game(new Board(BoardSize), new WinFormView());
+
+            for (var row = 0; row < BoardSize; ++row)
+                for (var col = 0; col < BoardSize; ++col)
                 {
                     var sq = new Square
                     {
@@ -25,7 +29,7 @@ namespace whoLetTheGoatsOut
                         Col = col,
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
-                        Location = new Point(0 + col*CellSize, 80 + row*CellSize),
+                        Location = new Point(0 + col * CellSize, 80 + row * CellSize),
                         Name = $"Row{row}_Col{col}",
                         Size = new Size(CellSize, CellSize),
                         TabIndex = 2,
@@ -87,6 +91,46 @@ namespace whoLetTheGoatsOut
 
         private void label1_Click(object sender, EventArgs e)
         {
+        }
+    }
+
+    public class WinFormView : IView
+    {
+        public void Clear()
+        {
+        }
+
+        public void DisplayBoard(Board board)
+        {
+        }
+
+        public void StatusDisplay(int numBombs, int elapsedSec)
+        {
+        }
+
+        public void Quit()
+        {
+        }
+
+        public void Lose()
+        {
+        }
+
+        public void Win()
+        {
+        }
+
+        public void DisplayFooter(Board board)
+        {
+        }
+
+        public void DisplayRow(string line)
+        {
+        }
+
+        public int GetCursorPosition()
+        {
+            return 0;
         }
     }
 }
