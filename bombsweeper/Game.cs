@@ -11,10 +11,11 @@ namespace bombsweeper
         private readonly int _cursorLine;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
         private readonly int _statusLine;
+        private readonly IView _view;
         private int _elapsedSec;
         private int _numBombs;
 
-        public Game(Board board)
+        public Game(Board board, IView consoleView)
         {
             Console.CursorVisible = false;
             _commandParser = new CommandParser();
@@ -24,12 +25,13 @@ namespace bombsweeper
             _cursorLine = _boardLine + board.GetSize() + 2;
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
             _commandInterface = new CommandInterface(_cursorLine);
+            _view = consoleView;
         }
 
         public void Run()
         {
-            Console.Clear();
-            DisplayBoard();
+            _view.Clear();
+            _view.DisplayBoard(_board, _boardLine, _cursorLine);
             do
             {
                 UpdateStatusDisplay();
@@ -38,11 +40,11 @@ namespace bombsweeper
                 {
                     ExecuteBoardCommand(_commandInterface.GetCommand());
                     _commandInterface.Reset();
-                    DisplayBoard();
+                    _view.DisplayBoard(_board, _boardLine, _cursorLine);
                 }
             } while (_board.GameInProgress());
-            DisplayBoard();
-            ShowResult();
+            _view.DisplayBoard(_board, _boardLine, _cursorLine);
+            _view.ShowResult(_board);
         }
 
         private void UpdateStatusDisplay()
@@ -61,10 +63,7 @@ namespace bombsweeper
                 _numBombs = numBombs;
             }
             if (needToDisplay)
-            {
-                Console.SetCursorPosition(0, _statusLine);
-                Console.WriteLine($"Bombs: {_numBombs}  Elapsed Time: {_elapsedSec}");
-            }
+                _view.StatusDisplay(_numBombs, _elapsedSec, _statusLine);
         }
 
         private void ExecuteBoardCommand(string commandString)
@@ -82,32 +81,54 @@ namespace bombsweeper
                         _board.ToggleMark(cell.Y, cell.X);
                 }
         }
+    }
 
-        private void ShowResult()
+    public class ConsoleView : IView
+    {
+        public void Clear()
         {
-            if (_board.GameWon())
+            Console.Clear();
+        }
+
+        public void DisplayBoard(Board board, int boardLine, int cursorLine)
+        {
+            Console.SetCursorPosition(0, boardLine);
+            board.Display();
+            if (board.GameLost())
+            {
+                int x, y;
+                var cell = board.GetLosingBombCell(out x, out y);
+                var savedColor = Console.BackgroundColor;
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.SetCursorPosition(x, y + boardLine);
+                Console.Write(cell);
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(0, cursorLine);
+            }
+        }
+
+        public void ShowResult(Board board)
+        {
+            if (board.GameWon())
                 Console.WriteLine("Congratulations, you won!");
-            else if (_board.GameLost())
+            else if (board.GameLost())
                 Console.WriteLine("IsLoser.");
             else
                 Console.WriteLine("Quitter.");
         }
 
-        private void DisplayBoard()
+        public void StatusDisplay(int numBombs, int elapsedSec, int statusLine)
         {
-            Console.SetCursorPosition(0, _boardLine);
-            _board.Display();
-            if (_board.GameLost())
-            {
-                int x, y;
-                var cell = _board.GetLosingBombCell(out x, out y);
-                var savedColor = Console.BackgroundColor;
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.SetCursorPosition(x, y + _boardLine);
-                Console.Write(cell);
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(0, _cursorLine);
-            }
+            Console.SetCursorPosition(0, statusLine);
+            Console.WriteLine($"Bombs: {numBombs}  Elapsed Time: {elapsedSec}");
         }
+    }
+
+    public interface IView
+    {
+        void Clear();
+        void DisplayBoard(Board board, int boardLine, int cursorLine);
+        void ShowResult(Board board);
+        void StatusDisplay(int numBombs, int elapsedSec, int statusLine);
     }
 }

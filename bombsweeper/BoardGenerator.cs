@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace bombsweeper
@@ -25,17 +24,19 @@ namespace bombsweeper
         private void AddBomb()
         {
             var diceRoll = _rng.NextDouble();
-            var numAdjacent = (diceRoll < 0.15) ? 2 : (diceRoll < 0.30) ? 1 : 0;
-            if (numAdjacent == 2 && AddAdjacentBomb(2))
+            var numAdjacent = diceRoll < 0.15 ? 2 : diceRoll < 0.30 ? 1 : 0;
+            if ((numAdjacent == 2) && AddAdjacentBomb(2))
                 return;
-            if (numAdjacent == 1 && AddAdjacentBomb(1))
+            if ((numAdjacent == 1) && AddAdjacentBomb(1))
                 return;
             AddAdjacentBomb(0);
         }
 
         private bool AddAdjacentBomb(int numAdjacent)
         {
-            var matching = (from Cell item in _board.GetCells() where item.NeighboringBombCount == numAdjacent select item).ToArray();
+            var matching =
+                (from Cell item in _board.GetCells() where item.NeighboringBombCount == numAdjacent select item).ToArray
+                    ();
             if (matching.Length > 0)
             {
                 var bombIdx = _rng.Next(0, matching.Length);
@@ -81,5 +82,4 @@ namespace bombsweeper
             return board;
         }
     }
-
 }
