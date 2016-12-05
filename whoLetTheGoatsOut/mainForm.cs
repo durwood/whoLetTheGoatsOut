@@ -72,6 +72,9 @@ namespace whoLetTheGoatsOut
 
             Board board = BoardGenerator.GetStandardBoard();
             var game = new Game(board);
+            game.SetOutput(new WinformsDisplay());
+            game.SetCommandInterface(new WinformsCommandInterface());
+            game.Run();
 
         }
 
@@ -91,6 +94,24 @@ namespace whoLetTheGoatsOut
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+        }
+    }
+
+    internal class WinformsCommandInterface : ICommandInterface
+    {
+        public void Tick()
+        {
+        }
+
+        public bool HasCommandToProcess => true;
+
+        public string GetCommand()
+        {
+            return "Q";
+        }
+
+        public void Reset()
         {
         }
     }

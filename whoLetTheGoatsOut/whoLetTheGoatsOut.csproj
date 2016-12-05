@@ -59,6 +59,7 @@
     <Compile Include="Square.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WinformsDisplay.cs" />
     <EmbeddedResource Include="mainForm.resx">
       <DependentUpon>mainForm.cs</DependentUpon>
     </EmbeddedResource>
