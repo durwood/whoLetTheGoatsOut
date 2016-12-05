@@ -13,7 +13,6 @@ namespace bombsweeper
 
     public class Board
     {
-        private const int LabelAllowance = 4;
         private readonly Cell[,] _cells;
         private readonly int _size;
         private GameState _gameState;
@@ -81,56 +80,11 @@ namespace bombsweeper
             return (row < 0) || (row > _size - 1) || (col < 0) || (col > _size - 1);
         }
 
-        public Cell GetLosingBombCell(out int x, out int y)
-        {
-            for (var row = 0; row < _size; ++row)
-                for (var col = 0; col < _size; ++col)
-                    if (_cells[row, col].IsLoser)
-                    {
-                        x = col;
-                        y = row;
-                        GetConsoleXCoordinate(ref x);
-                        return _cells[row, col];
-                    }
-            x = 0;
-            y = 0;
-            return null;
-        }
+     
 
-        private static void GetConsoleXCoordinate(ref int x)
-        {
-            x = LabelAllowance + 1 + x*2;
-        }
 
-        public void Display()
-        {
-            for (var row = 0; row < _size; ++row)
-                DisplayRow(row);
-            DisplayFooter();
-        }
 
-        public void DisplayRow(int row)
-        {
-            var cells = GetRow(row);
-
-            char rowLabel = (char)(65 + row);
-            var lineStart = $"{rowLabel,LabelAllowance-1} ";
-            Console.SetCursorPosition(0, ConsoleOutput.BoardLine + row);
-            Console.Write(lineStart);
-
-            for (var col=0; col<cells.Length; col++)
-                DisplayCell(col, row, cells[col]);
-
-            Console.WriteLine();
-        }
-
-        private void DisplayCell(int col, int row, Cell cell)
-        {
-            Console.SetCursorPosition(LabelAllowance + col * 2, ConsoleOutput.BoardLine + row);
-            Console.Write(cell + " ");
-        }
-
-        private Cell[] GetRow(int row)
+        public Cell[] GetRow(int row)
         {
             var offset = row*_size;
             return _cells.Cast<Cell>().Skip(offset).Take(_size).ToArray();
@@ -209,29 +163,6 @@ namespace bombsweeper
                             RevealNeighbors(row, col);
                     }
                 }
-        }
-
-        private void DisplayFooter()
-        {
-            if (_size > 9)
-                DisplayFooterTens();
-            DisplayFooterOnes();
-        }
-
-        private void DisplayFooterOnes()
-        {
-            Console.Write($"{"",LabelAllowance}");
-            for (var col = 0; col < _size; ++col)
-                Console.Write($"{(col + 1)%10} ");
-            Console.WriteLine();
-        }
-
-        private void DisplayFooterTens()
-        {
-            Console.Write($"{"",LabelAllowance}");
-            for (var col = 0; col < _size; ++col)
-                Console.Write($"{(col + 1)/10} ");
-            Console.WriteLine();
         }
 
         public int GetSize()

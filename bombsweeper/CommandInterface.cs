@@ -2,7 +2,7 @@ using System;
 
 namespace bombsweeper
 {
-    public class CommandInterface
+    public class CommandInterface : ICommandInterface
     {
         private readonly int _cursorLine;
         protected readonly CommandHistoryManager HistoryManager;
@@ -93,5 +93,9 @@ namespace bombsweeper
             Console.SetCursorPosition(0, _cursorLine);
             Console.Write("> " + CurrentCommand);
         }
+    }
+
+    public interface ICommandInterface
+    {
     }
 }

@@ -18,13 +18,32 @@ namespace bombsweeperTests
         }        
     }
 
-    public class FakeOutput : ConsoleOutput
+    public class FakeOutput : IDisplay
     {
         public bool InitCalled { get; private set; }
 
-        public override void Init()
+        public void Init()
         {
             InitCalled = true;
+        }
+
+        public void Display(Board board)
+        {
+            
+        }
+
+        public void DisplayLose(Board board)
+        {
+        }
+
+        public void ShowResult(Board board)
+        {
+
+        }
+
+        public void UpdateStatus(int elapsedSec, int numBombs)
+        {
+            
         }
     }
 }

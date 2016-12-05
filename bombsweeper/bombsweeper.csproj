@@ -53,7 +53,9 @@
     <Compile Include="BoardGenerator.cs" />
     <Compile Include="CommandHistoryManager.cs" />
     <Compile Include="CommandInterface.cs" />
+    <Compile Include="ConsoleOutput.cs" />
     <Compile Include="ElapsedSecondsCalculator.cs" />
+    <Compile Include="IDisplay.cs" />
     <Compile Include="IRandomGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

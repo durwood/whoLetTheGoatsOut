@@ -2,17 +2,6 @@ using System;
 
 namespace bombsweeper
 {
-    public class ConsoleOutput
-    {
-        public virtual void Init()
-        {
-            Console.CursorVisible = false;
-            Console.Clear();
-        }
-
-        public const int BoardLine = 2;
-    }
-
     public class Game
     {
         private readonly Board _board;
@@ -20,21 +9,21 @@ namespace bombsweeper
         private readonly CommandParser _commandParser;
         private readonly int _cursorLine;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
-        private readonly int _statusLine;
         private int _elapsedSec;
         private int _numBombs;
-        private ConsoleOutput _output = new ConsoleOutput();
+        private IDisplay _output = new ConsoleOutput();
         public Game(Board board)
         {
             _commandParser = new CommandParser();
             _board = board;
-            _statusLine = 0;
-            _cursorLine = ConsoleOutput.BoardLine + board.GetSize() + 2;
+            _cursorLine = ConsoleOutput.CalcCursorLine(board);
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
             _commandInterface = new CommandInterface(_cursorLine);
         }
 
-        public void SetOutput(ConsoleOutput output)
+
+
+        public void SetOutput(IDisplay output)
         {
             _output = output;
         }
@@ -55,7 +44,7 @@ namespace bombsweeper
                 }
             } while (_board.GameInProgress());
             DisplayBoard();
-            ShowResult();
+            _output.ShowResult(_board);
         }
 
         private void UpdateStatusDisplay()
@@ -75,10 +64,11 @@ namespace bombsweeper
             }
             if (needToDisplay)
             {
-                Console.SetCursorPosition(0, _statusLine);
-                Console.WriteLine($"Bombs: {_numBombs}  Elapsed Time: {_elapsedSec}");
+                _output.UpdateStatus(_elapsedSec, _numBombs);
             }
         }
+
+ 
 
         private void ExecuteBoardCommand(string commandString)
         {
@@ -96,28 +86,14 @@ namespace bombsweeper
                 }
         }
 
-        private void ShowResult()
-        {
-            if (_board.GameWon())
-                Console.WriteLine("Congratulations, you won!");
-            else if (_board.GameLost())
-                Console.WriteLine("IsLoser.");
-            else
-                Console.WriteLine("Quitter.");
-        }
+       
 
         private void DisplayBoard()
         {
-            _board.Display();
+            _output.Display(_board);
             if (_board.GameLost())
             {
-                int x, y;
-                var cell = _board.GetLosingBombCell(out x, out y);
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.SetCursorPosition(x, y + ConsoleOutput.BoardLine);
-                Console.Write(cell);
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(0, _cursorLine);
+                _output.DisplayLose(_board);
             }
         }
     }
