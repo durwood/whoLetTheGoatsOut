@@ -141,6 +141,12 @@
   <ItemGroup>
     <EmbeddedResource Include="ImageResources\fence-chainlink-1-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\bombsweeper\bombsweeper.csproj">
+      <Project>{0A883C66-BCB9-41D5-A731-5A9A1D91B406}</Project>
+      <Name>bombsweeper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

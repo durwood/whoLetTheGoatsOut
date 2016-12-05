@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using bombsweeper;
 
 namespace whoLetTheGoatsOut
 {
@@ -16,6 +17,9 @@ namespace whoLetTheGoatsOut
         public MainForm()
         {
             InitializeComponent();
+
+            //var game = Game.Create(Game.DefaultArguments);
+
             for (var row = 0; row < 9; ++row)
                 for (var col = 0; col < 9; ++col)
                 {

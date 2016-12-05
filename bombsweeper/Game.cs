@@ -5,6 +5,12 @@ namespace bombsweeper
 {
     public class Game
     {
+        public static Dictionary<string, bool> DefaultArguments = new Dictionary<string, bool>
+        {
+            {"newBoard", false},
+            {"simpleBoard", false}
+        };
+
         private readonly Board _board;
         private readonly int _boardLine;
         private readonly CommandInterface _commandInterface;

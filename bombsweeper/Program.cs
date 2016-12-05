@@ -7,21 +7,16 @@ namespace bombsweeper
     {
         public static void Main(string[] args)
         {
-            var options = ParseArgs(args);
+         
+            var options = ParseArgs(args, Game.DefaultArguments);
             var game = Game.Create(options);
             game.Run();
             Console.ReadKey();
         }
 
-     
-
-        private static Dictionary<string, bool> ParseArgs(string[] args)
+        private static Dictionary<string, bool> ParseArgs(string[] args, Dictionary<string, bool> defaultArguments)
         {
-            var dict = new Dictionary<string, bool>
-            {
-                {"newBoard", false},
-                {"simpleBoard", false}
-            };
+            var dict = defaultArguments;
             foreach (var arg in args)
                 if (arg == "--generate")
                     dict["generateBoard"] = true;
