@@ -9,9 +9,9 @@ namespace bombsweeper
         protected string CurrentCommand;
         public bool HasCommandToProcess;
 
-        public CommandInterface(int cursorLine)
+        public CommandInterface(IView view)
         {
-            _cursorLine = cursorLine;
+            _cursorLine = view.GetCursorPosition();
             CurrentCommand = "";
             HasCommandToProcess = false;
             HistoryManager = new CommandHistoryManager();

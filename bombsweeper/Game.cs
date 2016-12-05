@@ -5,12 +5,9 @@ namespace bombsweeper
     public class Game
     {
         private readonly Board _board;
-        private readonly int _boardLine;
         private readonly CommandInterface _commandInterface;
         private readonly CommandParser _commandParser;
-        private readonly int _cursorLine;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
-        private readonly int _statusLine;
         private readonly IView _view;
         private int _elapsedSec;
         private int _numBombs;
@@ -20,10 +17,10 @@ namespace bombsweeper
             Console.CursorVisible = false;
             _commandParser = new CommandParser();
             _board = board;
-            _cursorLine = _boardLine + board.GetSize() + 2;
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
-            _commandInterface = new CommandInterface(_cursorLine);
             _view = consoleView;
+            _commandInterface = new CommandInterface(_view);
+
         }
 
         public void Run()
