@@ -13,10 +13,7 @@ namespace bombsweeper
         public bool IsMarked;
         public bool IsRevealed;
 
-        public int NeighboringBombCount
-        {
-            get { return (_content == Bomb || _content == Empty) ? 0 : int.Parse(_content.ToString()); }
-        }
+        public int NeighboringBombCount => (_content == Bomb || _content == Empty) ? 0 : int.Parse(_content.ToString());
 
         public Cell()
         {

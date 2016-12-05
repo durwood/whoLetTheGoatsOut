@@ -102,19 +102,19 @@ namespace bombsweeper
             x = LabelAllowance + 1 + x*2;
         }
 
-        public void Display()
+        public void Display(IView view)
         {
             for (var row = 0; row < _size; ++row)
-                DisplayRow(row);
-            DisplayFooter();
+                DisplayRow(row, view);
+            view.DisplayFooter(this);
         }
 
-        private void DisplayRow(int row)
+        private void DisplayRow(int row, IView view)
         {
             char rowLabel = (char)(65 + row);
             var rowString = string.Join(" ", GetRow(row).Select(c => c.ToString()));
             var line = string.Join(" ", $"{rowLabel,LabelAllowance}", $"{rowString}");
-            Console.WriteLine(line);
+            view.DisplayRow(line);
         }
 
         private Cell[] GetRow(int row)
