@@ -5,20 +5,73 @@ namespace bombsweeper
 {
     public class ConsoleView : IView
     {
+        private Board _board;
+        private int _boardLine;
+        private int _cursorLine;
+        private int _statusLine;
+
         public void Initialize()
         {
             Console.CursorVisible = false;
+        }
+
+        public void SetBoard(Board board)
+        {
+            _board = board;
+            _boardLine = 2;
+            _statusLine = 0;
+            _cursorLine = _boardLine + board.GetSize() + 2;
+        }
+
+        public void DisplayBoard()
+        {
+            Console.SetCursorPosition(0, _boardLine);
+            _board.Display();
+            if (_board.GameLost())
+            {
+                int x, y;
+                var cell = _board.GetLosingBombCell(out x, out y);
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.SetCursorPosition(x, y + _boardLine);
+                Console.Write(cell);
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(0, _cursorLine);
+            }
+        }
+
+
+        public void UpdateStatusDisplay(int elapsedSec)
+        {
+            var numBombs = _board.GetNumberOfUnmarkedBombs();
+            Console.SetCursorPosition(0, _statusLine);
+            Console.WriteLine($"Bombs: {numBombs}  Elapsed Time: {elapsedSec}");
         }
     }
 
     public interface IView
     {
         void Initialize();
+        void SetBoard(Board board);
+        void DisplayBoard();
+        void UpdateStatusDisplay(int elapsedSec);
     }
 
     public class FormView : IView
     {
         public void Initialize()
+        {
+        }
+
+        public void SetBoard(Board board)
+        {
+        }
+
+        public void DisplayBoard()
+        {
+        }
+
+
+        public void UpdateStatusDisplay(int elapsedSec)
         {
         }
     }
@@ -32,32 +85,30 @@ namespace bombsweeper
         };
 
         private readonly Board _board;
-        private readonly int _boardLine;
         private readonly CommandInterface _commandInterface;
         private readonly CommandParser _commandParser;
-        private readonly int _cursorLine;
         private readonly ElapsedSecondsCalculator _elapsedSecondsCalculator;
-        private readonly int _statusLine;
-        private int _elapsedSec;
-        private int _numBombs;
+        private readonly IView _view;
 
         public Game(Board board, IView view)
         {
+            _view = view;
             view.Initialize();
             _commandParser = new CommandParser();
             _board = board;
-            _statusLine = 0;
-            _boardLine = 2;
-            _cursorLine = _boardLine + board.GetSize() + 2;
+            var boardLine = 2;
+            var cursorLine = boardLine + board.GetSize() + 2;
             _elapsedSecondsCalculator = new ElapsedSecondsCalculator();
-            _commandInterface = new CommandInterface(_cursorLine);
+            _commandInterface = new CommandInterface(cursorLine);
         }
 
 
         public static Game Create(Dictionary<string, bool> options, IView view)
         {
             var board = CreateBoard(options);
+            view.SetBoard(board);
             var game = new Game(board, view);
+
             return game;
         }
 
@@ -78,7 +129,7 @@ namespace bombsweeper
         public void Run()
         {
             Console.Clear();
-            DisplayBoard();
+            _view.DisplayBoard();
             do
             {
                 UpdateStatusDisplay();
@@ -87,33 +138,17 @@ namespace bombsweeper
                 {
                     ExecuteBoardCommand(_commandInterface.GetCommand());
                     _commandInterface.Reset();
-                    DisplayBoard();
+                    _view.DisplayBoard();
                 }
             } while (_board.GameInProgress());
-            DisplayBoard();
+            _view.DisplayBoard();
             ShowResult();
         }
 
         private void UpdateStatusDisplay()
         {
-            var needToDisplay = false;
             var elapsedSec = _elapsedSecondsCalculator.ElapsedSec();
-            if (elapsedSec != _elapsedSec)
-            {
-                needToDisplay = true;
-                _elapsedSec = elapsedSec;
-            }
-            var numBombs = _board.GetNumberOfUnmarkedBombs();
-            if (numBombs != _numBombs)
-            {
-                needToDisplay = true;
-                _numBombs = numBombs;
-            }
-            if (needToDisplay)
-            {
-                Console.SetCursorPosition(0, _statusLine);
-                Console.WriteLine($"Bombs: {_numBombs}  Elapsed Time: {_elapsedSec}");
-            }
+            _view.UpdateStatusDisplay(elapsedSec);
         }
 
         private void ExecuteBoardCommand(string commandString)
@@ -140,22 +175,6 @@ namespace bombsweeper
                 Console.WriteLine("IsLoser.");
             else
                 Console.WriteLine("Quitter.");
-        }
-
-        private void DisplayBoard()
-        {
-            Console.SetCursorPosition(0, _boardLine);
-            _board.Display();
-            if (_board.GameLost())
-            {
-                int x, y;
-                var cell = _board.GetLosingBombCell(out x, out y);
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.SetCursorPosition(x, y + _boardLine);
-                Console.Write(cell);
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(0, _cursorLine);
-            }
         }
     }
 }

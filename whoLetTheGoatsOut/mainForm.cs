@@ -16,7 +16,6 @@ namespace whoLetTheGoatsOut
         public MainForm()
         {
             InitializeComponent();
-
             var game = Game.Create(Game.DefaultArguments, new FormView());
 
             for (var row = 0; row < 9; ++row)
