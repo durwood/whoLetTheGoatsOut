@@ -1,5 +1,6 @@
 # Autosave files
 *~
+*.exe
 
 # build
 [Oo]bj/
