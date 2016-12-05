@@ -43,8 +43,12 @@ namespace bombsweeper
         public void UpdateStatusDisplay(int elapsedSec)
         {
             var numBombs = _board.GetNumberOfUnmarkedBombs();
+            var cursorTop = Console.CursorTop;
+            var cursorLeft = Console.CursorLeft;
             Console.SetCursorPosition(0, _statusLine);
             Console.WriteLine($"Bombs: {numBombs}  Elapsed Time: {elapsedSec}");
+            Console.SetCursorPosition(cursorLeft, cursorTop);
+
         }
     }
 
