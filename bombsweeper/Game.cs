@@ -3,6 +3,26 @@ using System.Collections.Generic;
 
 namespace bombsweeper
 {
+    public class ConsoleView : IView
+    {
+        public void Initialize()
+        {
+            Console.CursorVisible = false;
+        }
+    }
+
+    public interface IView
+    {
+        void Initialize();
+    }
+
+    public class FormView : IView
+    {
+        public void Initialize()
+        {
+        }
+    }
+
     public class Game
     {
         public static Dictionary<string, bool> DefaultArguments = new Dictionary<string, bool>
@@ -21,9 +41,9 @@ namespace bombsweeper
         private int _elapsedSec;
         private int _numBombs;
 
-        public Game(Board board)
+        public Game(Board board, IView view)
         {
-            Console.CursorVisible = false;
+            view.Initialize();
             _commandParser = new CommandParser();
             _board = board;
             _statusLine = 0;
@@ -33,10 +53,11 @@ namespace bombsweeper
             _commandInterface = new CommandInterface(_cursorLine);
         }
 
-        public static Game Create(Dictionary<string, bool> options)
+
+        public static Game Create(Dictionary<string, bool> options, IView view)
         {
             var board = CreateBoard(options);
-            var game = new Game(board);
+            var game = new Game(board, view);
             return game;
         }
 

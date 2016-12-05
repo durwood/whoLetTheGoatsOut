@@ -7,9 +7,8 @@ namespace bombsweeper
     {
         public static void Main(string[] args)
         {
-         
             var options = ParseArgs(args, Game.DefaultArguments);
-            var game = Game.Create(options);
+            var game = Game.Create(options, new ConsoleView());
             game.Run();
             Console.ReadKey();
         }

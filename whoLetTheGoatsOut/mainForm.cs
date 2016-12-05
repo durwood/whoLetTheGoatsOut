@@ -10,7 +10,6 @@ namespace whoLetTheGoatsOut
         public static int BoardSize = 9;
         public static int NumGoats = 38;
         public static int CellSize = 50;
-        private readonly Random _random = new Random();
         private readonly Square[,] _squares = new Square[BoardSize, BoardSize];
         private Image _savedImage;
 
@@ -18,7 +17,7 @@ namespace whoLetTheGoatsOut
         {
             InitializeComponent();
 
-            //var game = Game.Create(Game.DefaultArguments);
+            var game = Game.Create(Game.DefaultArguments, new FormView());
 
             for (var row = 0; row < 9; ++row)
                 for (var col = 0; col < 9; ++col)
@@ -49,10 +48,10 @@ namespace whoLetTheGoatsOut
             if ((sq == null) || (mouseEvent == null))
                 return;
 
-            if (mouseEvent?.Button == MouseButtons.Right)
+            if (mouseEvent.Button == MouseButtons.Right)
                 //sq.LoadIcon(BoardIcon.MarkGoat);
                 sq.Image = _savedImage;
-            else if (mouseEvent?.Button == MouseButtons.Left)
+            else if (mouseEvent.Button == MouseButtons.Left)
             {
                 //sq.LoadGoatImage(_random.Next(1, NumGoats));
                 _savedImage = sq.Image;
@@ -60,12 +59,12 @@ namespace whoLetTheGoatsOut
             }
 
             string text;
-            if (mouseEvent?.Button == MouseButtons.Right)
-                text = $"Right-Clicked Col: {sq?.Col}, Row: {sq?.Row}\n Image Pasted to cell.";
-            else if (mouseEvent?.Button == MouseButtons.Left)
-                text = $"Left-Clicked Col: {sq?.Col}, Row: {sq?.Row}\n Image Cut from cell.";
+            if (mouseEvent.Button == MouseButtons.Right)
+                text = $"Right-Clicked Col: {sq.Col}, Row: {sq.Row}\n Image Pasted to cell.";
+            else if (mouseEvent.Button == MouseButtons.Left)
+                text = $"Left-Clicked Col: {sq.Col}, Row: {sq.Row}\n Image Cut from cell.";
             else
-                text = $"{mouseEvent?.Button}-Clicked";
+                text = $"{mouseEvent.Button}-Clicked";
             MessageBox.Show(text);
         }
 
