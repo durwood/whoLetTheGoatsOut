@@ -1,9 +1,11 @@
 using System;
+using System.Linq;
 
 namespace bombsweeper
 {
     public class ConsoleView : IView
     {
+        public const int LabelAllowance = 3;
         private Board _board;
         private int _boardLine;
         private int _cursorLine;
@@ -25,7 +27,10 @@ namespace bombsweeper
         public void DisplayBoard()
         {
             Console.SetCursorPosition(0, _boardLine);
-            _board.Display();
+            for (var row = 0; row < _board.Size; ++row)
+                DisplayRow(row, _board);
+            DisplayFooter(_board);
+
             if (_board.GameLost())
             {
                 int x, y;
@@ -68,6 +73,43 @@ namespace bombsweeper
         public void Win()
         {
             Console.WriteLine("Congratulations, you won!");
+        }
+
+        private Cell[] GetRow(int row, Board board)
+        {
+            var offset = row*board.Size;
+            return board.Cells.Cast<Cell>().Skip(offset).Take(board.Size).ToArray();
+        }
+
+        private void DisplayRow(int row, Board board)
+        {
+            var rowLabel = (char) (65 + row);
+            var rowString = string.Join(" ", GetRow(row, board).Select(c => c.ToString()));
+            var line = string.Join(" ", $"{rowLabel,LabelAllowance}", $"{rowString}");
+            Console.WriteLine(line);
+        }
+
+        private void DisplayFooterOnes(Board board)
+        {
+            Console.Write($"{"",LabelAllowance + 1}");
+            for (var col = 0; col < board.Size; ++col)
+                Console.Write($"{(col + 1)%10} ");
+            Console.WriteLine();
+        }
+
+        private void DisplayFooterTens(Board board)
+        {
+            Console.Write($"{"",LabelAllowance + 1}");
+            for (var col = 0; col < board.Size; ++col)
+                Console.Write($"{(col + 1)/10} ");
+            Console.WriteLine();
+        }
+
+        private void DisplayFooter(Board board)
+        {
+            if (board.Size > 9)
+                DisplayFooterTens(board);
+            DisplayFooterOnes(board);
         }
     }
 }

@@ -13,48 +13,49 @@ namespace bombsweeper
 
     public class Board
     {
-        private const int LabelAllowance = 3;
-        private readonly Cell[,] _cells;
-        private readonly int _size;
         private GameState _gameState;
         private int _numBombs;
         private int _numMarked;
 
         public Board(int size)
         {
-            _size = size;
-            _cells = new Cell[size, size];
+            Size = size;
+            Cells = new Cell[size, size];
             for (var row = 0; row < size; ++row)
                 for (var col = 0; col < size; ++col)
-                    _cells[row, col] = new Cell();
+                    Cells[row, col] = new Cell();
             _gameState = GameState.InProgress;
         }
 
+        public int Size { get; }
+
+        public Cell[,] Cells { get; }
+
         public void AddBomb(int row, int col)
         {
-            _cells[row, col].AddBomb();
+            Cells[row, col].AddBomb();
             _numBombs++;
             PopulateAdjacencyCounts();
         }
 
         private void PopulateAdjacencyCounts()
         {
-            for (var row = 0; row < _size; ++row)
-                for (var col = 0; col < _size; ++col)
+            for (var row = 0; row < Size; ++row)
+                for (var col = 0; col < Size; ++col)
                 {
-                    if (_cells[row, col].HasBomb())
+                    if (Cells[row, col].HasBomb())
                         continue;
                     var bombsAroundCellCount = CountBombsAroundCell(row, col);
                     if (bombsAroundCellCount == 0)
-                        _cells[row, col].ClearContents();
+                        Cells[row, col].ClearContents();
                     else
-                        _cells[row, col].AddBombsAroundCellCount(bombsAroundCellCount);
+                        Cells[row, col].AddBombsAroundCellCount(bombsAroundCellCount);
                 }
         }
 
         public Cell[,] GetCells()
         {
-            return _cells;
+            return Cells;
         }
 
         private int CountBombsAroundCell(int row0, int col0)
@@ -65,7 +66,7 @@ namespace bombsweeper
                 {
                     if (NotValidCell(row, col) || IsSameCell(row0, col0, row, col))
                         continue;
-                    if (_cells[row, col].HasBomb())
+                    if (Cells[row, col].HasBomb())
                         count++;
                 }
             return count;
@@ -78,19 +79,19 @@ namespace bombsweeper
 
         private bool NotValidCell(int row, int col)
         {
-            return (row < 0) || (row > _size - 1) || (col < 0) || (col > _size - 1);
+            return (row < 0) || (row > Size - 1) || (col < 0) || (col > Size - 1);
         }
 
         public Cell GetLosingBombCell(out int x, out int y)
         {
-            for (var row = 0; row < _size; ++row)
-                for (var col = 0; col < _size; ++col)
-                    if (_cells[row, col].IsLoser)
+            for (var row = 0; row < Size; ++row)
+                for (var col = 0; col < Size; ++col)
+                    if (Cells[row, col].IsLoser)
                     {
                         x = col;
                         y = row;
                         GetConsoleXCoordinate(ref x);
-                        return _cells[row, col];
+                        return Cells[row, col];
                     }
             x = 0;
             y = 0;
@@ -99,33 +100,12 @@ namespace bombsweeper
 
         private static void GetConsoleXCoordinate(ref int x)
         {
-            x = LabelAllowance + 1 + x*2;
-        }
-
-        public void Display()
-        {
-            for (var row = 0; row < _size; ++row)
-                DisplayRow(row);
-            DisplayFooter();
-        }
-
-        private void DisplayRow(int row)
-        {
-            var rowLabel = (char) (65 + row);
-            var rowString = string.Join(" ", GetRow(row).Select(c => c.ToString()));
-            var line = string.Join(" ", $"{rowLabel,LabelAllowance}", $"{rowString}");
-            Console.WriteLine(line);
-        }
-
-        private Cell[] GetRow(int row)
-        {
-            var offset = row*_size;
-            return _cells.Cast<Cell>().Skip(offset).Take(_size).ToArray();
+            x = ConsoleView.LabelAllowance + 1 + x*2;
         }
 
         public override string ToString()
         {
-            var cellStrings = _cells.Cast<Cell>().Select(cell => cell.ToString());
+            var cellStrings = Cells.Cast<Cell>().Select(cell => cell.ToString());
             return string.Join(" ", cellStrings);
         }
 
@@ -151,7 +131,7 @@ namespace bombsweeper
 
         public void Reveal(int row, int col)
         {
-            var cell = _cells[row, col];
+            var cell = Cells[row, col];
             var content = cell.Reveal();
             if (cell.IsRevealed)
                 if (content == Cell.Bomb)
@@ -170,12 +150,12 @@ namespace bombsweeper
 
         private bool NoFurtherCellsToReveal()
         {
-            return !_cells.Cast<Cell>().Any(cell => !cell.IsRevealed && !cell.HasBomb());
+            return !Cells.Cast<Cell>().Any(cell => !cell.IsRevealed && !cell.HasBomb());
         }
 
         private void RevealAllBombs()
         {
-            foreach (var cell in _cells)
+            foreach (var cell in Cells)
                 if (!cell.IsMarked && cell.HasBomb())
                     cell.Reveal();
         }
@@ -188,7 +168,7 @@ namespace bombsweeper
                     if (NotValidCell(row, col) || IsSameCell(row0, col0, row, col))
                         continue;
 
-                    var cell = _cells[row, col];
+                    var cell = Cells[row, col];
                     if (!cell.HasBomb() && !cell.IsRevealed)
                     {
                         var content = cell.Reveal();
@@ -198,38 +178,15 @@ namespace bombsweeper
                 }
         }
 
-        private void DisplayFooter()
-        {
-            if (_size > 9)
-                DisplayFooterTens();
-            DisplayFooterOnes();
-        }
-
-        private void DisplayFooterOnes()
-        {
-            Console.Write($"{"",LabelAllowance + 1}");
-            for (var col = 0; col < _size; ++col)
-                Console.Write($"{(col + 1)%10} ");
-            Console.WriteLine();
-        }
-
-        private void DisplayFooterTens()
-        {
-            Console.Write($"{"",LabelAllowance + 1}");
-            for (var col = 0; col < _size; ++col)
-                Console.Write($"{(col + 1)/10} ");
-            Console.WriteLine();
-        }
-
         public int GetSize()
         {
-            return _size;
+            return Size;
         }
 
         public void ToggleMark(int row, int col)
         {
-            _cells[row, col].ToggleMark();
-            var markedCells = from Cell item in _cells where item.IsMarked select item;
+            Cells[row, col].ToggleMark();
+            var markedCells = from Cell item in Cells where item.IsMarked select item;
             _numMarked = markedCells.Count();
         }
 
