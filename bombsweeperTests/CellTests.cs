@@ -3,8 +3,6 @@ using NUnit.Framework;
 
 namespace bombsweeperTests
 {
-    // foo
-
     [TestFixture]
     public class CellTests
     {
