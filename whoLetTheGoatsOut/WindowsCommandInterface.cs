@@ -1,4 +1,5 @@
-﻿using bombsweeper;
+﻿using System;
+using bombsweeper;
 
 namespace whoLetTheGoatsOut
 {
@@ -13,13 +14,11 @@ namespace whoLetTheGoatsOut
         }
 
 
-        public void SetCell(int col, int row)
-        {
-            _cell = new Coordinate(col, row);
-        }
+       
 
-        public void SetCommand(BoardCommand command)
+        public void SetMove(Coordinate coordinate, BoardCommand command)
         {
+            _cell = coordinate;
             _command = command;
         }
     }

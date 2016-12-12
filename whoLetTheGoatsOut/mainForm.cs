@@ -66,16 +66,24 @@ namespace whoLetTheGoatsOut
                 sq.Image = null;
             }
 
-            _commandInterface.SetCell(sq.Col, sq.Row);
-            _commandInterface.DoATurn(_view, _board);
-
+           
+            BoardCommand command = BoardCommand.UnknownCommand;
             string text;
-            if (mouseEvent?.Button == MouseButtons.Right)
+            if (mouseEvent?.Button == MouseButtons.Right) { 
                 text = $"Right-Clicked Col: {sq.Col}, Row: {sq.Row}\n Image Pasted to cell.";
-            else if (mouseEvent?.Button == MouseButtons.Left)
+                command = BoardCommand.MarkCell;
+            }
+            else if (mouseEvent?.Button == MouseButtons.Left) { 
                 text = $"Left-Clicked Col: {sq.Col}, Row: {sq.Row}\n Image Cut from cell.";
+                command = BoardCommand.RevealCell;
+            }
             else
                 text = $"{mouseEvent?.Button}-Clicked";
+
+            var coordinate = new Coordinate(sq.Col, sq.Row);
+            _commandInterface.SetMove(coordinate, command);
+            _commandInterface.DoATurn(_view, _board);
+
             MessageBox.Show(text);
         }
 
