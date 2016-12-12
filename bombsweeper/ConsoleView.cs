@@ -27,7 +27,7 @@ namespace bombsweeper
         public void DisplayBoard()
         {
             Console.SetCursorPosition(0, _boardLine);
-            for (var row = 0; row < _board.Size; ++row)
+            for (var row = 0; row < _board.GetSize(); ++row)
                 DisplayRow(row, _board);
             DisplayFooter(_board);
 
@@ -77,8 +77,8 @@ namespace bombsweeper
 
         private Cell[] GetRow(int row, Board board)
         {
-            var offset = row*board.Size;
-            return board.GetCells().Cast<Cell>().Skip(offset).Take(board.Size).ToArray();
+            var offset = row*board.GetSize();
+            return board.GetCells().Cast<Cell>().Skip(offset).Take(board.GetSize()).ToArray();
         }
 
         private void DisplayRow(int row, Board board)
@@ -92,7 +92,7 @@ namespace bombsweeper
         private void DisplayFooterOnes(Board board)
         {
             Console.Write($"{"",LabelAllowance + 1}");
-            for (var col = 0; col < board.Size; ++col)
+            for (var col = 0; col < board.GetSize(); ++col)
                 Console.Write($"{(col + 1)%10} ");
             Console.WriteLine();
         }
@@ -100,22 +100,22 @@ namespace bombsweeper
         private void DisplayFooterTens(Board board)
         {
             Console.Write($"{"",LabelAllowance + 1}");
-            for (var col = 0; col < board.Size; ++col)
+            for (var col = 0; col < board.GetSize(); ++col)
                 Console.Write($"{(col + 1)/10} ");
             Console.WriteLine();
         }
 
         private void DisplayFooter(Board board)
         {
-            if (board.Size > 9)
+            if (board.GetSize() > 9)
                 DisplayFooterTens(board);
             DisplayFooterOnes(board);
         }
 
         private Cell GetLosingBombCell(out int x, out int y, Board board)
         {
-            for (var row = 0; row < board.Size; ++row)
-                for (var col = 0; col < board.Size; ++col)
+            for (var row = 0; row < board.GetSize(); ++row)
+                for (var col = 0; col < board.GetSize(); ++col)
                     if (board.GetCells()[row, col].IsLoser)
                     {
                         x = col;

@@ -14,22 +14,20 @@ namespace bombsweeper
     public class Board
     {
         private readonly Cell[,] _cells;
+        private readonly int _size;
         private GameState _gameState;
         private int _numBombs;
         private int _numMarked;
 
         public Board(int size)
         {
-            Size = size;
+            _size = size;
             _cells = new Cell[size, size];
             for (var row = 0; row < size; ++row)
                 for (var col = 0; col < size; ++col)
                     GetCells()[row, col] = new Cell();
             _gameState = GameState.InProgress;
         }
-
-        public int Size { get; }
-
 
         public void AddBomb(int row, int col)
         {
@@ -40,8 +38,8 @@ namespace bombsweeper
 
         private void PopulateAdjacencyCounts()
         {
-            for (var row = 0; row < Size; ++row)
-                for (var col = 0; col < Size; ++col)
+            for (var row = 0; row < GetSize(); ++row)
+                for (var col = 0; col < GetSize(); ++col)
                 {
                     if (GetCells()[row, col].HasBomb())
                         continue;
@@ -79,7 +77,7 @@ namespace bombsweeper
 
         private bool NotValidCell(int row, int col)
         {
-            return (row < 0) || (row > Size - 1) || (col < 0) || (col > Size - 1);
+            return (row < 0) || (row > GetSize() - 1) || (col < 0) || (col > GetSize() - 1);
         }
 
         public override string ToString()
@@ -159,7 +157,7 @@ namespace bombsweeper
 
         public int GetSize()
         {
-            return Size;
+            return _size;
         }
 
         public void ToggleMark(int row, int col)
