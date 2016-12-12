@@ -5,6 +5,13 @@ namespace whoLetTheGoatsOut
 {
     internal class WinformsDisplay : IDisplay
     {
+        private readonly MainForm _mainForm;
+
+        public WinformsDisplay(MainForm mainForm)
+        {
+            _mainForm = mainForm;
+        }
+
         public void Init()
         {
         }
@@ -23,6 +30,7 @@ namespace whoLetTheGoatsOut
 
         public void UpdateStatus(int elapsedSec, int numBombs)
         {
+            _mainForm.SetElapsedSeconds(elapsedSec);
         }
     }
 }

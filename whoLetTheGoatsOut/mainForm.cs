@@ -72,7 +72,7 @@ namespace whoLetTheGoatsOut
 
             Board board = BoardGenerator.GetStandardBoard();
             var game = new Game(board);
-            game.SetOutput(new WinformsDisplay());
+            game.SetOutput(new WinformsDisplay(this));
             game.SetCommandInterface(new WinformsCommandInterface());
             game.Run();
 
@@ -95,6 +95,11 @@ namespace whoLetTheGoatsOut
 
         private void label1_Click(object sender, EventArgs e)
         {
+        }
+
+        public void SetElapsedSeconds(int elapsedSec)
+        {
+            ElapsedTimeLabel.Text = "Elapsed time: " + elapsedSec;
         }
     }
 
