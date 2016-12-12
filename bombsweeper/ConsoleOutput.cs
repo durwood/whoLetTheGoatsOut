@@ -116,6 +116,24 @@ namespace bombsweeper
             }
         }
 
+        public bool PumpOutputQueue(Action<string> executeBoardCommand)
+        {
+            if (HasCommandToProcess)
+            {
+                executeBoardCommand(GetCommand());
+                return true;
+            }
+            return false;
+        }
+
+        public void Start(Game game)
+        {
+            do
+            {
+                game.DoMove();
+            } while (game.GameInProgress());
+        }
+
         private void RefreshDisplay()
         {
             _consoleWrapper.SetCursorPosition(0, _cursorLine);

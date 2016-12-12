@@ -1,4 +1,5 @@
-﻿using bombsweeper;
+﻿using System;
+using bombsweeper;
 using NUnit.Framework;
 
 namespace bombsweeperTests
@@ -63,6 +64,15 @@ namespace bombsweeperTests
 
         public void Reset()
         {
+        }
+
+        public void Start(Game game)
+        {
+        }
+
+        public bool PumpOutputQueue(Action<string> executeBoardCommand)
+        {
+            return true;
         }
     }
 }

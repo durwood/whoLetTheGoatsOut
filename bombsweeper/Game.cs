@@ -30,21 +30,29 @@ namespace bombsweeper
         {
             _output.Init();
             DisplayBoard();
-            do
-            {
-                UpdateStatusDisplay();
-                _output.Tick();
-                if (_output.HasCommandToProcess)
-                {
-                    ExecuteBoardCommand(_output.GetCommand());
-                    _output.Reset();
-                    DisplayBoard();
-                }
-            } while (_board.GameInProgress());
+            _output.Start(this);
             DisplayBoard();
             _output.ShowResult(_board);
         }
 
+        public bool GameInProgress()
+        {
+            return _board.GameInProgress();
+        }
+
+        public void DoMove()
+        {
+            UpdateStatusDisplay();
+            _output.Tick();
+            Action<string> executeBoardCommand = ExecuteBoardCommand;
+
+            if (_output.PumpOutputQueue(executeBoardCommand))
+            {
+                _output.Reset();
+                DisplayBoard();
+            }
+        }
+        
         private void UpdateStatusDisplay()
         {
             var needToDisplay = false;
@@ -61,12 +69,9 @@ namespace bombsweeper
                 _numBombs = numBombs;
             }
             if (needToDisplay)
-            {
                 _output.UpdateStatus(_elapsedSec, _numBombs);
-            }
         }
 
- 
 
         private void ExecuteBoardCommand(string commandString)
         {
@@ -84,16 +89,12 @@ namespace bombsweeper
                 }
         }
 
-       
 
         private void DisplayBoard()
         {
             _output.Display(_board);
             if (_board.GameLost())
-            {
                 _output.DisplayLose(_board);
-            }
         }
-
     }
 }

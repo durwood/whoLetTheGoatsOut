@@ -1,3 +1,5 @@
+using System;
+
 namespace bombsweeper
 {
     public interface IDisplay
@@ -11,5 +13,7 @@ namespace bombsweeper
         bool HasCommandToProcess { get; }
         string GetCommand();
         void Reset();
+        void Start(Game game);
+        bool PumpOutputQueue(Action<string> executeBoardCommand);
     }
 }

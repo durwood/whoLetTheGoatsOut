@@ -1,10 +1,12 @@
-﻿using bombsweeper;
+﻿using System;
+using bombsweeper;
 
 namespace whoLetTheGoatsOut
 {
     internal class WinformsDisplay : IDisplay
     {
         private readonly MainForm _mainForm;
+        private Game _game;
 
         public WinformsDisplay(MainForm mainForm)
         {
@@ -44,6 +46,16 @@ namespace whoLetTheGoatsOut
 
         public void Reset()
         {
+        }
+
+        public void Start(Game game)
+        {
+            _game = game;
+        }
+
+        public bool PumpOutputQueue(Action<string> executeBoardCommand)
+        {
+            return false;
         }
     }
 }
