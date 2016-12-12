@@ -62,7 +62,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Cell.cs" />
-    <Compile Include="CommandParser.cs" />
+    <Compile Include="BoardCommand.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="RandomGenerator.cs" />
   </ItemGroup>

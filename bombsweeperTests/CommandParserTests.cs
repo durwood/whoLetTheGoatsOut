@@ -9,10 +9,10 @@ namespace bombsweeperTests
         [SetUp]
         public void SetUp()
         {
-            _testObj = new CommandParser();
+            _testObj = new CommandInterface(new FakeView());
         }
 
-        private CommandParser _testObj;
+        private CommandInterface _testObj;
 
         [Test]
         public void CanProcessClickCommand()
