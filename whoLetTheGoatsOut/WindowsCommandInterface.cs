@@ -12,6 +12,9 @@ namespace whoLetTheGoatsOut
         {
             board.ExecuteBoardCommand(_cell, _command);
             view.DisplayBoard(board);
+            //ToDo maybe this should be game.showResult()
+            if (board.GameLost())
+                view.Lose();
         }
 
         public void SetMove(Coordinate coordinate, BoardCommand command)

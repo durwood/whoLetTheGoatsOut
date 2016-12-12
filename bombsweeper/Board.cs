@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace bombsweeper
 {
-    internal enum GameState
+    public enum GameState
     {
         InProgress,
         Won,

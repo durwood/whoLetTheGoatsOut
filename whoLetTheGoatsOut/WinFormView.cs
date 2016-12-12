@@ -13,6 +13,7 @@ namespace whoLetTheGoatsOut
         private readonly WindowsCommandInterface _commandInterface;
         private Image _savedImage;
         private readonly Square[,] _squares = new Square[MainForm.BoardSize, MainForm.BoardSize];
+        private GameState _gameStatus = GameState.InProgress;
 
         public WinFormView(MainForm mainForm, Board board)
         {
@@ -60,8 +61,11 @@ namespace whoLetTheGoatsOut
                         square.LoadIcon(BoardIcon.MarkGoat);
                     if (cell.IsRevealed)
                         square.LoadIcon(GetBoardIcon(cell.NeighboringBombCount));
-                    if(cell.IsLoser)
+                    if (cell.IsLoser)
+                    {
                         square.LoadGoatImage(1);
+                        _gameStatus = GameState.Lost;
+                    }
                 }
         }
 
@@ -102,6 +106,12 @@ namespace whoLetTheGoatsOut
 
         public void Lose()
         {
+            for (var row = 0; row < MainForm.BoardSize; ++row)
+                for (var col = 0; col < MainForm.BoardSize; ++col)
+                {
+                    var square = _squares[row, col];
+                    square.LoadGoatImage(10);
+                }
         }
 
         public void Win()

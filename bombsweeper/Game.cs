@@ -30,7 +30,7 @@ namespace bombsweeper
             ShowResult();
         }
 
-        private void ShowResult()
+        public void ShowResult()
         {
             if (_board.GameWon())
                 _view.Win();

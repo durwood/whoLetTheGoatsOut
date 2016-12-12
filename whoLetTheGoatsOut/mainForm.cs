@@ -20,8 +20,10 @@ namespace whoLetTheGoatsOut
             InitializeComponent();
             var board = Board.Create(new Dictionary<string, bool> {["newBoard"] = true});
             _view = new WinFormView(this, board);
-            //var game = new Game(board, _view, _commandInterface);
+            var game = new Game(board, _view, _commandInterface);
             _view.DisplayBoard(board);
+            game.ShowResult();
+            
         }
 
    
