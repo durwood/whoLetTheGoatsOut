@@ -12,15 +12,19 @@ namespace whoLetTheGoatsOut
         public static int CellSize = 50;
         private readonly Random _random = new Random();
         private readonly Square[,] _squares = new Square[BoardSize, BoardSize];
+        private readonly Board _board;
+        private readonly WindowsCommandInterface _commandInterface;
         private Image _savedImage;
+        private readonly WinFormView _view;
 
         public MainForm()
         {
             InitializeComponent();
 
-            var view = new WinFormView();
-            var commandInterface = new WindowsCommandInterface();
-            var game = new Game(new Board(BoardSize), view, commandInterface);
+            _view = new WinFormView();
+            _commandInterface = new WindowsCommandInterface();
+            _board = new Board(BoardSize);
+            var game = new Game(_board, _view, _commandInterface);
             for (var row = 0; row < BoardSize; ++row)
                 for (var col = 0; col < BoardSize; ++col)
                 {
@@ -30,7 +34,7 @@ namespace whoLetTheGoatsOut
                         Col = col,
                         BackColor = Color.MediumSeaGreen,
                         BorderStyle = BorderStyle.FixedSingle,
-                        Location = new Point(0 + col * CellSize, 80 + row * CellSize),
+                        Location = new Point(0 + col*CellSize, 80 + row*CellSize),
                         Name = $"Row{row}_Col{col}",
                         Size = new Size(CellSize, CellSize),
                         TabIndex = 2,
@@ -43,7 +47,6 @@ namespace whoLetTheGoatsOut
                 }
             // This is where we want the game to run. Currently this doesn't work because nothing will cause the game to terminate
             //game.Run();
-
         }
 
         private void Sq_Click(object sender, EventArgs e)
@@ -63,11 +66,14 @@ namespace whoLetTheGoatsOut
                 sq.Image = null;
             }
 
+            _commandInterface.SetCell(sq.Col, sq.Row);
+            _commandInterface.DoATurn(_view, _board);
+
             string text;
             if (mouseEvent?.Button == MouseButtons.Right)
-                text = $"Right-Clicked Col: {sq?.Col}, Row: {sq?.Row}\n Image Pasted to cell.";
+                text = $"Right-Clicked Col: {sq.Col}, Row: {sq.Row}\n Image Pasted to cell.";
             else if (mouseEvent?.Button == MouseButtons.Left)
-                text = $"Left-Clicked Col: {sq?.Col}, Row: {sq?.Row}\n Image Cut from cell.";
+                text = $"Left-Clicked Col: {sq.Col}, Row: {sq.Row}\n Image Cut from cell.";
             else
                 text = $"{mouseEvent?.Button}-Clicked";
             MessageBox.Show(text);

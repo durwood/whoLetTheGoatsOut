@@ -111,7 +111,7 @@ namespace bombsweeper
 
         private void DisplayRow(int row, IView view)
         {
-            char rowLabel = (char)(65 + row);
+            var rowLabel = (char) (65 + row);
             var rowString = string.Join(" ", GetRow(row).Select(c => c.ToString()));
             var line = string.Join(" ", $"{rowLabel,LabelAllowance}", $"{rowString}");
             view.DisplayRow(line);
@@ -192,7 +192,7 @@ namespace bombsweeper
                     if (!cell.HasBomb() && !cell.IsRevealed)
                     {
                         var content = cell.Reveal();
-                        if (cell.IsRevealed && content == Cell.Empty)
+                        if (cell.IsRevealed && (content == Cell.Empty))
                             RevealNeighbors(row, col);
                     }
                 }
@@ -238,18 +238,17 @@ namespace bombsweeper
             return Math.Max(_numBombs - _numMarked, 0);
         }
 
-        public void ExecuteBoardCommand(Coordinate getCell, BoardCommand boardCommand)
+        public virtual void ExecuteBoardCommand(Coordinate getCell, BoardCommand boardCommand)
         {
-            var command = boardCommand;
-            if (command != BoardCommand.UnknownCommand)
-                if (command == BoardCommand.QuitGame)
+            if (boardCommand != BoardCommand.UnknownCommand)
+                if (boardCommand == BoardCommand.QuitGame)
                     QuitGame();
                 else
                 {
                     var cell = getCell;
-                    if (command == BoardCommand.RevealCell)
+                    if (boardCommand == BoardCommand.RevealCell)
                         Reveal(cell.Y, cell.X);
-                    else if (command == BoardCommand.MarkCell)
+                    else if (boardCommand == BoardCommand.MarkCell)
                         ToggleMark(cell.Y, cell.X);
                 }
         }

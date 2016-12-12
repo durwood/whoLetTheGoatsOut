@@ -31,12 +31,12 @@ namespace bombsweeper
             }
         }
 
-        internal Coordinate GetCell()
+        public Coordinate GetCell()
         {
             return _click;
         }
 
-        internal BoardCommand GetCommand(string input)
+        public BoardCommand GetCommand(string input)
         {
             var items = input.ToUpper().Split(',', ' ');
             if (items.Length == 3)
@@ -55,7 +55,7 @@ namespace bombsweeper
                 }
                 else
                     return BoardCommand.UnknownCommand;
-                _click = new Coordinate {X = col, Y = row};
+                _click = new Coordinate(col, row);
             }
             switch (items[0])
             {
