@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace bombsweeper
@@ -50,6 +51,20 @@ namespace bombsweeper
                     else
                         _cells[row, col].AddBombsAroundCellCount(bombsAroundCellCount);
                 }
+        }
+
+        public static Board Create(Dictionary<string, bool> options)
+        {
+            Board board;
+            if (options["newBoard"])
+            {
+                var rnd = new RandomGenerator();
+                var boardGenerator = new BoardGenerator(rnd);
+                board = boardGenerator.GenerateBoard(9, 10);
+            }
+            else
+                board = BoardGenerator.GetStandardBoard();
+            return board;
         }
 
         public Cell[,] GetCells()

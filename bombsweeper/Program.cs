@@ -8,26 +8,12 @@ namespace bombsweeper
         public static void Main(string[] args)
         {
             var options = ParseArgs(args);
-            var board = CreateBoard(options);
+            var board = Board.Create(options);
             var view = new ConsoleView(board);
             var commandInterface = new CommandInterface(view);
             var game = new Game(board, view, commandInterface);
             game.Run();
             Console.ReadKey();
-        }
-
-        private static Board CreateBoard(Dictionary<string, bool> options)
-        {
-            Board board;
-            if (options["newBoard"])
-            {
-                var rnd = new RandomGenerator();
-                var boardGenerator = new BoardGenerator(rnd);
-                board = boardGenerator.GenerateBoard(9, 10);
-            }
-            else
-                board = BoardGenerator.GetStandardBoard();
-            return board;
         }
 
         private static Dictionary<string, bool> ParseArgs(string[] args)

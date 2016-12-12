@@ -14,7 +14,8 @@ namespace whoLetTheGoatsOut
         Six,
         Seven,
         Eight,
-        BlockingFence
+        BlockingFence,
+        Empty
     }
 
     public class BoardIcons
@@ -30,7 +31,8 @@ namespace whoLetTheGoatsOut
             {BoardIcon.Six, "numbers-6-icon.png"},
             {BoardIcon.Seven, "numbers-7-icon.png"},
             {BoardIcon.Eight, "numbers-8-icon.png"},
-            {BoardIcon.BlockingFence, "fence-chainlink-1-icon.png"}
+            {BoardIcon.BlockingFence, "fence-chainlink-1-icon.png"},
+            {BoardIcon.Empty, "" }
         };
 
         public string GetResourceName(BoardIcon icon)

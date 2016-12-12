@@ -19,8 +19,13 @@ namespace whoLetTheGoatsOut
         {
             try
             {
-                var iconImage = _resourceLoader.GetIcon(icon);
-                Image = new Bitmap(iconImage);
+                if (icon == BoardIcon.Empty)
+                    Image = null;
+                else
+                {
+                    var iconImage = _resourceLoader.GetIcon(icon);
+                    Image = new Bitmap(iconImage);
+                }
             }
             catch
             {

@@ -11,10 +11,8 @@ namespace whoLetTheGoatsOut
         public void DoATurn(IView view, Board board)
         {
             board.ExecuteBoardCommand(_cell, _command);
+            view.DisplayBoard(board);
         }
-
-
-       
 
         public void SetMove(Coordinate coordinate, BoardCommand command)
         {
