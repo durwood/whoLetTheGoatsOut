@@ -1,4 +1,5 @@
 ﻿using System;
+using bombsweeper;
 using NUnit.Framework;
 
 namespace bombsweeperTests
@@ -36,7 +37,10 @@ namespace bombsweeperTests
         [SetUp]
         public void SetUp()
         {
-            _testObj = new FakeCommandInterface();
+            _testObj = new ConsoleOutput(0);
+            _fakeConsoleWrapper = new FakeConsoleWrapper();
+            _testObj._consoleWrapper = _fakeConsoleWrapper;
+            _historyManager = _testObj.HistoryManager;
         }
 
         private readonly ConsoleKeyInfo _backSpace = ConsoleKeyHelper.KeyInfoFactory(ConsoleKey.Delete);
@@ -44,19 +48,27 @@ namespace bombsweeperTests
         private readonly ConsoleKeyInfo _1 = ConsoleKeyHelper.KeyInfoFactory(ConsoleKey.D1);
         private readonly ConsoleKeyInfo _upArrow = ConsoleKeyHelper.KeyInfoFactory(ConsoleKey.UpArrow);
         private readonly ConsoleKeyInfo _downArrow = ConsoleKeyHelper.KeyInfoFactory(ConsoleKey.DownArrow);
-        private FakeCommandInterface _testObj;
+        private ConsoleOutput _testObj;
+        private FakeConsoleWrapper _fakeConsoleWrapper;
+        private CommandHistoryManager _historyManager;
 
         private void Tick(ConsoleKeyInfo keyInfo)
         {
-            _testObj.SetKeyInfo(keyInfo);
+            _fakeConsoleWrapper.SetKeyInfo(keyInfo);
             _testObj.Tick();
+        }
+
+        private void SetCommand(string s)
+        {
+            _testObj.CurrentCommand = s;
+            _historyManager.SetWorkingBuffer(s);
         }
 
         [Test]
         public void BackspaceRemovesLastCharacter()
         {
-            _testObj.SetCommand("c 1,1");
-            _testObj.SetKeyInfo(_backSpace);
+            SetCommand("c 1,1");
+            _fakeConsoleWrapper.SetKeyInfo(_backSpace);
             _testObj.Tick();
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,"));
         }
@@ -64,7 +76,7 @@ namespace bombsweeperTests
         [Test]
         public void CallingResetOnObjectNotReadyForProcessingDoesNothing()
         {
-            _testObj.SetCommand("c 1,1");
+            SetCommand("c 1,1");
             _testObj.Reset();
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
         }
@@ -72,12 +84,12 @@ namespace bombsweeperTests
         [Test]
         public void DownArrowDoesNothingIfLessThanTwoCommandsAreInBuffer()
         {
-            _testObj.SetKeyInfo(_downArrow);
+            _fakeConsoleWrapper.SetKeyInfo(_downArrow);
             _testObj.Tick();
             Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
 
-            _testObj.SetCommand("c 0,0");
-            _testObj.SetKeyInfo(_downArrow);
+            SetCommand("c 0,0");
+            _fakeConsoleWrapper.SetKeyInfo(_downArrow);
             _testObj.Tick();
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
         }
@@ -85,9 +97,9 @@ namespace bombsweeperTests
         [Test]
         public void DownArrowRetrievesCachedCommandWhenGoingPastBufferEnd()
         {
-            _testObj.SetCommand("c 0,0"); // 0
+            SetCommand("c 0,0"); // 0
             Tick(_return);
-            _testObj.SetCommand("j");
+            SetCommand("j");
             Tick(_downArrow);
             Assert.That(_testObj.GetCommand(), Is.EqualTo("j"));
             Tick(_downArrow);
@@ -97,11 +109,11 @@ namespace bombsweeperTests
         [Test]
         public void DownArrowRetrievesNextCommandIfTwoOrMoreCommandsAreInBuffer()
         {
-            _testObj.SetCommand("c 0,0"); // 0
+            SetCommand("c 0,0"); // 0
             Tick(_return);
-            _testObj.SetCommand("c 1,1"); // 1
+            SetCommand("c 1,1"); // 1
             Tick(_return);
-            _testObj.SetCommand("c 2,2"); // 2
+            SetCommand("c 2,2"); // 2
             Tick(_return);
             Tick(_upArrow);
             Tick(_downArrow);
@@ -114,9 +126,9 @@ namespace bombsweeperTests
         [Test]
         public void EnterReadiesCommandForProcessing()
         {
-            _testObj.SetCommand("c 1,1");
+            SetCommand("c 1,1");
             _testObj.HasCommandToProcess = false;
-            _testObj.SetKeyInfo(_return);
+            _fakeConsoleWrapper.SetKeyInfo(_return);
             _testObj.Tick();
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
             Assert.IsTrue(_testObj.HasCommandToProcess);
@@ -125,8 +137,8 @@ namespace bombsweeperTests
         [Test]
         public void NonSpecialKeyAddsCharacterToEndOfCommand()
         {
-            _testObj.SetCommand("c 1,");
-            _testObj.SetKeyInfo(_1);
+            SetCommand("c 1,");
+            _fakeConsoleWrapper.SetKeyInfo(_1);
             _testObj.Tick();
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 1,1"));
         }
@@ -134,7 +146,7 @@ namespace bombsweeperTests
         [Test]
         public void ResetClearsCommandAndMakesUnavailable()
         {
-            _testObj.SetCommand("c 0,0");
+            SetCommand("c 0,0");
             _testObj.HasCommandToProcess = true;
             _testObj.Reset();
             Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
@@ -144,12 +156,12 @@ namespace bombsweeperTests
         [Test]
         public void UpArrowDoesNothingIfLessThanTwoCommandsAreInBuffer()
         {
-            _testObj.SetKeyInfo(_upArrow);
+            _fakeConsoleWrapper.SetKeyInfo(_upArrow);
             _testObj.Tick();
             Assert.That(_testObj.GetCommand(), Is.EqualTo(""));
 
-            _testObj.SetCommand("c 0,0");
-            _testObj.SetKeyInfo(_upArrow);
+            SetCommand("c 0,0");
+            _fakeConsoleWrapper.SetKeyInfo(_upArrow);
             _testObj.Tick();
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
         }
@@ -157,11 +169,11 @@ namespace bombsweeperTests
         [Test]
         public void UpArrowRetrievesPreviousCommandIfTwoOrMoreCommandsAreInBuffer()
         {
-            _testObj.SetCommand("c 0,0"); // 0
+            SetCommand("c 0,0"); // 0
             Tick(_return);
-            _testObj.SetCommand("c 1,1"); // 1
+            SetCommand("c 1,1"); // 1
             Tick(_return);
-            _testObj.SetCommand("c 2,2"); // 2
+            SetCommand("c 2,2"); // 2
             Tick(_return);
             Tick(_upArrow);
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 2,2"));
@@ -171,6 +183,39 @@ namespace bombsweeperTests
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
             Tick(_upArrow);
             Assert.That(_testObj.GetCommand(), Is.EqualTo("c 0,0"));
+        }
+    }
+
+    public class FakeConsoleWrapper : ConsoleWrapper
+    {
+        private ConsoleKeyInfo _keyInfo;
+
+        public void SetKeyInfo(ConsoleKeyInfo keyInfo)
+        {
+            _keyInfo = keyInfo;
+        }
+
+        public override void WriteToWidth(char c)
+        {
+        }
+
+        public override ConsoleKeyInfo ReadKey()
+        {
+            return _keyInfo;
+        }
+
+        public override bool KeyAvailable()
+        {
+            return true;
+        }
+
+
+        public override void SetCursorPosition(int i, int cursorLine)
+        {
+        }
+
+        public override void Write(string s)
+        {
         }
     }
 }

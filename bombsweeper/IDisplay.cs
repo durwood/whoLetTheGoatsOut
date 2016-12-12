@@ -7,5 +7,9 @@ namespace bombsweeper
         void DisplayLose(Board board);
         void ShowResult(Board board);
         void UpdateStatus(int elapsedSec, int numBombs);
+        void Tick();
+        bool HasCommandToProcess { get; }
+        string GetCommand();
+        void Reset();
     }
 }

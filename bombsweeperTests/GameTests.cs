@@ -13,10 +13,6 @@ namespace bombsweeperTests
             var testObj = new Game(board);
             var fakeOutput = new FakeOutput();
             testObj.SetOutput(fakeOutput);
-            var fakeCommandInterface = new FakeCommandInterface();
-            fakeCommandInterface.SetCommand("q");
-            fakeCommandInterface.HasCommandToProcess = true;
-            testObj.SetCommandInterface(fakeCommandInterface);
             testObj.Run();
             Assert.That(fakeOutput.InitCalled, Is.True);
         }        
@@ -24,6 +20,11 @@ namespace bombsweeperTests
 
     public class FakeOutput : IDisplay
     {
+        public FakeOutput()
+        {
+            HasCommandToProcess = true;
+        }
+
         public bool InitCalled { get; private set; }
 
         public void Init()
@@ -48,6 +49,20 @@ namespace bombsweeperTests
         public void UpdateStatus(int elapsedSec, int numBombs)
         {
             
+        }
+
+        public void Tick()
+        {
+        }
+
+        public bool HasCommandToProcess { get; }
+        public string GetCommand()
+        {
+            return "q";
+        }
+
+        public void Reset()
+        {
         }
     }
 }

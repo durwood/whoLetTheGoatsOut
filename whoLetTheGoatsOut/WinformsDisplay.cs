@@ -1,5 +1,4 @@
-﻿using System;
-using bombsweeper;
+﻿using bombsweeper;
 
 namespace whoLetTheGoatsOut
 {
@@ -31,6 +30,20 @@ namespace whoLetTheGoatsOut
         public void UpdateStatus(int elapsedSec, int numBombs)
         {
             _mainForm.SetElapsedSeconds(elapsedSec);
+        }
+
+        public void Tick()
+        {
+        }
+
+        public bool HasCommandToProcess { get; }
+        public string GetCommand()
+        {
+            return "q";
+        }
+
+        public void Reset()
+        {
         }
     }
 }

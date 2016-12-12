@@ -2,10 +2,130 @@ using System;
 
 namespace bombsweeper
 {
+    public class ConsoleWrapper
+    {
+        public virtual bool KeyAvailable()
+        {
+            return Console.KeyAvailable;
+        }
+
+        public virtual ConsoleKeyInfo ReadKey()
+        {
+            return Console.ReadKey();
+        }
+
+        public virtual void SetCursorPosition(int i, int cursorLine)
+        {
+            Console.SetCursorPosition(i, cursorLine);
+        }
+
+        public virtual void Write(string s)
+        {
+            Console.Write(s);
+        }
+
+        public virtual void WriteToWidth(char c)
+        {
+            Console.Write(new string(' ', Console.WindowWidth));
+        }
+    }
     public class ConsoleOutput : IDisplay
     {
+        private readonly int _cursorLine;
+        public readonly CommandHistoryManager HistoryManager;
+        public string CurrentCommand;
+        public bool HasCommandToProcess { get; set; }
+        public ConsoleWrapper _consoleWrapper = new ConsoleWrapper();
+        public ConsoleOutput(int cursorLine)
+        {
+            _cursorLine = cursorLine;
+            CurrentCommand = "";
+            HasCommandToProcess = false;
+            HistoryManager = new CommandHistoryManager();
+        }
+
+        public string GetCommand()
+        {
+            return CurrentCommand;
+        }
+
+        public virtual void Tick()
+        {
+            if (_consoleWrapper.KeyAvailable())
+                ProcessKeyInfo(_consoleWrapper.ReadKey());
+            RefreshDisplay();
+        }
+
+
+        private void GetCommandFromHistory(ConsoleKey key)
+        {
+            if (!HistoryManager.HasHistory())
+                return;
+
+            if (key == ConsoleKey.UpArrow)
+                CurrentCommand = HistoryManager.GetPreviousCommand();
+            else if (key == ConsoleKey.DownArrow)
+                CurrentCommand = HistoryManager.GetNextCommand();
+        }
+
+        private void SubmitCommand()
+        {
+            HasCommandToProcess = true;
+            HistoryManager.StoreCommand(CurrentCommand);
+        }
+
+        protected void ProcessKeyInfo(ConsoleKeyInfo keyInfo)
+        {
+            var key = keyInfo.Key;
+            if ((key == ConsoleKey.UpArrow) || (key == ConsoleKey.DownArrow))
+                GetCommandFromHistory(key);
+            else if (key == ConsoleKey.Enter)
+                SubmitCommand();
+            else
+                ModifyCurrentCommand(keyInfo);
+            ClearCommand();
+        }
+
+        private void ModifyCurrentCommand(ConsoleKeyInfo keyInfo)
+        {
+            if ((keyInfo.Key == ConsoleKey.Backspace) || (keyInfo.Key == ConsoleKey.Delete))
+                CurrentCommand = RemoveLastCharacter(CurrentCommand);
+            else
+                CurrentCommand = CurrentCommand + keyInfo.KeyChar;
+            HistoryManager.SetWorkingBuffer(CurrentCommand);
+        }
+
+        private static string RemoveLastCharacter(string str)
+        {
+            return str.Length > 0 ? str.Substring(0, str.Length - 1) : str;
+        }
+
+        protected virtual void ClearCommand()
+        {
+            _consoleWrapper.SetCursorPosition(0, _cursorLine);
+            _consoleWrapper.WriteToWidth(' ');
+        }
+
+        public void Reset()
+        {
+            if (HasCommandToProcess)
+            {
+                HasCommandToProcess = false;
+                CurrentCommand = "";
+                ClearCommand();
+            }
+        }
+
+        private void RefreshDisplay()
+        {
+            _consoleWrapper.SetCursorPosition(0, _cursorLine);
+            _consoleWrapper.Write("> " + CurrentCommand);
+        }
+
         private const int LabelAllowance = 4;
         private const int _statusLine = 0;
+
+        public const int BoardLine = 2;
 
         public void ShowResult(Board board)
         {
@@ -29,13 +149,6 @@ namespace bombsweeper
             Console.Clear();
         }
 
-        public const int BoardLine = 2;
-
-        private void GetConsoleXCoordinate(ref int x)
-        {
-            x = LabelAllowance + 1 + x*2;
-        }
-
         public void Display(Board board)
         {
             var size = board.GetSize();
@@ -44,16 +157,32 @@ namespace bombsweeper
             DisplayFooter(size);
         }
 
+        public virtual void DisplayLose(Board board)
+        {
+            int x, y;
+            var cell = GetLosingBombCell(board.GetCells(), board.GetSize(), out x, out y);
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(x, y + BoardLine);
+            Console.Write(cell);
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(0, CalcCursorLine(board));
+        }
+
+        private void GetConsoleXCoordinate(ref int x)
+        {
+            x = LabelAllowance + 1 + x*2;
+        }
+
         private void DisplayRow(Board board, int row)
         {
             var cells = board.GetRow(row);
 
-            char rowLabel = (char)(65 + row);
-            var lineStart = $"{rowLabel,LabelAllowance-1} ";
+            var rowLabel = (char) (65 + row);
+            var lineStart = $"{rowLabel,LabelAllowance - 1} ";
             Console.SetCursorPosition(0, BoardLine + row);
             Console.Write(lineStart);
 
-            for (var col=0; col<cells.Length; col++)
+            for (var col = 0; col < cells.Length; col++)
                 DisplayCell(col, row, cells[col]);
 
             Console.WriteLine();
@@ -61,7 +190,7 @@ namespace bombsweeper
 
         private void DisplayCell(int col, int row, Cell cell)
         {
-            Console.SetCursorPosition(LabelAllowance + col * 2, BoardLine + row);
+            Console.SetCursorPosition(LabelAllowance + col*2, BoardLine + row);
             Console.Write(cell + " ");
         }
 
@@ -72,7 +201,7 @@ namespace bombsweeper
             DisplayFooterOnes(size);
         }
 
-        private  void DisplayFooterOnes(int size)
+        private void DisplayFooterOnes(int size)
         {
             Console.Write($"{"",LabelAllowance}");
             for (var col = 0; col < size; ++col)
@@ -80,7 +209,7 @@ namespace bombsweeper
             Console.WriteLine();
         }
 
-        private  void DisplayFooterTens(int size)
+        private void DisplayFooterTens(int size)
         {
             Console.Write($"{"",LabelAllowance}");
             for (var col = 0; col < size; ++col)
@@ -102,17 +231,6 @@ namespace bombsweeper
             x = 0;
             y = 0;
             return null;
-        }
-
-        public virtual void DisplayLose(Board board)
-        {
-            int x, y;
-            var cell = GetLosingBombCell(board.GetCells(), board.GetSize(), out x, out y);
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.SetCursorPosition(x, y + BoardLine);
-            Console.Write(cell);
-            Console.BackgroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(0, CalcCursorLine(board));
         }
 
         public static int CalcCursorLine(Board board)
