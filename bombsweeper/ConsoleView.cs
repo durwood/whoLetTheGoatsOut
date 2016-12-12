@@ -34,7 +34,7 @@ namespace bombsweeper
             if (_board.GameLost())
             {
                 int x, y;
-                var cell = _board.GetLosingBombCell(out x, out y);
+                var cell = GetLosingBombCell(out x, out y, _board);
                 Console.BackgroundColor = ConsoleColor.Red;
                 Console.SetCursorPosition(x, y + _boardLine);
                 Console.Write(cell);
@@ -78,7 +78,7 @@ namespace bombsweeper
         private Cell[] GetRow(int row, Board board)
         {
             var offset = row*board.Size;
-            return board.Cells.Cast<Cell>().Skip(offset).Take(board.Size).ToArray();
+            return board.GetCells().Cast<Cell>().Skip(offset).Take(board.Size).ToArray();
         }
 
         private void DisplayRow(int row, Board board)
@@ -110,6 +110,27 @@ namespace bombsweeper
             if (board.Size > 9)
                 DisplayFooterTens(board);
             DisplayFooterOnes(board);
+        }
+
+        private Cell GetLosingBombCell(out int x, out int y, Board board)
+        {
+            for (var row = 0; row < board.Size; ++row)
+                for (var col = 0; col < board.Size; ++col)
+                    if (board.GetCells()[row, col].IsLoser)
+                    {
+                        x = col;
+                        y = row;
+                        GetConsoleXCoordinate(ref x);
+                        return board.GetCells()[row, col];
+                    }
+            x = 0;
+            y = 0;
+            return null;
+        }
+
+        private void GetConsoleXCoordinate(ref int x)
+        {
+            x = LabelAllowance + 1 + x*2;
         }
     }
 }

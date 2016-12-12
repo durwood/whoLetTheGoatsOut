@@ -13,6 +13,7 @@ namespace bombsweeper
 
     public class Board
     {
+        private readonly Cell[,] _cells;
         private GameState _gameState;
         private int _numBombs;
         private int _numMarked;
@@ -20,20 +21,19 @@ namespace bombsweeper
         public Board(int size)
         {
             Size = size;
-            Cells = new Cell[size, size];
+            _cells = new Cell[size, size];
             for (var row = 0; row < size; ++row)
                 for (var col = 0; col < size; ++col)
-                    Cells[row, col] = new Cell();
+                    GetCells()[row, col] = new Cell();
             _gameState = GameState.InProgress;
         }
 
         public int Size { get; }
 
-        public Cell[,] Cells { get; }
 
         public void AddBomb(int row, int col)
         {
-            Cells[row, col].AddBomb();
+            GetCells()[row, col].AddBomb();
             _numBombs++;
             PopulateAdjacencyCounts();
         }
@@ -43,19 +43,19 @@ namespace bombsweeper
             for (var row = 0; row < Size; ++row)
                 for (var col = 0; col < Size; ++col)
                 {
-                    if (Cells[row, col].HasBomb())
+                    if (GetCells()[row, col].HasBomb())
                         continue;
                     var bombsAroundCellCount = CountBombsAroundCell(row, col);
                     if (bombsAroundCellCount == 0)
-                        Cells[row, col].ClearContents();
+                        GetCells()[row, col].ClearContents();
                     else
-                        Cells[row, col].AddBombsAroundCellCount(bombsAroundCellCount);
+                        GetCells()[row, col].AddBombsAroundCellCount(bombsAroundCellCount);
                 }
         }
 
         public Cell[,] GetCells()
         {
-            return Cells;
+            return _cells;
         }
 
         private int CountBombsAroundCell(int row0, int col0)
@@ -66,7 +66,7 @@ namespace bombsweeper
                 {
                     if (NotValidCell(row, col) || IsSameCell(row0, col0, row, col))
                         continue;
-                    if (Cells[row, col].HasBomb())
+                    if (GetCells()[row, col].HasBomb())
                         count++;
                 }
             return count;
@@ -82,30 +82,9 @@ namespace bombsweeper
             return (row < 0) || (row > Size - 1) || (col < 0) || (col > Size - 1);
         }
 
-        public Cell GetLosingBombCell(out int x, out int y)
-        {
-            for (var row = 0; row < Size; ++row)
-                for (var col = 0; col < Size; ++col)
-                    if (Cells[row, col].IsLoser)
-                    {
-                        x = col;
-                        y = row;
-                        GetConsoleXCoordinate(ref x);
-                        return Cells[row, col];
-                    }
-            x = 0;
-            y = 0;
-            return null;
-        }
-
-        private static void GetConsoleXCoordinate(ref int x)
-        {
-            x = ConsoleView.LabelAllowance + 1 + x*2;
-        }
-
         public override string ToString()
         {
-            var cellStrings = Cells.Cast<Cell>().Select(cell => cell.ToString());
+            var cellStrings = GetCells().Cast<Cell>().Select(cell => cell.ToString());
             return string.Join(" ", cellStrings);
         }
 
@@ -131,7 +110,7 @@ namespace bombsweeper
 
         public void Reveal(int row, int col)
         {
-            var cell = Cells[row, col];
+            var cell = GetCells()[row, col];
             var content = cell.Reveal();
             if (cell.IsRevealed)
                 if (content == Cell.Bomb)
@@ -150,12 +129,12 @@ namespace bombsweeper
 
         private bool NoFurtherCellsToReveal()
         {
-            return !Cells.Cast<Cell>().Any(cell => !cell.IsRevealed && !cell.HasBomb());
+            return !GetCells().Cast<Cell>().Any(cell => !cell.IsRevealed && !cell.HasBomb());
         }
 
         private void RevealAllBombs()
         {
-            foreach (var cell in Cells)
+            foreach (var cell in GetCells())
                 if (!cell.IsMarked && cell.HasBomb())
                     cell.Reveal();
         }
@@ -168,7 +147,7 @@ namespace bombsweeper
                     if (NotValidCell(row, col) || IsSameCell(row0, col0, row, col))
                         continue;
 
-                    var cell = Cells[row, col];
+                    var cell = GetCells()[row, col];
                     if (!cell.HasBomb() && !cell.IsRevealed)
                     {
                         var content = cell.Reveal();
@@ -185,8 +164,8 @@ namespace bombsweeper
 
         public void ToggleMark(int row, int col)
         {
-            Cells[row, col].ToggleMark();
-            var markedCells = from Cell item in Cells where item.IsMarked select item;
+            GetCells()[row, col].ToggleMark();
+            var markedCells = from Cell item in GetCells() where item.IsMarked select item;
             _numMarked = markedCells.Count();
         }
 
