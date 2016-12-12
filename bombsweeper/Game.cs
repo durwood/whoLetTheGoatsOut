@@ -52,7 +52,6 @@ namespace bombsweeper
 
         public void Run()
         {
-            _view.Clear();
             _view.DisplayBoard();
             do
             {

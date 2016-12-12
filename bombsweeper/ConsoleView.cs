@@ -14,6 +14,7 @@ namespace bombsweeper
         public void Initialize()
         {
             Console.CursorVisible = false;
+            Console.Clear();
         }
 
         public void SetBoard(Board board)
@@ -63,11 +64,6 @@ namespace bombsweeper
         public void Quit()
         {
             Console.WriteLine("Quitter.");
-        }
-
-        public void Clear()
-        {
-            Console.Clear();
         }
 
         public void Win()

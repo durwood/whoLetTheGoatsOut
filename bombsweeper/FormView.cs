@@ -30,9 +30,5 @@ namespace bombsweeper
         public void Quit()
         {
         }
-
-        public void Clear()
-        {
-        }
     }
 }
