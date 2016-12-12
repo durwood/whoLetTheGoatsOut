@@ -60,6 +60,11 @@ namespace bombsweeper
             Console.WriteLine("Quitter.");
         }
 
+        public void Clear()
+        {
+            Console.Clear();
+        }
+
         public void Win()
         {
             Console.WriteLine("Congratulations, you won!");

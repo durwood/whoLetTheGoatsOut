@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace bombsweeper
@@ -53,7 +52,7 @@ namespace bombsweeper
 
         public void Run()
         {
-            Console.Clear();
+            _view.Clear();
             _view.DisplayBoard();
             do
             {

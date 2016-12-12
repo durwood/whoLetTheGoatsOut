@@ -9,5 +9,6 @@ namespace bombsweeper
         void Win();
         void Lose();
         void Quit();
+        void Clear();
     }
 }
