@@ -31,12 +31,12 @@ namespace bombsweeper
             }
         }
 
-        public Coordinate GetCell()
+        internal Coordinate GetCell()
         {
             return _click;
         }
 
-        public BoardCommand GetCommand(string input)
+        internal BoardCommand GetCommand(string input)
         {
             var items = input.ToUpper().Split(',', ' ');
             if (items.Length == 3)
